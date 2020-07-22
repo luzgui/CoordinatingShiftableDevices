@@ -27,6 +27,7 @@ df = pd.read_csv(tarFile,header=None)
 c=df.to_dict()
 c=c[0]
 
+n=3
 
 #df = pd.read_csv(tarFile,header=None)
 #c=df.to_dict()
@@ -41,7 +42,7 @@ PVfile=os.path.join(DataFolder,'PV_sim.csv')
 dfPV = pd.read_csv(PVfile,header=None)
 PpvNorm=dfPV.to_numpy()
 
-PVcap=3.6*7.1
+PVcap=3.6*n
 Ppv=PVcap*PpvNorm
 
 #Refrence Tarif
@@ -74,9 +75,9 @@ c = dict(enumerate(Tar))
 
 p=[4,4,4,3,4,2,1,2,4,3,5,6,7,5]
 p=[0.4*k for k in p]; 
-p=p*8
+p=p*n
 d=[12,12,8,6,5,4,3,4,2,3,2,6,7,4]
-d=d*8
+d=d*n
 
 # p=[3]
 # d=[16]
@@ -97,8 +98,8 @@ Epv=sum(Ppv[k]*(10/60) for k in range(H));
 ## Algorithm
 
 # opt = SolverFactory('glpk')
-# opt = SolverFactory('gurobi')
-opt = SolverFactory('cbc')
+opt = SolverFactory('gurobi')
+# opt = SolverFactory('cbc')
 
 # opt = SolverFactory('cbc')
 
@@ -155,6 +156,7 @@ for k in Iagent:
 #        c[k]=c0[k]+(Pag_dict[k]/Ppv_dict[k][0])*TarS
 
 end = time.time()
+
 print("tempo =",end - start)    
     
 T=np.asarray(list(AgentModel.T))    
