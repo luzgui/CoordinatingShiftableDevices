@@ -54,8 +54,6 @@ def Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv):
     # SETS
     prosumer.T = RangeSet(0,H-1)
     
-    
-    
     prosumer.I = RangeSet(0,nI-1)
     
     

@@ -12,6 +12,7 @@ import time
 from AgentFunc import *
 import random
 from operator import itemgetter
+from PlotFunc import *
 
 cwd = os.getcwd()
 DataFolder=cwd + '/Data'
@@ -100,6 +101,8 @@ prosumer = Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv)
 # opt.options['MIPFocus'] = 1
 Results=opt.solve(prosumer, tee=True, keepfiles=True)
 
+#PlotResults
+PlotFunc_Central(Model, Ppv)(prosumer,Ppv)
 
 ##############################################################################
 ##### MULTI-AGENT #####
