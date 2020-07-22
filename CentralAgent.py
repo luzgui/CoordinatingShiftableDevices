@@ -4,7 +4,6 @@ from pyomo.opt import SolverFactory
 import numpy as np
 from numpy import array
 import pandas as pd
-from AgentFunc import *
 import matplotlib.pyplot as plt
 import random
 import os
@@ -17,53 +16,53 @@ cwd = os.getcwd()
 DataFolder=cwd + '/Data'
 
 
-# Problem  time data
-dt=10 #discretization
-H=int((24*60)/dt) # Time horizon
-miu=dt/60 #power-energy convertion
+# # Problem  time data
+# dt=10 #discretization
+# H=int((24*60)/dt) # Time horizon
+# miu=dt/60 #power-energy convertion
 
 
-# DEVICES
-# [Make function] 
+# # DEVICES
+# # [Make function] 
 
-n=2
-p=[4,4,4,3,4,2,1,2,4,3,5,6,7,5]
-p=[0.4*k for k in p]; 
-p=p*n
-d=[12,12,8,6,5,4,3,4,2,3,2,6,7,4]
-d=d*n
+# n=1
+# p=[4,4,4,3,4,2,1,2,4,3,5,6,7,5]
+# p=[0.4*k for k in p]; 
+# p=p*n
+# d=[12,12,8,6,5,4,3,4,2,3,2,6,7,4]
+# d=d*n
 
-p0=dict(enumerate(p))
-d0=dict(enumerate(d))
-
-
-nI=len(p)
+# p0=dict(enumerate(p))
+# d0=dict(enumerate(d))
 
 
-Eshift=sum(p[k]*d[k]*miu for k in range(len(d)));
+# nI=len(p)
+
+
+# Eshift=sum(p[k]*d[k]*miu for k in range(len(d)));
 
 
 
 # PV
-PVfile=os.path.join(DataFolder,'PV_sim.csv') #csv for PV
-dfPV = pd.read_csv(PVfile,header=None) #create dataframe
-PpvNorm=dfPV.to_numpy()
-PVcap=3.6*n
-Ppv=PVcap*PpvNorm
-Epv=sum(Ppv[k]*(miu) for k in range(H));
+# PVfile=os.path.join(DataFolder,'PV_sim.csv') #csv for PV
+# dfPV = pd.read_csv(PVfile,header=None) #create dataframe
+# PpvNorm=dfPV.to_numpy()
+# PVcap=3.6*n
+# Ppv=PVcap*PpvNorm
+# Epv=sum(Ppv[k]*(miu) for k in range(H));
 
 
 
 #Simple tariff
-TarS=0.185;
-Tar = np.empty(H)
-Tar.fill(TarS)
+# TarS=0.185;
+# Tar = np.empty(H)
+# Tar.fill(TarS)
 #Tar.fill(4)
 
 # PV indexed tariff
-for k in range(len(Tar)):
-    Tar[k]=Tar[k]-(TarS*PpvNorm[k]**(1/5))
-c = dict(enumerate(Tar))
+# for k in range(len(Tar)):
+#     Tar[k]=Tar[k]-(TarS*PpvNorm[k]**(1/5))
+# c = dict(enumerate(Tar))
 
 #Import tarif from file
 #tarFile='/home/omega/Documents/FCUL/PhD/OES/Code/AgentsModel/DataAgents/Tarifa144.csv'

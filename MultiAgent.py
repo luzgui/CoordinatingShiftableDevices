@@ -22,12 +22,12 @@ start = time.time()
 
 #Import tarif
 # tarFile='/home/omega/Documents/FCUL/PhD/OES/Code/AgentsModel/DataAgents/Tarifa144kwh.csv'
-tarFile=os.path.join(DataFolder+'/DataAgents','Tarifa144kwh.csv')
-df = pd.read_csv(tarFile,header=None)
-c=df.to_dict()
-c=c[0]
+# tarFile=os.path.join(DataFolder+'/DataAgents','Tarifa144kwh.csv')
+# df = pd.read_csv(tarFile,header=None)
+# c=df.to_dict()
+# c=c[0]
 
-n=3
+n=1
 
 #df = pd.read_csv(tarFile,header=None)
 #c=df.to_dict()
@@ -52,17 +52,12 @@ Tar = np.empty(H)
 Tar.fill(TarS)
 
 
-#
 #### Build PV indexed tarif
 for k in range(len(Tar)):
     Tar[k]=Tar[k]-(TarS*PpvNorm[k]**(1/5))
 #    Tar[k]=Tar[k]-(TarS*PpvNorm[k])
-#
-#
-Tar0 = Tar
-#for k in range(len(Tar)):
-#    Tar[k]=Tar0[k]-(TarS*PpvNorm[k]**(1/5))+Pag/5*TarS
 
+Tar0 = Tar
 c0= dict(enumerate(Tar0))
 c = dict(enumerate(Tar))
 
@@ -84,6 +79,7 @@ d=d*n
 
 
 PD=list((p[i],d[i]) for i in range(len(p)))
+
 PDsorted=np.array(sorted(PD,key=itemgetter(0),reverse = True))
 p=list(PDsorted[:,0])
 d=list(PDsorted[:,1]);d=[int(round(x)) for x in d]
@@ -108,7 +104,6 @@ R=[];Com=[];X=[];Y=[];P=[]
 #Iagent=random.sample(range(len(d)),len(d))
 Iagent=range(len(d))
 
-    
 for k in Iagent:
     
     AgentModel=Agent(H,d[k],p[k],c)
