@@ -16,6 +16,9 @@ from PlotFunc import *
 
 cwd = os.getcwd()
 DataFolder=cwd + '/Data'
+DPFolder=DataFolder + '/DP_Results'
+CPFolder=DataFolder + '/CP_Results'
+
 
 # Problem  time data
 dt=10 #discretization
@@ -43,9 +46,9 @@ PDsorted=np.array(sorted(PD,key=itemgetter(0),reverse = True))
 p=list(PDsorted[:,0])
 d=list(PDsorted[:,1]);d=[int(round(x)) for x in d]
 
-
-Eshift_i=[p[k]*d[k]*(10/60) for k in range(len(d))];
-Eshift=sum(p[k]*d[k]*(10/60) for k in range(len(d)));
+#Calculate energy consumption of all devices
+Eshift_i=[p[k]*d[k]*miu for k in range(len(d))];
+Eshift=sum(p[k]*d[k]*miu for k in range(len(d)));
 
 
 
@@ -99,10 +102,19 @@ Viol=[alpha*Ppv[k][0] for k in range(len(Ppv))]
 prosumer = Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv)
 # opt.options['MIPGap'] = 1e-2
 # opt.options['MIPFocus'] = 1
-Results=opt.solve(prosumer, tee=True, keepfiles=True)
+
+# Results=opt.solve(prosumer, tee=True, keepfiles=True, logfile='log.log')
+
+
+# FileName='CP_Sol_Ns_'+str(len(p))+'.yaml'
+SolFile=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + '.yaml')
+LogFile=os.path.join(CPFolder, 'CP_Log_Ns_' + str(len(p)) + '.yaml')
+
+Results=opt.solve(prosumer,tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile)
+
 
 #PlotResults
-PlotFunc_Central(Model, Ppv)(prosumer,Ppv)
+PlotFunc_Central(prosumer, Ppv)
 
 ##############################################################################
 ##### MULTI-AGENT #####
@@ -115,9 +127,13 @@ Iagent=range(len(d))
 
 for k in Iagent:
     
-    AgentModel=Agent(H,d[k],p[k],c)
+    AgentModel=Agent(H,d[k],p[k],c,miu)
     Com.append(AgentModel)
-    Results=opt.solve(AgentModel, tee=True, keepfiles=True)
+
+    SolFile=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.yaml')
+    LogFile=os.path.join(DPFolder, 'DP_Log_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.yaml')
+    
+    Results=opt.solve(AgentModel, tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile)
     R.append(Results)
     # R.append(opt.solve(AgentModel, tee=True, keepfiles=True))
     
@@ -160,4 +176,10 @@ for k in Iagent:
     #   c[k]=c0[k]+(Pag_dict[k]/Ppv_dict[k][0])*TarS
 
 T=np.asarray(list(AgentModel.T))    
-Etot=sum(Pag[t]*(10/60) for t in range(H));
+Etot=sum(Pag[t]*miu for t in range(H));
+
+
+
+
+
+
