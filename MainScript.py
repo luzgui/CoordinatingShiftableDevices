@@ -13,6 +13,8 @@ from AgentFunc import *
 import random
 from operator import itemgetter
 from PlotFunc import *
+import PostProcess as post
+
 
 cwd = os.getcwd()
 DataFolder=cwd + '/Data'
@@ -107,11 +109,15 @@ prosumer = Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv)
 
 
 # FileName='CP_Sol_Ns_'+str(len(p))+'.yaml'
-SolFile=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + '.yaml')
+
+SolFile_yaml=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + '.yaml')
+SolFile_csv=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + '.csv')
+
 LogFile=os.path.join(CPFolder, 'CP_Log_Ns_' + str(len(p)) + '.yaml')
 
-Results=opt.solve(prosumer,tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile)
+Results=opt.solve(prosumer,tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile_yaml)
 
+post.PostProcess(prosumer,Results,SolFile_csv)
 
 #PlotResults
 PlotFunc_Central(prosumer, Ppv)
@@ -130,10 +136,13 @@ for k in Iagent:
     AgentModel=Agent(H,d[k],p[k],c,miu)
     Com.append(AgentModel)
 
-    SolFile=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.yaml')
+    SolFile_yaml=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.yaml')
+    SolFile_csv=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.csv')
     LogFile=os.path.join(DPFolder, 'DP_Log_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.yaml')
     
-    Results=opt.solve(AgentModel, tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile)
+    Results=opt.solve(AgentModel, tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile_yaml)
+    post.PostProcess(AgentModel,Results,SolFile_csv)
+    
     R.append(Results)
     # R.append(opt.solve(AgentModel, tee=True, keepfiles=True))
     
