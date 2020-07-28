@@ -1,0 +1,45 @@
+Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
+
+
+--------------------------------------------
+Warning: your license will expire in 4 days
+--------------------------------------------
+
+Using license file /home/delta/gurobi.lic
+Academic license - for non-commercial use only
+Read LP format model from file /tmp/tmp313qmeok.pyomo.lp
+Reading time = 0.02 seconds
+x289: 427 rows, 286 columns, 41182 nonzeros
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)
+Optimize a model with 427 rows, 286 columns and 41182 nonzeros
+Model fingerprint: 0xc3f5a3a5
+Variable types: 1 continuous, 285 integer (285 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 3e+00]
+  Objective range  [1e-02, 4e-02]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 3e+00]
+Presolve removed 284 rows and 1 columns
+Presolve time: 0.02s
+Presolved: 143 rows, 285 columns, 849 nonzeros
+Variable types: 0 continuous, 285 integer (285 binary)
+Found heuristic solution: objective 0.1110000
+Found heuristic solution: objective 0.0413565
+
+Root relaxation: objective 3.051111e-02, 60 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.03051    0    2    0.04136    0.03051  26.2%     -    0s
+H    0     0                       0.0305295    0.03051  0.06%     -    0s
+     0     0    0.03051    0    2    0.03053    0.03051  0.06%     -    0s
+
+Explored 1 nodes (60 simplex iterations) in 0.02 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 3: 0.0305295 0.0413565 0.111 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 3.052950115927e-02, best bound 3.052950115927e-02, gap 0.0000%
+

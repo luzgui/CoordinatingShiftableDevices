@@ -1,0 +1,71 @@
+Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
+
+
+--------------------------------------------
+Warning: your license will expire in 3 days
+--------------------------------------------
+
+Using license file /home/delta/gurobi.lic
+Academic license - for non-commercial use only
+Read LP format model from file /tmp/tmp917icrax.pyomo.lp
+Reading time = 0.25 seconds
+x6481: 8065 rows, 6121 columns, 546121 nonzeros
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)
+Optimize a model with 8065 rows, 6121 columns and 546121 nonzeros
+Model fingerprint: 0x2d746070
+Variable types: 2161 continuous, 3960 integer (3960 binary)
+Coefficient statistics:
+  Matrix range     [4e-01, 1e+01]
+  Objective range  [3e-03, 9e-02]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [6e-02, 1e+01]
+Presolve removed 7276 rows and 4650 columns
+Presolve time: 0.30s
+Presolved: 789 rows, 1471 columns, 6869 nonzeros
+Variable types: 0 continuous, 1471 integer (1471 binary)
+
+Root relaxation: objective 1.140613e+00, 457 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    1.14061    0   67          -    1.14061      -     -    0s
+     0     0    1.14061    0  147          -    1.14061      -     -    0s
+     0     0    1.14061    0   82          -    1.14061      -     -    0s
+     0     2    1.14061    0   74          -    1.14061      -     -    0s
+   386   198    1.14201    9  312          -    1.14061      -   219    5s
+   631   275    1.14868   17  202          -    1.14061      -   287   10s
+   979   253    1.14645   12  293          -    1.14061      -   308   15s
+  1403   363    1.14142    8  307          -    1.14112      -   299   20s
+  1773   475    1.14231    9  309          -    1.14177      -   298   25s
+  2219   532    1.15127   10   77          -    1.14232      -   284   30s
+  2228   542    1.14232   18  192          -    1.14232      -   4.6   35s
+  2287   580    1.14232   24  171          -    1.14232      -  12.4   40s
+  2530   567    1.14232   28  171          -    1.14232      -  53.6   45s
+  2758   554 infeasible   36               -    1.14232      -   104   50s
+  3153   452 infeasible   32               -    1.14232      -   138   55s
+  3634   423    1.14325   35  102          -    1.14232      -   156   61s
+  4030   445    1.14232   33  143          -    1.14232      -   172   66s
+  4299   461 infeasible   27               -    1.14232      -   191   70s
+  4706   493    1.15296   47   92          -    1.14232      -   202   75s
+  5361   712 infeasible   43               -    1.14232      -   207   81s
+  5904   901    1.14822   40   94          -    1.14232      -   202   87s
+  6265   958    1.14232   24  219          -    1.14232      -   203   91s
+  7026  1066 infeasible   31               -    1.14232      -   202   96s
+  7665  1193 infeasible   42               -    1.14232      -   200  101s
+  8445  1289    1.14564   36  117          -    1.14232      -   195  106s
+  9579  1523    1.14928   38  130          -    1.14274      -   182  112s
+ 10276  1635 infeasible   51               -    1.14324      -   174  115s
+ 11921  1957    1.14553   46   99          -    1.14401      -   159  121s
+ 15272  3349    1.14532   53   92          -    1.14500      -   133  126s
+ 18014  4142    1.15551   42  103          -    1.14533      -   118  130s
+H21132  4662                       1.1724860    1.14578  2.28%   105  156s
+
+Explored 21132 nodes (2852887 simplex iterations) in 156.54 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 1: 1.17249 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.172485980630e+00, best bound 1.172485980630e+00, gap 0.0000%
+

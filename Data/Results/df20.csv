@@ -1,0 +1,3 @@
+,Model,Objective,Wall Time,Termination Condition
+0,/home/delta/Documents/Projects/CoordinatingShiftableDevices/Data/CP_Results/CP_Sol_Ns_20.csv,1.580173652696915,2816.4071640968323,optimal
+1,DP 20 Devices,2.179079696467115,0.57460618019104,optimal

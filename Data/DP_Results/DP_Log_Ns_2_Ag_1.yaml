@@ -1,0 +1,54 @@
+Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
+
+
+--------------------------------------------
+Warning: your license will expire in 4 days
+--------------------------------------------
+
+Using license file /home/delta/gurobi.lic
+Academic license - for non-commercial use only
+Read LP format model from file /tmp/tmpo6lb4lql.pyomo.lp
+Reading time = 0.02 seconds
+x289: 409 rows, 277 columns, 39877 nonzeros
+Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)
+Optimize a model with 409 rows, 277 columns and 39877 nonzeros
+Model fingerprint: 0xa37ea73c
+Variable types: 1 continuous, 276 integer (276 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+01]
+  Objective range  [1e-02, 5e-02]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+01]
+Presolve removed 275 rows and 1 columns
+Presolve time: 0.02s
+Presolved: 134 rows, 276 columns, 1992 nonzeros
+Variable types: 0 continuous, 276 integer (276 binary)
+Found heuristic solution: objective 0.5920000
+Found heuristic solution: objective 0.2364716
+
+Root relaxation: objective 1.417618e-01, 32 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.14176    0    5    0.23647    0.14176  40.1%     -    0s
+H    0     0                       0.1505918    0.14176  5.86%     -    0s
+H    0     0                       0.1488903    0.14176  4.79%     -    0s
+     0     0    0.14749    0   16    0.14889    0.14749  0.94%     -    0s
+H    0     1                       0.1482549    0.14749  0.51%     -    0s
+
+Cutting planes:
+  Gomory: 1
+  Cover: 1
+  Clique: 14
+  MIR: 1
+  RLT: 1
+
+Explored 1 nodes (64 simplex iterations) in 0.04 seconds
+Thread count was 4 (of 4 available processors)
+
+Solution count 5: 0.148255 0.14889 0.150592 ... 0.592
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.482548972536e-01, best bound 1.482548972536e-01, gap 0.0000%
+
