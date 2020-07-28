@@ -16,6 +16,7 @@ from PlotFunc import *
 import PostProcess as post
 
 
+
 cwd = os.getcwd()
 DataFolder=cwd + '/Data'
 DPFolder=DataFolder + '/DP_Results'
@@ -43,7 +44,7 @@ miu=dt/60 #power-energy convertion
 
 # DEVICES 
 # Number of devices
-n=4
+n=25
 Devices=Appliances(n)
 
 p=Devices[0]
@@ -59,7 +60,6 @@ d0=dict(enumerate(d))
 
 
 nI=len(p)
-
 
 PD=list((p[i],d[i]) for i in range(len(p)))
 
@@ -79,7 +79,14 @@ dfPV = pd.read_csv(PVfile,header=None) #create dataframe
 PpvNorm=dfPV.to_numpy()
 # PVcap=3.6*n
 PVcap=10
+
+# PV sizing rule: 
+f=1.20 # PV multiplying factor
+PVcap=f*Eshift/sum(PpvNorm[k]*(miu) for k in range(H))
+PVcap=PVcap[0]
 Ppv=PVcap*PpvNorm
+
+
 Epv=sum(Ppv[k]*(miu) for k in range(H));
 c_PV=0.04
 

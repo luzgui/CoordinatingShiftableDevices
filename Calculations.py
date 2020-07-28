@@ -13,12 +13,15 @@ import yaml
 import calliope as cal
 import pandas as pd
 import os
+# from MainScript import n
 
+n=20
 
 cwd = os.getcwd()
 DataFolder=cwd + '/Data'
 DPFolder=DataFolder + '/DP_Results'
 CPFolder=DataFolder + '/CP_Results'
+ResultsFolder=DataFolder + '/Results'
 
 
 # Problem  time data
@@ -29,8 +32,15 @@ miu=dt/60 #power-energy convertion
 
 
 #Files names import - get al,l the csv files
-Sol_files_DP = [DPFolder + '/' + f for f in listdir(DPFolder) if isfile(join(DPFolder, f)) and '.csv' in f] 
-Sol_files_CP = [CPFolder + '/' + f for f in listdir(CPFolder) if isfile(join(CPFolder, f)) and '.csv' in f] 
+Sol_files_DP = [DPFolder + '/' + f for f in listdir(DPFolder) if isfile(join(DPFolder, f)) \
+                and '.csv' in f] 
+Sol_files_DP=[f for f in Sol_files_DP if ('Ns_'+str(n)) in f]    
+    
+Sol_files_CP = [CPFolder + '/' + f for f in listdir(CPFolder) if isfile(join(CPFolder, f)) \
+                and '.csv' in f]
+Sol_files_CP=[f for f in Sol_files_CP if ('Ns_'+str(n)) in f]     
+
+
 
 
 #Import CP solutions
@@ -49,12 +59,13 @@ for k in Sol_files_DP:
 df_DP['Objective']=df_DP['Objective'].astype(float); 
 df_DP['Wall Time']=df_DP['Wall Time'].astype(float); 
 #Compute Total time and Total cost
-df_DP_Total=pd.DataFrame([['DP 14 Devices',df_DP.Objective.sum(), df_DP['Wall Time'].sum(), 'optimal']], columns=df_csv[0].values)
+df_DP_Total=pd.DataFrame([['DP '+str(n)+' Devices',df_DP.Objective.sum(), df_DP['Wall Time'].sum(), 'optimal']], columns=df_csv[0].values)
 df_DP=pd.concat([df_DP,df_DP_Total],ignore_index=True) 
 #Comparison dataframe
 df=pd.concat([df,df_DP_Total],ignore_index=True) 
 
 
+df.to_csv(ResultsFolder + '/'+'df'+str(n)+'.csv')
 
 
 #Identify timeslots with violation
