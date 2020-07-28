@@ -12,6 +12,7 @@ from os.path import isfile, join
 import yaml
 import calliope as cal
 import pandas as pd
+import os
 
 
 cwd = os.getcwd()
@@ -57,21 +58,21 @@ df=pd.concat([df,df_DP_Total],ignore_index=True)
 
 
 #Identify timeslots with violation
-P_PV_ex= np.zeros(H)
-for k in range(H):
-    if Pag[k]>Ppv[k]:
-        P_PV_ex[k]=Pag[k]-Ppv[k]
+# P_PV_ex= np.zeros(H)
+# for k in range(H):
+#     if Pag[k]>Ppv[k]:
+#         P_PV_ex[k]=Pag[k]-Ppv[k]
     
 
-#Calculate all that energy
-E_T_PV=sum(P_PV_ex[t]*(10/60) for t in range(H));
+# #Calculate all that energy
+# E_T_PV=sum(P_PV_ex[t]*(10/60) for t in range(H));
 
-#Toal shiftable energy
-Etot=sum(Pag[t]*(10/60) for t in range(H));
+# #Toal shiftable energy
+# Etot=sum(Pag[t]*(10/60) for t in range(H));
 
-E_F=(Etot-E_T_PV)/Etot
+# E_F=(Etot-E_T_PV)/Etot
 
-print(Etot)
-print(E_T_PV)
-print(E_F)
+# print(Etot)
+# print(E_T_PV)
+# print(E_F)
 

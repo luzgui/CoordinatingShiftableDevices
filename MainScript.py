@@ -27,13 +27,32 @@ dt=10 #discretization
 H=int((24*60)/dt) # Time horizon
 miu=dt/60 #power-energy convertion
 
-# DEVICES # [Make function] 
-n=1
-p=[4,4,4,3,4,2,1,2,4,3,5,6,7,5]
-p=[0.4*k for k in p]; 
-p=p*n
-d=[12,12,8,6,5,4,3,4,2,3,2,6,7,4]
-d=d*n
+
+# n=3
+# p=[4,4,4,3,4,2,1,2,4,3,5,6,7,5]
+# p=[0.4*k for k in p]; 
+# p=p*n
+# d=[12,12,8,6,5,4,3,4,2,3,2,6,7,4]
+# d=d*n
+
+# p=n*[1.6,1.6,1.6,1.2,1.6,0.8,0.4,0.8,1.6,1.2,2.0,2.4,2.8,2.0]
+    
+#     # p=p*n
+# d=n*[12,12,8,6,5,4,3,4,2,3,2,6,7,4]
+
+
+# DEVICES 
+# Number of devices
+n=4
+Devices=Appliances(n)
+
+p=Devices[0]
+d=Devices[1]
+
+#BUG temporary fix
+d[0]=max(d)
+####
+print(d)
 
 p0=dict(enumerate(p))
 d0=dict(enumerate(d))
@@ -58,10 +77,11 @@ Eshift=sum(p[k]*d[k]*miu for k in range(len(d)));
 PVfile=os.path.join(DataFolder,'PV_sim.csv') #csv for PV
 dfPV = pd.read_csv(PVfile,header=None) #create dataframe
 PpvNorm=dfPV.to_numpy()
-PVcap=3.6*n
+# PVcap=3.6*n
+PVcap=10
 Ppv=PVcap*PpvNorm
 Epv=sum(Ppv[k]*(miu) for k in range(H));
-
+c_PV=0.04
 
 #Tarifs
 #Simple tariff
@@ -72,7 +92,7 @@ Tar.fill(TarS)
 
 # PV indexed tariff
 for k in range(len(Tar)):
-    Tar[k]=Tar[k]-(TarS*PpvNorm[k]**(1/5))
+    Tar[k]=Tar[k]-((TarS-c_PV)*PpvNorm[k]**(1/5))
     
 Tar0 = Tar
 c0= dict(enumerate(Tar0))    
@@ -96,7 +116,7 @@ opt = SolverFactory('gurobi')
 
 
 # Allowed violation at each timestep
-# alpha=0.2
+alpha=0.2
 alpha=0
 Viol=[alpha*Ppv[k][0] for k in range(len(Ppv))]
 
