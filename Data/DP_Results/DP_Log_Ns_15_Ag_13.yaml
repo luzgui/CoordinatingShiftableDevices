@@ -1,18 +1,13 @@
 Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
 
-
---------------------------------------------
-Warning: your license will expire in 3 days
---------------------------------------------
-
 Using license file /home/delta/gurobi.lic
 Academic license - for non-commercial use only
-Read LP format model from file /tmp/tmpzjgc_6rx.pyomo.lp
+Read LP format model from file /tmp/tmp6kfywpkw.pyomo.lp
 Reading time = 0.02 seconds
 x289: 425 rows, 285 columns, 41037 nonzeros
 Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)
 Optimize a model with 425 rows, 285 columns and 41037 nonzeros
-Model fingerprint: 0x11b06c90
+Model fingerprint: 0xc8b4c697
 Variable types: 1 continuous, 284 integer (284 binary)
 Coefficient statistics:
   Matrix range     [1e+00, 4e+00]
@@ -24,22 +19,26 @@ Presolve time: 0.02s
 Presolved: 142 rows, 284 columns, 984 nonzeros
 Variable types: 0 continuous, 284 integer (284 binary)
 Found heuristic solution: objective 0.0986667
-Found heuristic solution: objective 0.0564335
+Found heuristic solution: objective 0.0533151
 
-Root relaxation: objective 4.574006e-02, 60 iterations, 0.00 seconds
+Root relaxation: objective 4.603033e-02, 13 iterations, 0.00 seconds
 
     Nodes    |    Current Node    |     Objective Bounds      |     Work
  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
 
-     0     0    0.04574    0    3    0.05643    0.04574  18.9%     -    0s
-H    0     0                       0.0468709    0.04574  2.41%     -    0s
-     0     0    0.04574    0    3    0.04687    0.04574  2.41%     -    0s
+     0     0    0.04603    0    4    0.05332    0.04603  13.7%     -    0s
+H    0     0                       0.0496169    0.04603  7.23%     -    0s
+     0     0    0.04638    0    4    0.04962    0.04638  6.52%     -    0s
+H    0     1                       0.0494223    0.04638  6.16%     -    0s
 
-Explored 1 nodes (60 simplex iterations) in 0.02 seconds
+Cutting planes:
+  Gomory: 1
+
+Explored 1 nodes (32 simplex iterations) in 0.03 seconds
 Thread count was 4 (of 4 available processors)
 
-Solution count 3: 0.0468709 0.0564335 0.0986667 
+Solution count 4: 0.0494223 0.0496169 0.0533151 0.0986667 
 
 Optimal solution found (tolerance 1.00e-04)
-Best objective 4.687094457267e-02, best bound 4.687094457267e-02, gap 0.0000%
+Best objective 4.942231908332e-02, best bound 4.942231908332e-02, gap 0.0000%
 

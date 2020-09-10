@@ -1,33 +1,27 @@
 Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
 
-
---------------------------------------------
-Warning: your license will expire in 4 days
---------------------------------------------
-
 Using license file /home/delta/gurobi.lic
 Academic license - for non-commercial use only
-Read LP format model from file /tmp/tmp70o650v7.pyomo.lp
-Reading time = 0.03 seconds
-x433: 673 rows, 409 columns, 51409 nonzeros
+Read LP format model from file /tmp/tmpro_taxgb.pyomo.lp
+Reading time = 0.02 seconds
+x433: 673 rows, 409 columns, 37129 nonzeros
 Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)
-Optimize a model with 673 rows, 409 columns and 51409 nonzeros
-Model fingerprint: 0xd524df1f
+Optimize a model with 673 rows, 409 columns and 37129 nonzeros
+Model fingerprint: 0x6c7292e8
 Variable types: 145 continuous, 264 integer (264 binary)
 Coefficient statistics:
   Matrix range     [1e+00, 1e+01]
   Objective range  [1e-02, 5e-02]
   Bounds range     [1e+00, 1e+00]
-  RHS range        [1e-01, 1e+01]
-Presolve removed 673 rows and 409 columns
-Presolve time: 0.03s
-Presolve: All rows and columns removed
+  RHS range        [8e-03, 1e+01]
+Presolve removed 145 rows and 145 columns
+Presolve time: 0.00s
 
-Explored 0 nodes (0 simplex iterations) in 0.03 seconds
+Explored 0 nodes (0 simplex iterations) in 0.01 seconds
 Thread count was 1 (of 4 available processors)
 
-Solution count 1: 0.135536 
+Solution count 0
 
-Optimal solution found (tolerance 1.00e-04)
-Best objective 1.355355524574e-01, best bound 1.355355524574e-01, gap 0.0000%
+Model is infeasible
+Best objective -, best bound -, gap -
 

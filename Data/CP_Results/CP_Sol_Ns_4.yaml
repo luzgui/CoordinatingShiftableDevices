@@ -8,11 +8,11 @@ number_of_variables: 1633
 number_of_binary_variables: 1056
 number_of_integer_variables: 1056
 number_of_continuous_variables: 577
-number_of_nonzeros: 148033
+number_of_nonzeros: 147313
 section:solver
 status: warning
 return_code: 0
 message: Model was proven to be infeasible.
-wall_time: 0.11018514633178711
+wall_time: 0.031043052673339844
 termination_condition: infeasible
 termination_message: Model was proven to be infeasible.

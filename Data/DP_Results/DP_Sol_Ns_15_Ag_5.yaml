@@ -1,25 +1,25 @@
 section:problem
 name: x289
 sense:minimize
-lower_bound: 0.16100507638803319
+lower_bound: 0.06203350472772813
 number_of_objectives: 1
-number_of_constraints: 409
-number_of_variables: 277
-number_of_binary_variables: 276
-number_of_integer_variables: 276
+number_of_constraints: 423
+number_of_variables: 284
+number_of_binary_variables: 283
+number_of_integer_variables: 283
 number_of_continuous_variables: 1
-number_of_nonzeros: 39877
+number_of_nonzeros: 40892
 section:solver
 status: ok
 return_code: 0
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-wall_time: 0.029120922088623047
+wall_time: 0.024765968322753906
 termination_condition: optimal
 termination_message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
 section:solution
 status: optimal
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-objective: 0.16100507638803319
+objective: 0.06203350472772813
 gap: 0.0
 var: x145 : -0.0
 var: x146 : -0.0
@@ -71,8 +71,8 @@ var: x191 : -0.0
 var: x192 : -0.0
 var: x193 : -0.0
 var: x194 : -0.0
-var: x195 : 0.0
-var: x196 : 0.0
+var: x195 : -0.0
+var: x196 : -0.0
 var: x197 : -0.0
 var: x198 : -0.0
 var: x199 : -0.0
@@ -109,14 +109,14 @@ var: x229 : 1.0
 var: x230 : 1.0
 var: x231 : 1.0
 var: x232 : 1.0
-var: x233 : 1.0
-var: x234 : 1.0
-var: x235 : 1.0
-var: x236 : 1.0
-var: x237 : 1.0
-var: x238 : 1.0
-var: x239 : 1.0
-var: x240 : 0.0
+var: x233 : -0.0
+var: x234 : -0.0
+var: x235 : -0.0
+var: x236 : -0.0
+var: x237 : -0.0
+var: x238 : -0.0
+var: x239 : -0.0
+var: x240 : -0.0
 var: x241 : -0.0
 var: x242 : -0.0
 var: x243 : -0.0
@@ -203,6 +203,13 @@ var: x13 : -0.0
 var: x130 : -0.0
 var: x131 : -0.0
 var: x132 : -0.0
+var: x133 : -0.0
+var: x134 : -0.0
+var: x135 : -0.0
+var: x136 : -0.0
+var: x137 : -0.0
+var: x138 : -0.0
+var: x139 : -0.0
 var: x14 : -0.0
 var: x15 : -0.0
 var: x16 : -0.0
@@ -281,7 +288,7 @@ var: x81 : -0.0
 var: x82 : -0.0
 var: x83 : -0.0
 var: x84 : 1.0
-var: x85 : 0.0
+var: x85 : -0.0
 var: x86 : -0.0
 var: x87 : -0.0
 var: x88 : -0.0

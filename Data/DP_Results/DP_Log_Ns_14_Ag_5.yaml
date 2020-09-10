@@ -1,18 +1,13 @@
 Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
 
-
---------------------------------------------
-Warning: your license will expire in 3 days
---------------------------------------------
-
 Using license file /home/delta/gurobi.lic
 Academic license - for non-commercial use only
-Read LP format model from file /tmp/tmpj969nyvx.pyomo.lp
+Read LP format model from file /tmp/tmpvqtpa98u.pyomo.lp
 Reading time = 0.02 seconds
 x289: 409 rows, 277 columns, 39877 nonzeros
 Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)
 Optimize a model with 409 rows, 277 columns and 39877 nonzeros
-Model fingerprint: 0xbd178b68
+Model fingerprint: 0x7b967b3b
 Variable types: 1 continuous, 276 integer (276 binary)
 Coefficient statistics:
   Matrix range     [1e+00, 1e+01]
@@ -26,20 +21,24 @@ Variable types: 0 continuous, 276 integer (276 binary)
 Found heuristic solution: objective 0.5920000
 Found heuristic solution: objective 0.2364716
 
-Root relaxation: objective 1.689570e-01, 25 iterations, 0.00 seconds
+Root relaxation: objective 1.858011e-01, 25 iterations, 0.00 seconds
 
     Nodes    |    Current Node    |     Objective Bounds      |     Work
  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
 
-     0     0    0.16896    0    2    0.23647    0.16896  28.6%     -    0s
-H    0     0                       0.1689570    0.16896  0.00%     -    0s
-     0     0    0.16896    0    2    0.16896    0.16896  0.00%     -    0s
+     0     0    0.18580    0    3    0.23647    0.18580  21.4%     -    0s
+H    0     0                       0.2186924    0.18580  15.0%     -    0s
+H    0     0                       0.2068792    0.18580  10.2%     -    0s
+     0     0    0.18580    0    2    0.20688    0.18580  10.2%     -    0s
 
-Explored 1 nodes (25 simplex iterations) in 0.03 seconds
+Cutting planes:
+  Clique: 8
+
+Explored 1 nodes (36 simplex iterations) in 0.03 seconds
 Thread count was 4 (of 4 available processors)
 
-Solution count 3: 0.168957 0.236472 0.592 
+Solution count 4: 0.206879 0.218692 0.236472 0.592 
 
 Optimal solution found (tolerance 1.00e-04)
-Best objective 1.689569619297e-01, best bound 1.689569619297e-01, gap 0.0000%
+Best objective 2.068792178754e-01, best bound 2.068792178754e-01, gap 0.0000%
 

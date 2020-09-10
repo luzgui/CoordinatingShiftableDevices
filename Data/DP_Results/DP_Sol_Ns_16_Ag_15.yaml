@@ -1,25 +1,25 @@
 section:problem
 name: x289
 sense:minimize
-lower_bound: 0.024130222962893716
+lower_bound: 0.017305017301960754
 number_of_objectives: 1
-number_of_constraints: 429
-number_of_variables: 287
-number_of_binary_variables: 286
-number_of_integer_variables: 286
+number_of_constraints: 427
+number_of_variables: 286
+number_of_binary_variables: 285
+number_of_integer_variables: 285
 number_of_continuous_variables: 1
-number_of_nonzeros: 41327
+number_of_nonzeros: 41182
 section:solver
 status: ok
 return_code: 0
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-wall_time: 0.02497410774230957
+wall_time: 0.024357080459594727
 termination_condition: optimal
 termination_message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
 section:solution
 status: optimal
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-objective: 0.024130222962893716
+objective: 0.017305017301960754
 gap: 0.0
 var: x145 : -0.0
 var: x146 : -0.0
@@ -82,8 +82,8 @@ var: x202 : -0.0
 var: x203 : -0.0
 var: x204 : -0.0
 var: x205 : -0.0
-var: x206 : 1.0
-var: x207 : 1.0
+var: x206 : -0.0
+var: x207 : -0.0
 var: x208 : -0.0
 var: x209 : -0.0
 var: x210 : -0.0
@@ -123,9 +123,9 @@ var: x243 : -0.0
 var: x244 : -0.0
 var: x245 : -0.0
 var: x246 : -0.0
-var: x247 : -0.0
-var: x248 : -0.0
-var: x249 : -0.0
+var: x247 : 1.0
+var: x248 : 1.0
+var: x249 : 1.0
 var: x250 : -0.0
 var: x251 : -0.0
 var: x252 : -0.0
@@ -170,7 +170,7 @@ var: x10 : -0.0
 var: x100 : -0.0
 var: x101 : -0.0
 var: x102 : -0.0
-var: x103 : -0.0
+var: x103 : 1.0
 var: x104 : -0.0
 var: x105 : -0.0
 var: x106 : -0.0
@@ -213,7 +213,6 @@ var: x139 : -0.0
 var: x14 : -0.0
 var: x140 : -0.0
 var: x141 : -0.0
-var: x142 : -0.0
 var: x15 : -0.0
 var: x16 : -0.0
 var: x17 : -0.0
@@ -266,7 +265,7 @@ var: x59 : -0.0
 var: x6 : -0.0
 var: x60 : -0.0
 var: x61 : -0.0
-var: x62 : 1.0
+var: x62 : -0.0
 var: x63 : -0.0
 var: x64 : -0.0
 var: x65 : -0.0

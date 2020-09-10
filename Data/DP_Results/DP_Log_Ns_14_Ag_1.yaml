@@ -1,49 +1,45 @@
 Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
 
-
---------------------------------------------
-Warning: your license will expire in 3 days
---------------------------------------------
-
 Using license file /home/delta/gurobi.lic
 Academic license - for non-commercial use only
-Read LP format model from file /tmp/tmp9b527yu8.pyomo.lp
+Read LP format model from file /tmp/tmpx_t8tobk.pyomo.lp
 Reading time = 0.02 seconds
-x289: 421 rows, 283 columns, 40747 nonzeros
+x289: 425 rows, 285 columns, 41037 nonzeros
 Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)
-Optimize a model with 421 rows, 283 columns and 40747 nonzeros
-Model fingerprint: 0xf4f45e26
-Variable types: 1 continuous, 282 integer (282 binary)
+Optimize a model with 425 rows, 285 columns and 41037 nonzeros
+Model fingerprint: 0x93b239fd
+Variable types: 1 continuous, 284 integer (284 binary)
 Coefficient statistics:
-  Matrix range     [1e+00, 6e+00]
-  Objective range  [2e-02, 7e-02]
+  Matrix range     [1e+00, 4e+00]
+  Objective range  [1e-02, 6e-02]
   Bounds range     [1e+00, 1e+00]
-  RHS range        [1e+00, 6e+00]
-Presolve removed 281 rows and 1 columns
+  RHS range        [1e+00, 4e+00]
+Presolve removed 283 rows and 1 columns
 Presolve time: 0.02s
-Presolved: 140 rows, 282 columns, 1248 nonzeros
-Variable types: 0 continuous, 282 integer (282 binary)
-Found heuristic solution: objective 0.4440000
-Found heuristic solution: objective 0.1704048
+Presolved: 142 rows, 284 columns, 984 nonzeros
+Variable types: 0 continuous, 284 integer (284 binary)
+Found heuristic solution: objective 0.2466667
+Found heuristic solution: objective 0.0941554
 
-Root relaxation: objective 1.046123e-01, 25 iterations, 0.00 seconds
+Root relaxation: objective 5.662549e-02, 47 iterations, 0.00 seconds
 
     Nodes    |    Current Node    |     Objective Bounds      |     Work
  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
 
-     0     0    0.10461    0    3    0.17040    0.10461  38.6%     -    0s
-H    0     0                       0.1062676    0.10461  1.56%     -    0s
-     0     0    0.10556    0    7    0.10627    0.10556  0.67%     -    0s
+     0     0    0.05663    0    3    0.09416    0.05663  39.9%     -    0s
+H    0     0                       0.0569581    0.05663  0.58%     -    0s
+     0     0     cutoff    0         0.05696    0.05696  0.00%     -    0s
 
 Cutting planes:
-  Gomory: 1
-  Clique: 3
+  Cover: 1
+  Clique: 5
+  MIR: 1
 
-Explored 1 nodes (58 simplex iterations) in 0.03 seconds
+Explored 1 nodes (81 simplex iterations) in 0.03 seconds
 Thread count was 4 (of 4 available processors)
 
-Solution count 3: 0.106268 0.170405 0.444 
+Solution count 3: 0.0569581 0.0941554 0.246667 
 
 Optimal solution found (tolerance 1.00e-04)
-Best objective 1.062675936332e-01, best bound 1.062675936332e-01, gap 0.0000%
+Best objective 5.695812068540e-02, best bound 5.695812068540e-02, gap 0.0000%
 

@@ -1,38 +1,24 @@
 Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
 
-
---------------------------------------------
-Warning: your license will expire in 3 days
---------------------------------------------
-
 Using license file /home/delta/gurobi.lic
 Academic license - for non-commercial use only
-Read LP format model from file /tmp/tmpvdpiw9z1.pyomo.lp
-Reading time = 0.09 seconds
-x1729: 2257 rows, 1633 columns, 148033 nonzeros
+Read LP format model from file /tmp/tmp2ktheuru.pyomo.lp
+Reading time = 0.07 seconds
+x1729: 2257 rows, 1633 columns, 147313 nonzeros
 Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)
-Optimize a model with 2257 rows, 1633 columns and 148033 nonzeros
-Model fingerprint: 0x83bb55a8
+Optimize a model with 2257 rows, 1633 columns and 147313 nonzeros
+Model fingerprint: 0x58060e37
 Variable types: 577 continuous, 1056 integer (1056 binary)
 Coefficient statistics:
   Matrix range     [1e+00, 1e+01]
   Objective range  [8e-03, 5e-02]
   Bounds range     [1e+00, 1e+00]
-  RHS range        [3e-02, 1e+01]
-Presolve removed 2143 rows and 1431 columns
-Presolve time: 0.08s
-Presolved: 114 rows, 202 columns, 1213 nonzeros
-Variable types: 0 continuous, 202 integer (202 binary)
+  RHS range        [2e-02, 1e+01]
+Presolve removed 577 rows and 577 columns
+Presolve time: 0.01s
 
-Root relaxation: infeasible, 71 iterations, 0.00 seconds
-
-    Nodes    |    Current Node    |     Objective Bounds      |     Work
- Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
-
-     0     0 infeasible    0               - infeasible      -     -    0s
-
-Explored 0 nodes (71 simplex iterations) in 0.11 seconds
-Thread count was 4 (of 4 available processors)
+Explored 0 nodes (0 simplex iterations) in 0.03 seconds
+Thread count was 1 (of 4 available processors)
 
 Solution count 0
 

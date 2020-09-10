@@ -1,79 +1,79 @@
 section:problem
 name: x289
 sense:minimize
-lower_bound: 0.12578683057156004
+lower_bound: 0.0332997248172604
 number_of_objectives: 1
-number_of_constraints: 409
-number_of_variables: 277
-number_of_binary_variables: 276
-number_of_integer_variables: 276
+number_of_constraints: 425
+number_of_variables: 285
+number_of_binary_variables: 284
+number_of_integer_variables: 284
 number_of_continuous_variables: 1
-number_of_nonzeros: 39877
+number_of_nonzeros: 41037
 section:solver
 status: ok
 return_code: 0
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-wall_time: 0.033844947814941406
+wall_time: 0.027512073516845703
 termination_condition: optimal
 termination_message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
 section:solution
 status: optimal
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-objective: 0.12578683057156004
+objective: 0.0332997248172604
 gap: 0.0
-var: x145 : 0.0
-var: x146 : 0.0
-var: x147 : 0.0
-var: x148 : 0.0
-var: x149 : 0.0
-var: x150 : 0.0
-var: x151 : 0.0
-var: x152 : 0.0
-var: x153 : 0.0
-var: x154 : 0.0
-var: x155 : 0.0
-var: x156 : 0.0
-var: x157 : 0.0
-var: x158 : 0.0
-var: x159 : 0.0
-var: x160 : 0.0
-var: x161 : 0.0
-var: x162 : 0.0
-var: x163 : 0.0
-var: x164 : 0.0
-var: x165 : 0.0
-var: x166 : 0.0
-var: x167 : 0.0
-var: x168 : 0.0
-var: x169 : 0.0
-var: x170 : 0.0
-var: x171 : 0.0
-var: x172 : 0.0
-var: x173 : 0.0
-var: x174 : 0.0
-var: x175 : 0.0
-var: x176 : 0.0
-var: x177 : 0.0
-var: x178 : 0.0
-var: x179 : 0.0
-var: x180 : 0.0
-var: x181 : 0.0
+var: x145 : -0.0
+var: x146 : -0.0
+var: x147 : -0.0
+var: x148 : -0.0
+var: x149 : -0.0
+var: x150 : -0.0
+var: x151 : -0.0
+var: x152 : -0.0
+var: x153 : -0.0
+var: x154 : -0.0
+var: x155 : -0.0
+var: x156 : -0.0
+var: x157 : -0.0
+var: x158 : -0.0
+var: x159 : -0.0
+var: x160 : -0.0
+var: x161 : -0.0
+var: x162 : -0.0
+var: x163 : -0.0
+var: x164 : -0.0
+var: x165 : -0.0
+var: x166 : -0.0
+var: x167 : -0.0
+var: x168 : -0.0
+var: x169 : -0.0
+var: x170 : -0.0
+var: x171 : -0.0
+var: x172 : -0.0
+var: x173 : -0.0
+var: x174 : -0.0
+var: x175 : -0.0
+var: x176 : -0.0
+var: x177 : -0.0
+var: x178 : -0.0
+var: x179 : -0.0
+var: x180 : -0.0
+var: x181 : -0.0
 var: x182 : -0.0
-var: x183 : 1.0
-var: x184 : 1.0
-var: x185 : 1.0
-var: x186 : 1.0
-var: x187 : 1.0
-var: x188 : 1.0
-var: x189 : 1.0
-var: x190 : 1.0
-var: x191 : 1.0
-var: x192 : 1.0
-var: x193 : 1.0
-var: x194 : 1.0
-var: x195 : 0.0
-var: x196 : 0.0
-var: x197 : 0.0
+var: x183 : -0.0
+var: x184 : -0.0
+var: x185 : -0.0
+var: x186 : -0.0
+var: x187 : -0.0
+var: x188 : -0.0
+var: x189 : -0.0
+var: x190 : -0.0
+var: x191 : -0.0
+var: x192 : -0.0
+var: x193 : -0.0
+var: x194 : -0.0
+var: x195 : -0.0
+var: x196 : -0.0
+var: x197 : -0.0
 var: x198 : -0.0
 var: x199 : -0.0
 var: x200 : -0.0
@@ -116,55 +116,55 @@ var: x236 : -0.0
 var: x237 : -0.0
 var: x238 : -0.0
 var: x239 : -0.0
-var: x240 : -0.0
-var: x241 : -0.0
-var: x242 : -0.0
-var: x243 : 0.0
-var: x244 : 0.0
-var: x245 : 0.0
-var: x246 : 0.0
-var: x247 : 0.0
+var: x240 : 1.0
+var: x241 : 1.0
+var: x242 : 1.0
+var: x243 : 1.0
+var: x244 : -0.0
+var: x245 : -0.0
+var: x246 : -0.0
+var: x247 : -0.0
 var: x248 : -0.0
 var: x249 : -0.0
 var: x250 : -0.0
-var: x251 : 0.0
-var: x252 : 0.0
-var: x253 : 0.0
-var: x254 : 0.0
-var: x255 : 0.0
-var: x256 : 0.0
-var: x257 : 0.0
-var: x258 : 0.0
-var: x259 : 0.0
-var: x260 : 0.0
-var: x261 : 0.0
-var: x262 : 0.0
-var: x263 : 0.0
-var: x264 : 0.0
-var: x265 : 0.0
-var: x266 : 0.0
-var: x267 : 0.0
-var: x268 : 0.0
-var: x269 : 0.0
-var: x270 : 0.0
-var: x271 : 0.0
-var: x272 : 0.0
-var: x273 : 0.0
-var: x274 : 0.0
-var: x275 : 0.0
-var: x276 : 0.0
-var: x277 : 0.0
-var: x278 : 0.0
-var: x279 : 0.0
-var: x280 : 0.0
-var: x281 : 0.0
-var: x282 : 0.0
-var: x283 : 0.0
-var: x284 : 0.0
-var: x285 : 0.0
-var: x286 : 0.0
-var: x287 : 0.0
-var: x288 : 0.0
+var: x251 : -0.0
+var: x252 : -0.0
+var: x253 : -0.0
+var: x254 : -0.0
+var: x255 : -0.0
+var: x256 : -0.0
+var: x257 : -0.0
+var: x258 : -0.0
+var: x259 : -0.0
+var: x260 : -0.0
+var: x261 : -0.0
+var: x262 : -0.0
+var: x263 : -0.0
+var: x264 : -0.0
+var: x265 : -0.0
+var: x266 : -0.0
+var: x267 : -0.0
+var: x268 : -0.0
+var: x269 : -0.0
+var: x270 : -0.0
+var: x271 : -0.0
+var: x272 : -0.0
+var: x273 : -0.0
+var: x274 : -0.0
+var: x275 : -0.0
+var: x276 : -0.0
+var: x277 : -0.0
+var: x278 : -0.0
+var: x279 : -0.0
+var: x280 : -0.0
+var: x281 : -0.0
+var: x282 : -0.0
+var: x283 : -0.0
+var: x284 : -0.0
+var: x285 : -0.0
+var: x286 : -0.0
+var: x287 : -0.0
+var: x288 : -0.0
 var: x1 : -0.0
 var: x10 : -0.0
 var: x100 : -0.0
@@ -203,7 +203,15 @@ var: x13 : -0.0
 var: x130 : -0.0
 var: x131 : -0.0
 var: x132 : -0.0
+var: x133 : -0.0
+var: x134 : -0.0
+var: x135 : -0.0
+var: x136 : -0.0
+var: x137 : -0.0
+var: x138 : -0.0
+var: x139 : -0.0
 var: x14 : -0.0
+var: x140 : -0.0
 var: x15 : -0.0
 var: x16 : -0.0
 var: x17 : -0.0
@@ -230,7 +238,7 @@ var: x35 : -0.0
 var: x36 : -0.0
 var: x37 : -0.0
 var: x38 : -0.0
-var: x39 : 1.0
+var: x39 : -0.0
 var: x4 : -0.0
 var: x40 : -0.0
 var: x41 : -0.0
@@ -293,7 +301,7 @@ var: x92 : -0.0
 var: x93 : -0.0
 var: x94 : -0.0
 var: x95 : -0.0
-var: x96 : -0.0
+var: x96 : 1.0
 var: x97 : -0.0
 var: x98 : -0.0
 var: x99 : -0.0

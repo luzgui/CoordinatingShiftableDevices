@@ -1,45 +1,41 @@
 Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
 
-
---------------------------------------------
-Warning: your license will expire in 4 days
---------------------------------------------
-
 Using license file /home/delta/gurobi.lic
 Academic license - for non-commercial use only
-Read LP format model from file /tmp/tmpdi6zbj6w.pyomo.lp
+Read LP format model from file /tmp/tmpfy93f2vc.pyomo.lp
 Reading time = 0.02 seconds
-x289: 429 rows, 287 columns, 41327 nonzeros
+x289: 425 rows, 285 columns, 41037 nonzeros
 Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)
-Optimize a model with 429 rows, 287 columns and 41327 nonzeros
-Model fingerprint: 0x79d11e77
-Variable types: 1 continuous, 286 integer (286 binary)
+Optimize a model with 425 rows, 285 columns and 41037 nonzeros
+Model fingerprint: 0xb956124a
+Variable types: 1 continuous, 284 integer (284 binary)
 Coefficient statistics:
-  Matrix range     [1e+00, 2e+00]
-  Objective range  [1e-02, 5e-02]
+  Matrix range     [1e+00, 4e+00]
+  Objective range  [1e-02, 2e-02]
   Bounds range     [1e+00, 1e+00]
-  RHS range        [1e+00, 2e+00]
-Presolve removed 285 rows and 1 columns
+  RHS range        [1e+00, 4e+00]
+Presolve removed 283 rows and 1 columns
 Presolve time: 0.02s
-Presolved: 144 rows, 286 columns, 712 nonzeros
-Variable types: 0 continuous, 286 integer (286 binary)
+Presolved: 142 rows, 284 columns, 984 nonzeros
+Variable types: 0 continuous, 284 integer (284 binary)
 Found heuristic solution: objective 0.0986667
-Found heuristic solution: objective 0.0358925
+Found heuristic solution: objective 0.0527869
 
-Root relaxation: objective 2.394140e-02, 61 iterations, 0.00 seconds
+Root relaxation: objective 4.243795e-02, 12 iterations, 0.00 seconds
 
     Nodes    |    Current Node    |     Objective Bounds      |     Work
  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
 
-     0     0    0.02394    0    2    0.03589    0.02394  33.3%     -    0s
-H    0     0                       0.0239414    0.02394  0.00%     -    0s
-     0     0    0.02394    0    2    0.02394    0.02394  0.00%     -    0s
+     0     0    0.04244    0    4    0.05279    0.04244  19.6%     -    0s
+H    0     0                       0.0484245    0.04244  12.4%     -    0s
+H    0     0                       0.0476085    0.04244  10.9%     -    0s
+     0     0 infeasible    0         0.04761    0.04761  0.00%     -    0s
 
-Explored 1 nodes (61 simplex iterations) in 0.03 seconds
+Explored 1 nodes (24 simplex iterations) in 0.03 seconds
 Thread count was 4 (of 4 available processors)
 
-Solution count 3: 0.0239414 0.0358925 0.0986667 
+Solution count 4: 0.0476085 0.0484245 0.0527869 0.0986667 
 
 Optimal solution found (tolerance 1.00e-04)
-Best objective 2.394140153961e-02, best bound 2.394140153961e-02, gap 0.0000%
+Best objective 4.760852472670e-02, best bound 4.760852472670e-02, gap 0.0000%
 

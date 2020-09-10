@@ -1,25 +1,25 @@
 section:problem
 name: x289
 sense:minimize
-lower_bound: 0.06897619277882072
+lower_bound: 0.09371695664425451
 number_of_objectives: 1
-number_of_constraints: 421
-number_of_variables: 283
-number_of_binary_variables: 282
-number_of_integer_variables: 282
+number_of_constraints: 417
+number_of_variables: 281
+number_of_binary_variables: 280
+number_of_integer_variables: 280
 number_of_continuous_variables: 1
-number_of_nonzeros: 40747
+number_of_nonzeros: 40457
 section:solver
 status: ok
 return_code: 0
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-wall_time: 0.02655482292175293
+wall_time: 0.0309751033782959
 termination_condition: optimal
 termination_message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
 section:solution
 status: optimal
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-objective: 0.06897619277882072
+objective: 0.09371695664425451
 gap: 0.0
 var: x145 : -0.0
 var: x146 : -0.0
@@ -97,15 +97,15 @@ var: x217 : -0.0
 var: x218 : -0.0
 var: x219 : -0.0
 var: x220 : -0.0
-var: x221 : 1.0
+var: x221 : -0.0
 var: x222 : 1.0
 var: x223 : 1.0
 var: x224 : 1.0
 var: x225 : 1.0
 var: x226 : 1.0
-var: x227 : 0.0
-var: x228 : -0.0
-var: x229 : -0.0
+var: x227 : 1.0
+var: x228 : 1.0
+var: x229 : 1.0
 var: x230 : -0.0
 var: x231 : -0.0
 var: x232 : -0.0
@@ -207,8 +207,6 @@ var: x133 : -0.0
 var: x134 : -0.0
 var: x135 : -0.0
 var: x136 : -0.0
-var: x137 : -0.0
-var: x138 : -0.0
 var: x14 : -0.0
 var: x15 : -0.0
 var: x16 : -0.0
@@ -278,8 +276,8 @@ var: x73 : -0.0
 var: x74 : -0.0
 var: x75 : -0.0
 var: x76 : -0.0
-var: x77 : 1.0
-var: x78 : 0.0
+var: x77 : -0.0
+var: x78 : 1.0
 var: x79 : -0.0
 var: x8 : -0.0
 var: x80 : -0.0

@@ -1,4 +1,4 @@
 Model,/home/delta/Documents/Projects/CoordinatingShiftableDevices/Data/CP_Results/CP_Sol_Ns_11.csv
-Objective,0.6089473531624339
-Wall Time,0.38864684104919434
-Termination Condition,optimal
+Objective,0.0
+Wall Time,0.3849010467529297
+Termination Condition,infeasible

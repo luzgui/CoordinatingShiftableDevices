@@ -1,25 +1,25 @@
 section:problem
 name: x289
 sense:minimize
-lower_bound: 0.023904268742505456
+lower_bound: 0.11009081104258511
 number_of_objectives: 1
-number_of_constraints: 429
-number_of_variables: 287
-number_of_binary_variables: 286
-number_of_integer_variables: 286
+number_of_constraints: 421
+number_of_variables: 283
+number_of_binary_variables: 282
+number_of_integer_variables: 282
 number_of_continuous_variables: 1
-number_of_nonzeros: 41327
+number_of_nonzeros: 40747
 section:solver
 status: ok
 return_code: 0
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-wall_time: 0.025265932083129883
+wall_time: 0.030704975128173828
 termination_condition: optimal
 termination_message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
 section:solution
 status: optimal
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-objective: 0.023904268742505456
+objective: 0.11009081104258511
 gap: 0.0
 var: x145 : -0.0
 var: x146 : -0.0
@@ -91,13 +91,13 @@ var: x211 : -0.0
 var: x212 : -0.0
 var: x213 : -0.0
 var: x214 : -0.0
-var: x215 : 0.0
-var: x216 : -0.0
-var: x217 : -0.0
-var: x218 : -0.0
-var: x219 : -0.0
+var: x215 : 1.0
+var: x216 : 1.0
+var: x217 : 1.0
+var: x218 : 1.0
+var: x219 : 1.0
 var: x220 : 1.0
-var: x221 : 1.0
+var: x221 : -0.0
 var: x222 : -0.0
 var: x223 : -0.0
 var: x224 : -0.0
@@ -209,11 +209,7 @@ var: x135 : -0.0
 var: x136 : -0.0
 var: x137 : -0.0
 var: x138 : -0.0
-var: x139 : -0.0
 var: x14 : -0.0
-var: x140 : -0.0
-var: x141 : -0.0
-var: x142 : -0.0
 var: x15 : -0.0
 var: x16 : -0.0
 var: x17 : -0.0
@@ -273,15 +269,15 @@ var: x65 : -0.0
 var: x66 : -0.0
 var: x67 : -0.0
 var: x68 : -0.0
-var: x69 : 0.0
+var: x69 : -0.0
 var: x7 : -0.0
-var: x70 : 0.0
-var: x71 : -0.0
+var: x70 : -0.0
+var: x71 : 1.0
 var: x72 : -0.0
 var: x73 : -0.0
 var: x74 : -0.0
 var: x75 : -0.0
-var: x76 : 1.0
+var: x76 : -0.0
 var: x77 : -0.0
 var: x78 : -0.0
 var: x79 : -0.0

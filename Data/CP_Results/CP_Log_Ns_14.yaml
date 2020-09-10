@@ -1,51 +1,45 @@
 Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
 
-
---------------------------------------------
-Warning: your license will expire in 3 days
---------------------------------------------
-
 Using license file /home/delta/gurobi.lic
 Academic license - for non-commercial use only
-Read LP format model from file /tmp/tmpljn9k2fc.pyomo.lp
+Read LP format model from file /tmp/tmp6xqn49by.pyomo.lp
 Reading time = 0.24 seconds
-x6049: 7537 rows, 5713 columns, 509593 nonzeros
+x6049: 7537 rows, 5713 columns, 508153 nonzeros
 Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)
-Optimize a model with 7537 rows, 5713 columns and 509593 nonzeros
-Model fingerprint: 0x85f8b18f
+Optimize a model with 7537 rows, 5713 columns and 508153 nonzeros
+Model fingerprint: 0x423f498e
 Variable types: 2017 continuous, 3696 integer (3696 binary)
 Coefficient statistics:
   Matrix range     [4e-01, 1e+01]
-  Objective range  [3e-03, 9e-02]
+  Objective range  [3e-03, 6e-02]
   Bounds range     [1e+00, 1e+00]
-  RHS range        [6e-02, 1e+01]
-Presolve removed 6807 rows and 4358 columns
-Presolve time: 0.30s
-Presolved: 730 rows, 1355 columns, 6172 nonzeros
-Variable types: 0 continuous, 1355 integer (1355 binary)
+  RHS range        [4e-02, 1e+01]
+Presolve removed 6872 rows and 4496 columns
+Presolve time: 0.27s
+Presolved: 665 rows, 1217 columns, 5205 nonzeros
+Variable types: 0 continuous, 1217 integer (1217 binary)
 
-Root relaxation: objective 1.097185e+00, 515 iterations, 0.01 seconds
+Root relaxation: objective 8.260417e-01, 465 iterations, 0.01 seconds
 
     Nodes    |    Current Node    |     Objective Bounds      |     Work
  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
 
-     0     0    1.09718    0   60          -    1.09718      -     -    0s
-     0     0    1.09718    0  140          -    1.09718      -     -    0s
-     0     0    1.09718    0   80          -    1.09718      -     -    0s
-     0     2    1.09718    0   70          -    1.09718      -     -    0s
-   445   180    1.10529   11  110          -    1.09718      -   211    5s
-  1398   473    1.10223    7  217          -    1.10038      -   155   10s
-  2291   678    1.10233   14  149          -    1.10233      -   3.8   16s
-  2319   697    1.10233   18  117          -    1.10233      -  12.2   20s
-* 2404   644              28       1.1170978    1.10233  1.32%  21.1   21s
-  3092   540 infeasible   24         1.11710    1.10233  1.32%  38.2   25s
-  4714    80     cutoff   31         1.11710    1.10792  0.82%  40.9   30s
+     0     0    0.82604    0   61          -    0.82604      -     -    0s
+     0     0 infeasible    0               - infeasible      -     -    0s
 
-Explored 5101 nodes (511814 simplex iterations) in 30.85 seconds
+Cutting planes:
+  Gomory: 14
+  Cover: 58
+  Clique: 215
+  MIR: 36
+  StrongCG: 18
+  Zero half: 2
+
+Explored 1 nodes (1510 simplex iterations) in 0.41 seconds
 Thread count was 4 (of 4 available processors)
 
-Solution count 1: 1.1171 
+Solution count 0
 
-Optimal solution found (tolerance 1.00e-04)
-Best objective 1.117097828574e+00, best bound 1.117097828574e+00, gap 0.0000%
+Model is infeasible
+Best objective -, best bound -, gap -
 

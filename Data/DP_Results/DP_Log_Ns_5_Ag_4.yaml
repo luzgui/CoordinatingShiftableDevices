@@ -1,18 +1,13 @@
 Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
 
-
---------------------------------------------
-Warning: your license will expire in 3 days
---------------------------------------------
-
 Using license file /home/delta/gurobi.lic
 Academic license - for non-commercial use only
-Read LP format model from file /tmp/tmpiw8n35z8.pyomo.lp
+Read LP format model from file /tmp/tmp1ojbgi1e.pyomo.lp
 Reading time = 0.02 seconds
 x289: 421 rows, 283 columns, 40747 nonzeros
 Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)
 Optimize a model with 421 rows, 283 columns and 40747 nonzeros
-Model fingerprint: 0xd473cbec
+Model fingerprint: 0xb14f38ec
 Variable types: 1 continuous, 282 integer (282 binary)
 Coefficient statistics:
   Matrix range     [1e+00, 6e+00]
@@ -26,16 +21,16 @@ Variable types: 0 continuous, 282 integer (282 binary)
 Found heuristic solution: objective 0.2220000
 Found heuristic solution: objective 0.0852024
 
-Root relaxation: objective 6.698658e-02, 57 iterations, 0.00 seconds
+Root relaxation: objective 6.539702e-02, 57 iterations, 0.00 seconds
 
     Nodes    |    Current Node    |     Objective Bounds      |     Work
  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
 
-     0     0    0.06699    0    3    0.08520    0.06699  21.4%     -    0s
-H    0     0                       0.0669866    0.06699  0.00%     -    0s
-     0     0    0.06699    0    3    0.06699    0.06699  0.00%     -    0s
+     0     0    0.06540    0    3    0.08520    0.06540  23.2%     -    0s
+H    0     0                       0.0669866    0.06540  2.37%     -    0s
+     0     0    0.06540    0    3    0.06699    0.06540  2.37%     -    0s
 
-Explored 1 nodes (57 simplex iterations) in 0.03 seconds
+Explored 1 nodes (57 simplex iterations) in 0.02 seconds
 Thread count was 4 (of 4 available processors)
 
 Solution count 3: 0.0669866 0.0852024 0.222 

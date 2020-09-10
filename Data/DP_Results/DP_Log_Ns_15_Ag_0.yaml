@@ -1,13 +1,8 @@
 Solver command line: ['/opt/gurobi902/linux64/bin/gurobi.sh']
 
-
---------------------------------------------
-Warning: your license will expire in 3 days
---------------------------------------------
-
 Using license file /home/delta/gurobi.lic
 Academic license - for non-commercial use only
-Read LP format model from file /tmp/tmpae9f4rz7.pyomo.lp
+Read LP format model from file /tmp/tmpk8uvqum_.pyomo.lp
 Reading time = 0.02 seconds
 x289: 419 rows, 282 columns, 40602 nonzeros
 Gurobi Optimizer version 9.0.2 build v9.0.2rc0 (linux64)

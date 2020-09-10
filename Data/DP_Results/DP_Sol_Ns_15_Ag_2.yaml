@@ -1,25 +1,25 @@
 section:problem
 name: x289
 sense:minimize
-lower_bound: 0.02850030246666608
+lower_bound: 0.05743631204412748
 number_of_objectives: 1
-number_of_constraints: 429
-number_of_variables: 287
-number_of_binary_variables: 286
-number_of_integer_variables: 286
+number_of_constraints: 425
+number_of_variables: 285
+number_of_binary_variables: 284
+number_of_integer_variables: 284
 number_of_continuous_variables: 1
-number_of_nonzeros: 41327
+number_of_nonzeros: 41037
 section:solver
 status: ok
 return_code: 0
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-wall_time: 0.024277925491333008
+wall_time: 0.02387690544128418
 termination_condition: optimal
 termination_message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
 section:solution
 status: optimal
 message: Model was solved to optimality (subject to tolerances), and an optimal solution is available.
-objective: 0.02850030246666608
+objective: 0.05743631204412748
 gap: 0.0
 var: x145 : -0.0
 var: x146 : -0.0
@@ -100,8 +100,8 @@ var: x220 : -0.0
 var: x221 : -0.0
 var: x222 : 1.0
 var: x223 : 1.0
-var: x224 : -0.0
-var: x225 : -0.0
+var: x224 : 1.0
+var: x225 : 1.0
 var: x226 : -0.0
 var: x227 : -0.0
 var: x228 : -0.0
@@ -165,26 +165,26 @@ var: x285 : -0.0
 var: x286 : -0.0
 var: x287 : -0.0
 var: x288 : -0.0
-var: x1 : -0.0
-var: x10 : -0.0
-var: x100 : -0.0
-var: x101 : -0.0
-var: x102 : -0.0
-var: x103 : -0.0
-var: x104 : -0.0
-var: x105 : -0.0
-var: x106 : -0.0
-var: x107 : -0.0
-var: x108 : -0.0
-var: x109 : -0.0
-var: x11 : -0.0
-var: x110 : -0.0
+var: x1 : 0.0
+var: x10 : 0.0
+var: x100 : 0.0
+var: x101 : 0.0
+var: x102 : 0.0
+var: x103 : 0.0
+var: x104 : 0.0
+var: x105 : 0.0
+var: x106 : 0.0
+var: x107 : 0.0
+var: x108 : 0.0
+var: x109 : 0.0
+var: x11 : 0.0
+var: x110 : 0.0
 var: x111 : -0.0
 var: x112 : -0.0
 var: x113 : -0.0
 var: x114 : -0.0
 var: x115 : -0.0
-var: x116 : -0.0
+var: x116 : 0.0
 var: x117 : -0.0
 var: x118 : -0.0
 var: x119 : -0.0
@@ -199,7 +199,7 @@ var: x126 : -0.0
 var: x127 : -0.0
 var: x128 : -0.0
 var: x129 : -0.0
-var: x13 : -0.0
+var: x13 : 0.0
 var: x130 : -0.0
 var: x131 : -0.0
 var: x132 : -0.0
@@ -211,9 +211,7 @@ var: x137 : -0.0
 var: x138 : -0.0
 var: x139 : -0.0
 var: x14 : -0.0
-var: x140 : -0.0
-var: x141 : -0.0
-var: x142 : -0.0
+var: x140 : 0.0
 var: x15 : -0.0
 var: x16 : -0.0
 var: x17 : -0.0
@@ -232,14 +230,14 @@ var: x28 : -0.0
 var: x29 : -0.0
 var: x3 : -0.0
 var: x30 : -0.0
-var: x31 : -0.0
+var: x31 : 0.0
 var: x32 : -0.0
 var: x33 : -0.0
 var: x34 : -0.0
 var: x35 : -0.0
 var: x36 : -0.0
 var: x37 : -0.0
-var: x38 : -0.0
+var: x38 : 0.0
 var: x39 : -0.0
 var: x4 : -0.0
 var: x40 : -0.0
@@ -274,12 +272,12 @@ var: x66 : -0.0
 var: x67 : -0.0
 var: x68 : -0.0
 var: x69 : -0.0
-var: x7 : -0.0
+var: x7 : 0.0
 var: x70 : -0.0
 var: x71 : -0.0
 var: x72 : -0.0
-var: x73 : -0.0
-var: x74 : -0.0
+var: x73 : 0.0
+var: x74 : 0.0
 var: x75 : -0.0
 var: x76 : -0.0
 var: x77 : -0.0
@@ -302,9 +300,9 @@ var: x91 : -0.0
 var: x92 : -0.0
 var: x93 : -0.0
 var: x94 : -0.0
-var: x95 : -0.0
-var: x96 : -0.0
-var: x97 : -0.0
-var: x98 : -0.0
-var: x99 : -0.0
+var: x95 : 0.0
+var: x96 : 0.0
+var: x97 : 0.0
+var: x98 : 0.0
+var: x99 : 0.0
 var: ONE_VAR_CONSTANT : 1.0
