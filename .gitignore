@@ -3,7 +3,8 @@
 *.zip
 *.ini
 *.bak
-
+*.yaml
+*.csv
 
 # Editors
 .vscode/
