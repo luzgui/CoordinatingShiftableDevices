@@ -5,11 +5,13 @@ import numpy as np
 from numpy import array
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 
 
 
-def PlotFunc_Central(Model,Ppv):
-    "Model argument is a Pyomo model with results"
+def PlotFunc_Central(Model,Ppv, n, ResultsFolder):
+    "Model argument is a Pyomo model with results, n: number of agents, Ppv: PV capacity,"
+    "Resultsfolder: destination of plots"
 
     #importing values
     P=array([value(Model.P[i,t]) for i in Model.I for t in Model.T])
@@ -28,6 +30,7 @@ def PlotFunc_Central(Model,Ppv):
     Pag=P_Raw.sum(axis=0)
     T=array(list(Model.T))
     
+    
     fig, ax1 = plt.subplots()
     
     color = 'tab:red'
@@ -35,6 +38,9 @@ def PlotFunc_Central(Model,Ppv):
     ax1.set_ylabel('euro/kWh', color=color)
     ax1.plot(T,np.asarray(list(c)), color=color)
     ax1.tick_params(axis='y', labelcolor=color)
+    
+    
+    ax1.set_title('CP Nagents: %i' %n)
     
     ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
     
@@ -54,8 +60,10 @@ def PlotFunc_Central(Model,Ppv):
     ax2.plot(T,Ppv, color=color2)
     ax2.tick_params(axis='y', labelcolor=color)
     
-    #fig.tight_layout()  # otherwise the right y-label is slightly clipped
-    #plt.savefig('Agent.png',dpi=200)
+    fig.tight_layout()  # otherwise the right y-label is slightly clipped
+    file=ResultsFolder + '/CP_N_%i' %n
+    plt.savefig(file,dpi=200)
+    
     plt.show()
 
 

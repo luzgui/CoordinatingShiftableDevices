@@ -175,7 +175,11 @@ def Appliances(n):
 
     
     df=pd.DataFrame({'Power': p, 'Duration': d})
-    df_shuffle=df.iloc[np.random.permutation(n)]
+    # print(df)
+    df_shuffle=df.sample(n=n)
+    # print(df_shuffle)
+    # df_shuffle=df.iloc[np.random.permutation(n)]
+
     df_shuffle.reset_index(drop=True)
     
     p_out=df_shuffle['Power']
