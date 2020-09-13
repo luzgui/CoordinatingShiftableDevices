@@ -3,6 +3,7 @@ from pyomo.environ import *
 from pyomo.opt import SolverFactory
 import pandas as pd
 import numpy as np
+import random
 
 
 ## SINGLE AGENT PROBLEM ##
@@ -150,48 +151,33 @@ def Appliances(n):
     #     n=1
     # p=[4,4,4,3,4,2,1,2,4,3,5,6,7,5]
     # p=[0.4*k for k in p]; 
-    p=10*[1.6,1.6,1.6,1.2,1.6,0.8,0.4,0.8,1.6,1.2,2.0,2.4,2.8,2.0]
-    d=10*[12,12,8,6,5,4,3,4,2,3,2,6,7,4]
-    
-    # p=p*n
-    
-    # d=10*[4,4,4,4,4,4,4,4,4,4,4,4,4,4]
-    # d=10*[12,6,6,6,6,6,6,6,6,6,6,6,6,6]
-    
-    # d=d*n
-
-    # p=10*[4,4,4,3,5,2,1,2,5,3,5,6,7,5]
-    # p=[0.4*k for k in p]; 
+    # p=10*[1.6,1.6,1.6,1.2,1.6,0.8,0.4,0.8,1.6,1.2,2.0,2.4,2.8,2.0]
     # d=10*[12,12,8,6,5,4,3,4,2,3,2,6,7,4]
-    
-    # p=10*[4,4,4,4,4,4,4,4,4,4,4,4,4,4]
-    # p=[0.4*k for k in p]; 
-    # d=10*[2,2,2,2,2,2,2,2,2,2,2,2,2,2]
-    
-    # p=[2.8,2.8,2.4,2.4,2.0,2.0,2.0,2.0,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.6,1.2,1.2, \
-    #    1.2,1.2,0.8,0.8,0.8,0.8,0.4,0.4]
+    # p=5*[2]
+    # d=5*[10]
+    p_max=6
+    d_max=10
+    p=[]
+    d=[]
+    for i in range(n):
+        p.append(round(random.uniform(1, p_max),1))
+        d.append(round(random.uniform(1, d_max)))
 
-    # d=[12,7,6,6,2,4,2,4,12,8,12,8,5,5,12,2,12,12,12,2,3,3,6,6,4,4,4,4,3,3]
-
-    
     df=pd.DataFrame({'Power': p, 'Duration': d})
-    # print(df)
-    df_shuffle=df.sample(n=n)
-    # print(df_shuffle)
-    # df_shuffle=df.iloc[np.random.permutation(n)]
-
-    df_shuffle.reset_index(drop=True)
+    df.reset_index(drop=True)
     
-    p_out=df_shuffle['Power']
-    d_out=df_shuffle['Duration']
+    p_out=df['Power']
+    d_out=df['Duration']
     
+    # df_shuffle=df.sample(n=n,replace=True)
+    # df_shuffle.reset_index(drop=True)
     
+    # p_out=df_shuffle['Power']
+    # d_out=df_shuffle['Duration']
     
     # return list(p_out.astype(np.float64)), list(d_out)
     return list(p_out), list(d_out)
  
-        
-
     
     
     

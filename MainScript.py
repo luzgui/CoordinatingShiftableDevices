@@ -52,9 +52,9 @@ miu=dt/60 #power-energy convertion
 # DEVICES 
 # Number of devices
 # Ndev=[14,15,16,17,18,19,20]
-Ndev=[14,17,20,23]
+# Ndev=[14,17,20,23]
 
-# Ndev=[14]
+Ndev=[16]
 # Ndev=[10,11,12,13,14]
 
 for n in Ndev:
@@ -62,13 +62,21 @@ for n in Ndev:
     
     # %% generate set of devices
     Devices=Appliances(n)
-    print(Devices)
+    # print(Devices)
+    
     p=Devices[0]
     d=Devices[1]
+    
+    D=[p,d]
+    print(pd.DataFrame(D))
+    
     #BUG temporary fix
     d[0]=max(d)
+    
     ####
     print(d)
+    
+    DevScat(p,d)
     
     p0=dict(enumerate(p))
     d0=dict(enumerate(d))

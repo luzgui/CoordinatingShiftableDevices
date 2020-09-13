@@ -67,3 +67,37 @@ def PlotFunc_Central(Model,Ppv, n, ResultsFolder):
     plt.show()
 
 
+def DevScat(p,d):
+    fig = plt.figure()
+    #Generate a list of unique points
+    points=list(set(zip(p,d))) 
+    #Generate a list of point counts
+    count=[len([x for x,y in zip(p,d) if x==pp[0] and y==pp[1]]) for pp in points]
+    #Now for the plotting:
+    plot_x=[i[0] for i in points]
+    plot_y=[i[1] for i in points]
+    count=np.array(count)
+    plt.scatter(plot_x,plot_y,c=count,s=100*count**0.5,cmap='Spectral_r')
+    plt.colorbar()
+    plt.grid(True)
+    plt.show()
+        
+    # T=pd.DataFrame([p,d])
+    
+    # weights = [i for i in Counter(p).values() for j in range(i)]
+    
+    
+    # plt.scatter(p, d)
+    # for i, txt in enumerate(weights):
+    #     plt.annotate(txt, (p[i], d[i]), fontsize=16)
+    
+    # # plt.hist2d(p,d)
+    # plt.ylabel('duration')
+    # plt.xlabel('power demand')
+    # plt.grid(True)
+    # plt.show()
+    
+    
+    
+
+
