@@ -54,8 +54,8 @@ miu=dt/60 #power-energy convertion
 # Ndev=[14,15,16,17,18,19,20]
 # Ndev=[14,17,20,23]
 
-Ndev=[20]
-# Ndev=[10,11,12,13,14]
+# Ndev=[20]
+Ndev=[15,20,25,30,35,40]
 
 for n in Ndev:
     print(n)
