@@ -54,7 +54,7 @@ miu=dt/60 #power-energy convertion
 # Ndev=[14,15,16,17,18,19,20]
 # Ndev=[14,17,20,23]
 
-Ndev=[16]
+Ndev=[20]
 # Ndev=[10,11,12,13,14]
 
 for n in Ndev:
@@ -143,6 +143,15 @@ for n in Ndev:
     
     # %%Solver
     opt = SolverFactory('gurobi')
+    # opt.options['MIPGap'] = 1e-2
+    opt.options['MIPGapAbs'] = 1e-1
+    # opt.options['tune']=True
+    
+    # opt.options['MIPGap'] = 1
+    # opt.options['MIPGapAbs'] = 1
+    
+    # opt.options['MIPFocus'] = 3
+    # opt.options['Threads'] = 8
     
     # %%
     
@@ -158,8 +167,7 @@ for n in Ndev:
     
     # Solving problem
     prosumer = Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv)
-    # opt.options['MIPGap'] = 1e-2
-    # opt.options['MIPFocus'] = 1
+    # prosumer.tune()
     
     # Results=opt.solve(prosumer, tee=True, keepfiles=True, logfile='log.log')
     
