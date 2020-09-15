@@ -35,57 +35,43 @@ dt=10 #discretization
 H=int((24*60)/dt) # Time horizon
 miu=dt/60 #power-energy convertion
 
-
-# n=3
-# p=[4,4,4,3,4,2,1,2,4,3,5,6,7,5]
-# p=[0.4*k for k in p]; 
-# p=p*n
-# d=[12,12,8,6,5,4,3,4,2,3,2,6,7,4]
-# d=d*n
-
-# p=n*[1.6,1.6,1.6,1.2,1.6,0.8,0.4,0.8,1.6,1.2,2.0,2.4,2.8,2.0]
-    
-#     # p=p*n
-# d=n*[12,12,8,6,5,4,3,4,2,3,2,6,7,4]
-
-
-# DEVICES 
-# Number of devices
-# Ndev=[14,15,16,17,18,19,20]
-# Ndev=[14,17,20,23]
-
-# Ndev=[20]
-Ndev=[15,20,25,30,35,40]
+# Ndev=[15]
+Ndev=[15,25,35,45]
 
 for n in Ndev:
     print(n)
     
     # %% generate set of devices
-    Devices=Appliances(n)
+    # Function Appliances() randomly generates a set of pairs (p,d)_n with values in between [1,p_max] [1, d_max]
+    p_max=6
+    d_max=10
+    Devices=Appliances(n, p_max, d_max)
     # print(Devices)
     
     p=Devices[0]
     d=Devices[1]
     
-    D=[p,d]
-    print(pd.DataFrame(D))
+    # D=[p,d]
+    # print(pd.DataFrame(D))
     
     #BUG temporary fix
     d[0]=max(d)
     
     ####
-    print(d)
+    # print(d)
     
+    # Plotting a scatter with the distribution of devices
     DevScat(p,d)
     
     p0=dict(enumerate(p))
     d0=dict(enumerate(d))
     
-    
     nI=len(p)
     
     PD=list((p[i],d[i]) for i in range(len(p)))
     # sorting agents
+    
+    # Sorting is performed based on consumed power (bigger rated power machines are schedulled first)
     PDsorted=np.array(sorted(PD,key=itemgetter(0),reverse = True))
     
     p=list(PDsorted[:,0])
@@ -101,10 +87,12 @@ for n in Ndev:
     PVfile=os.path.join(DataFolder,'PV_sim.csv') #csv for PV
     dfPV = pd.read_csv(PVfile,header=None) #create dataframe
     PpvNorm=dfPV.to_numpy()
-    # PVcap=3.6*n
-    # PVcap=10
     
-    # PV sizing rule: 
+    # PV sizing rule:
+    # Due to feasibility reasons we are affecting the total PV installed capacity by a factor of 1.2. This value was determined             
+    # experimentally. If f=1, which means a installed capacity producing a quantity of energy equal to the energy consumed by 
+    # all the devices together, optimization would run into feasibility issues.
+    
     f=1.2 # PV multiplying factor
     PVcap=f*Eshift/sum(PpvNorm[k]*(miu) for k in range(H))
     PVcap=PVcap[0]
@@ -131,27 +119,13 @@ for n in Ndev:
     Tar0 = Tar
     c0= dict(enumerate(Tar0))    
     c = dict(enumerate(Tar))
-    
-    #Import tarif
-    # tarFile='/home/omega/Documents/FCUL/PhD/OES/Code/AgentsModel/DataAgents/Tarifa144kwh.csv'
-    # tarFile=os.path.join(DataFolder+'/DataAgents','Tarifa144kwh.csv')
-    # df = pd.read_csv(tarFile,header=None)
-    # c=df.to_dict()
-    # c=c[0]
-    
-    
+        
     
     # %%Solver
     opt = SolverFactory('gurobi')
     # opt.options['MIPGap'] = 1e-2
-    opt.options['MIPGapAbs'] = 1e-1
-    # opt.options['tune']=True
-    
-    # opt.options['MIPGap'] = 1
-    # opt.options['MIPGapAbs'] = 1
-    
+    opt.options['MIPGapAbs'] = 1e-2
     # opt.options['MIPFocus'] = 3
-    # opt.options['Threads'] = 8
     
     # %%
     
@@ -167,13 +141,8 @@ for n in Ndev:
     
     # Solving problem
     prosumer = Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv)
-    # prosumer.tune()
-    
-    # Results=opt.solve(prosumer, tee=True, keepfiles=True, logfile='log.log')
-    
-    
-    # FileName='CP_Sol_Ns_'+str(len(p))+'.yaml'
-    
+
+    # There will be log and solution in YAML, CSV files in Results folder
     SolFile_yaml=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + '.yaml')
     SolFile_csv=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + '.csv')
     
@@ -181,104 +150,99 @@ for n in Ndev:
     
     Results=opt.solve(prosumer,tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile_yaml)
     
-    #Write results
-    # post.PostProcess(prosumer,Results,SolFile_csv)
+    #Write results to a .mat file for further processing
     name='CP'
-    
     get_Results_C(prosumer,Results,Ppv,PVcap, n,miu,p,d, ResultsFolder, name)
     #PlotResults
     PlotFunc_Central(prosumer, Ppv, n, ResultsFolder)
-    
-    
     
     # %%
     # 
     ##############################################################################
     ##### MULTI-AGENT #####
     ##############################################################################
+    opt.options['MIPGapAbs'] = 1e-10
+    R=[];Com=[];X=[];Y=[];P=[]  
+    M=[]
     
-#     R=[];Com=[];X=[];Y=[];P=[]  
-#     M=[]
+    # Agents can be queued in different ways (uncomment line):
+    # Random queue
+    #Iagent=random.sample(range(len(d)),len(d))
+    # Sorted by the size of its rated power
+    Iagent=range(len(d))
     
-#     #Iagent=random.sample(range(len(d)),len(d))
-#     Iagent=range(len(d))
-    
-#     for k in Iagent:
+    for k in Iagent:
         
-#         AgentModel=Agent(H,d[k],p[k],c,miu)
-#         Com.append(AgentModel)
-    
-#         SolFile_yaml=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.yaml')
-#         SolFile_csv=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.csv')
-#         LogFile=os.path.join(DPFolder, 'DP_Log_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.yaml')
+        AgentModel=Agent(H,d[k],p[k],c,miu)
+        Com.append(AgentModel)
         
-#         Results=opt.solve(AgentModel, tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile_yaml)
-#         # post.PostProcess(AgentModel,Results,SolFile_csv)
+        # Write files with individual solution (only needed if a specific agent needs to be investigated)
+        SolFile_yaml=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.yaml')
+        SolFile_csv=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.csv')
+        LogFile=os.path.join(DPFolder, 'DP_Log_Ns_' + str(len(p)) + '_Ag_' + str(k) + '.yaml')
         
-#         #Lists containing all Model results
-#         R.append(Results)
-#         M.append(AgentModel)
-#         # R.append(opt.solve(AgentModel, tee=True, keepfiles=True))
         
-#         # x=[value(AgentModel.x[i]) for i in AgentModel.T]
-#         # X.append(x)
+        Results=opt.solve(AgentModel, tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile_yaml)
+
+        #Lists containing all Model results
+        R.append(Results)
+        M.append(AgentModel)
         
-#         power=[value(AgentModel.x[i])*p[k] for i in AgentModel.T]
-#         P.append(power)
-#         Pagg=np.asarray(P)
-#         Pag=Pagg.sum(axis=0)
+        # Calculating some quantities        
+        power=[value(AgentModel.x[i])*p[k] for i in AgentModel.T]
+        P.append(power)
+        Pagg=np.asarray(P)
+        Pag=Pagg.sum(axis=0)
         
-#         #Plotting
+        #Plotting
         
-#         if k==len(Iagent)-1:
+        if k==len(Iagent)-1: #Plotting only at last iteration to get all agents solution
             
-#         # Plotting
-#             fig, ax1 = plt.subplots()
+        # Plotting
+            fig, ax1 = plt.subplots()
             
-#             T = range(0,H)
-#             color = 'tab:red'
-#             ax1.set_xlabel('hour of the day')
-#             ax1.set_ylabel('euro/kWh', color=color)
-#             ax1.plot(T,np.asarray(list(c.values())), color=color)
-#             ax1.tick_params(axis='y', labelcolor=color)
-#             ax1.set_title('DP Nagents: %i' %n)
-#             ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+            T = range(0,H)
+            color = 'tab:red'
+            ax1.set_xlabel('hour of the day')
+            ax1.set_ylabel('euro/kWh', color=color)
+            ax1.plot(T,np.asarray(list(c.values())), color=color)
+            ax1.tick_params(axis='y', labelcolor=color)
+            ax1.set_title('DP Nagents: %i' %n)
+            ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
             
-#             color = 'tab:blue'
-#             color2= 'tab:green'
-#             ax2.set_ylabel('kW', color=color)  # we already handled the x-label with ax1
-#             # ax2.plot(T,power)
+            color = 'tab:blue'
+            color2= 'tab:green'
+            ax2.set_ylabel('kW', color=color)  # we already handled the x-label with ax1
+            # ax2.plot(T,power)
             
-#             for i in Iagent:
-#                 ax2.plot(T,P[i])
+            for i in Iagent:
+                ax2.plot(T,P[i])
                 
-#             ax2.plot(T, Pag, color='black',linewidth=3.0) 
-#             ax2.tick_params(axis='y', labelcolor=color)
+            ax2.plot(T, Pag, color='black',linewidth=3.0) 
+            ax2.tick_params(axis='y', labelcolor=color)
             
-#             color = 'tab:red'
-#             ax2.set_xlabel('hour of the day')
-#             ax2.set_ylabel('kW', color=color2)
-#             ax2.plot(T,Ppv, color=color2)
-#             ax2.tick_params(axis='y', labelcolor=color)
-#             fig.tight_layout()  # otherwise the right y-label is slightly clipped
-#             file=ResultsFolder + '/DP_N_%i' %len(Iagent)
-#             plt.savefig(file,dpi=200)
+            color = 'tab:red'
+            ax2.set_xlabel('hour of the day')
+            ax2.set_ylabel('kW', color=color2)
+            ax2.plot(T,Ppv, color=color2)
+            ax2.tick_params(axis='y', labelcolor=color)
+            fig.tight_layout()  # otherwise the right y-label is slightly clipped
+            file=ResultsFolder + '/DP_N_%i' %len(Iagent)
+            plt.savefig(file,dpi=200)
 
-#         Pag_dict=dict(enumerate(Pag))
-#         Ppv_dict=dict(enumerate(Ppv))
+        Pag_dict=dict(enumerate(Pag))
+        Ppv_dict=dict(enumerate(Ppv))
         
-#         ## Tariff Update 
-#         for k in range(H):
-#             c[k]=c0[k]+0.5*(Pag_dict[k]/PVcap)*TarS
-#         #   c[k]=c0[k]+(Pag_dict[k]/Ppv_dict[k][0])*TarS
+        ## Tariff Update: tariff is incraesed in timeslots in which there is more load
+        ## This tarif is sent to the nex agent
+        for k in range(H):
+            c[k]=c0[k]+0.5*(Pag_dict[k]/PVcap)*TarS
     
-#     #Write results
-#     ModelName='DP'
-#     get_Results_D(M,R, c, Ppv,PVcap, n,miu,p,d, ResultsFolder, ModelName)
+    #Write results
+    ModelName='DP'
+    get_Results_D(M,R, c, Ppv,PVcap, n,miu,p,d, ResultsFolder, ModelName)
     
-#     T=np.asarray(list(AgentModel.T))    
-#     Etot=sum(Pag[t]*miu for t in range(H));
-
+# Getting a dataframe wit comaprison of all solution .mat files existing in ResultsFolder
 df_R=Calc_Tables_mat(ResultsFolder)
 
 

@@ -15,8 +15,6 @@ import csv
 import pandas as pd
 import scipy.io as sio
 
-
-# def PostProcess(Model, FileNAme):
     
 def PostProcess(Model,ModelResults, FileName):    
     'Inputs a model with results loaded and outputs a file with solution in, YMAL or CSV'
@@ -58,22 +56,6 @@ def get_Results_C(Model,ModelResults,Ppv,PVcap,n,miu,p,d,ResultsFolder,ModelName
     
     #Aggregated Load
     Pag=P_Raw.sum(axis=0)
-    # Pag=Pag.transpose()
-    
-    # Transformations
-    # xx=pd.DataFrame(xx)
-    # xx.index.name='agents'
-    
-    #Making Table
-    # Sol=[]
-    
-    # P_Raw=pd.DataFrame(P_Raw)
-    # P_Raw.index.name='agents'
-    
-    #Appending values
-    # Sol.append(xx)
-    # Sol.append(P_Raw)
-    # Sol.append(Pag)
     
     #Toal shiftable energy
     P_x=np.zeros(H)
@@ -112,7 +94,6 @@ def get_Results_C(Model,ModelResults,Ppv,PVcap,n,miu,p,d,ResultsFolder,ModelName
     sio.savemat(FileName,SolutionDict)
     
     return SolutionDict
-
 
 
 
@@ -161,7 +142,7 @@ def get_Results_D(ModelArray,ModelResultsArray, Tar, Ppv,PVcap, n,miu,p,d, Resul
 
     
 
-        # Calculating SSR
+    # Calculating SSR
     # Identify timeslots with violation
     P_x=np.zeros(H)
     for k in range(H):

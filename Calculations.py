@@ -71,7 +71,7 @@ def Calcs_Tables(n,DPFolder,CPFolder, ResultsFolder):
 
 def Calc_Tables_mat(ResultsFolder):
      
-     # impor
+     # import files
      files=[f for f in listdir(ResultsFolder) if '.mat' in f]
      df_temp=pd.DataFrame()
      df=pd.DataFrame()
@@ -92,23 +92,3 @@ def Calc_Tables_mat(ResultsFolder):
      return df
          
          
-     
-# Identify timeslots with violation
-# P_PV_ex= np.zeros(H)
-# for k in range(H):
-#     if Pag[k]>Ppv[k]:
-#         P_PV_ex[k]=Pag[k]-Ppv[k]
-    
-
-# #Calculate all that energy
-# E_T_PV=sum(P_PV_ex[t]*(10/60) for t in range(H));
-
-# #Toal shiftable energy
-# Etot=sum(Pag[t]*(10/60) for t in range(H));
-
-# E_F=(Etot-E_T_PV)/Etot
-
-# print(Etot)
-# print(E_T_PV)
-# print(E_F)
-

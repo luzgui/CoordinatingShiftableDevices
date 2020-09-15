@@ -81,23 +81,3 @@ def DevScat(p,d):
     plt.colorbar()
     plt.grid(True)
     plt.show()
-        
-    # T=pd.DataFrame([p,d])
-    
-    # weights = [i for i in Counter(p).values() for j in range(i)]
-    
-    
-    # plt.scatter(p, d)
-    # for i, txt in enumerate(weights):
-    #     plt.annotate(txt, (p[i], d[i]), fontsize=16)
-    
-    # # plt.hist2d(p,d)
-    # plt.ylabel('duration')
-    # plt.xlabel('power demand')
-    # plt.grid(True)
-    # plt.show()
-    
-    
-    
-
-

@@ -103,16 +103,6 @@ def Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv):
     #        if t >= prosumer.d[i] or t <= H-prosumer.d[i]:
                 return sum(prosumer.x[i,t+k] for k in range(0,prosumer.d[i]))\
             >=prosumer.d[i]*prosumer.y[i,t]
-            
-                #     return sum(prosumer.x[i,t+k] for k in range(0,prosumer.d[i])\
-                #                for t in prosumer.Ts)\
-                # >= prosumer.d[i]*prosumer.y[i,t]
-               
-               
-               #     return sum(prosumer.x[i,t+k] for k in range(0,prosumer.d[i]))\
-               # >= prosumer.d[i]*prosumer.y[i,t]
-    #        else: 
-    #            return Constraint.Skip 
         
     prosumer.xy_constraint = Constraint(prosumer.I,prosumer.Ts,rule=Constxy)
     
@@ -143,20 +133,11 @@ def Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv):
 
 
 
-def Appliances(n):
+def Appliances(n, p_max, d_max):
     'Randomly generates a set of n appliances'
     'BUG: The biggest d must comes first since in Agent_C set Ts is defined' 
     'as a function of the first element'
-    
-    #     n=1
-    # p=[4,4,4,3,4,2,1,2,4,3,5,6,7,5]
-    # p=[0.4*k for k in p]; 
-    # p=10*[1.6,1.6,1.6,1.2,1.6,0.8,0.4,0.8,1.6,1.2,2.0,2.4,2.8,2.0]
-    # d=10*[12,12,8,6,5,4,3,4,2,3,2,6,7,4]
-    # p=5*[2]
-    # d=5*[10]
-    p_max=6
-    d_max=10
+
     p=[]
     d=[]
     for i in range(n):
@@ -169,13 +150,6 @@ def Appliances(n):
     p_out=df['Power']
     d_out=df['Duration']
     
-    # df_shuffle=df.sample(n=n,replace=True)
-    # df_shuffle.reset_index(drop=True)
-    
-    # p_out=df_shuffle['Power']
-    # d_out=df_shuffle['Duration']
-    
-    # return list(p_out.astype(np.float64)), list(d_out)
     return list(p_out), list(d_out)
  
     
