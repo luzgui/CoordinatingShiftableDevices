@@ -81,3 +81,55 @@ def DevScat(p,d):
     plt.colorbar()
     plt.grid(True)
     plt.show()
+
+
+def PlotCompare(df):
+    'df is a data frame'
+    df_DP=pd.DataFrame
+    df_DP=df[df.Model.str.contains('DP', case=True)]
+    df_DP=df_DP.sort_values(by='Model')
+    df_DP=df_DP.reset_index(drop=True)
+
+    df_CP=pd.DataFrame
+    df_CP=df[df.Model.str.contains('CP', case=True)]
+    df_CP=df_CP.sort_values(by='Model')
+    df_CP=df_CP.reset_index(drop=True)
+    t.astype(float).plot.bar()
+    
+    
+    N=[15,25,35,45,55,65,75,85]
+    
+    
+    fig, axs = plt.subplots(2, 2)
+
+    axs[0,0].plot(N,df_DP['Wall_Time'].astype(float),color='red')
+    axs[0,0].axes.set_xticks(N)
+    axs[0,0].legend(['Distributed Problem'])
+    axs[0,0].grid()
+    axs[0,0].axes.set_xlabel('Number of Agents')
+    axs[0,0].axes.set_ylabel('Time(s)')
+    axs[0,0].set_title('Wall Time')
+
+    axs[1,0].plot(N,df_CP['Wall_Time'].astype(float))
+    axs[1,0].axes.set_xticks(N)
+    axs[1,0].legend(['Centralized Problem'],loc='upper left')
+    axs[1,0].grid()
+    axs[1,0].axes.set_xlabel('Number of Agents')
+    axs[1,0].axes.set_ylabel('Time(s)')
+    # axs[1,0].set_title('Centralized problem')
+
+    axs[0,1].plot(N,df_DP['Objective'].astype(float),color='red')
+    axs[0,1].plot(N,df_CP['Objective'].astype(float))
+    axs[0,1].axes.set_xticks(N)
+    axs[0,1].grid()
+    axs[0,1].axes.set_xlabel('Number of Agents')
+    axs[0,1].axes.set_ylabel('€')
+    axs[0,1].set_title('Objective function')
+
+    axs[1,1].plot(N,df_DP['SSR'].astype(float),color='red')
+    axs[1,1].plot(N,df_CP['SSR'].astype(float))
+    axs[1,1].axes.set_xticks(N)
+    axs[1,1].grid()
+    axs[1,1].axes.set_xlabel('Number of Agents')
+    axs[1,1].axes.set_ylabel('%')
+    axs[1,1].set_title('Self-Suficiency Ratio')

@@ -246,4 +246,5 @@ for n in Ndev:
 df_R=Calc_Tables_mat(ResultsFolder)
 
 
+df_R_Server=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results')
 
