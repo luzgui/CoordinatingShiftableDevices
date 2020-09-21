@@ -35,8 +35,8 @@ dt=10 #discretization
 H=int((24*60)/dt) # Time horizon
 miu=dt/60 #power-energy convertion
 
-# Ndev=[15]
-Ndev=[15,25,35,45]
+Ndev=[15]
+# Ndev=[15,25,35,45]
 
 for n in Ndev:
     print(n)
@@ -61,7 +61,7 @@ for n in Ndev:
     # print(d)
     
     # Plotting a scatter with the distribution of devices
-    DevScat(p,d)
+    DevScat(p,d,ResultsFolder,n)
     
     p0=dict(enumerate(p))
     d0=dict(enumerate(d))
@@ -201,34 +201,40 @@ for n in Ndev:
         # Plotting
             fig, ax1 = plt.subplots()
             
-            T = range(0,H)
-            color = 'tab:red'
-            ax1.set_xlabel('hour of the day')
-            ax1.set_ylabel('euro/kWh', color=color)
-            ax1.plot(T,np.asarray(list(c.values())), color=color)
-            ax1.tick_params(axis='y', labelcolor=color)
-            ax1.set_title('DP Nagents: %i' %n)
-            ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+            fw=14
             
-            color = 'tab:blue'
-            color2= 'tab:green'
-            ax2.set_ylabel('kW', color=color)  # we already handled the x-label with ax1
+            T = range(0,H)
+            color = 'tab:gray'
+            color2='tab:orange'
+            ax1.set_xlabel('hour of the day', fontsize=fw)
+            ax1.set_ylabel('€/kWh', color=color,fontsize=fw)
+            ax1.plot(T,np.asarray(list(c.values())), color=color,linestyle='dashed')
+            ax1.tick_params(axis='y',labelsize=fw)
+            ax1.set_title('DP N=%i' %n)
+            div=12
+            L=np.linspace(0,H,div,endpoint=False)
+            ax1.set_xticks(L)
+            ax1.set_xticklabels(np.linspace(0,24,div,dtype=int,endpoint=False),fontsize=fw)
+
+            
+            
+            ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis'
+            ax2.set_ylabel('kW', color=color2)  # we already handled the x-label with ax1
             # ax2.plot(T,power)
             
             for i in Iagent:
                 ax2.plot(T,P[i])
                 
             ax2.plot(T, Pag, color='black',linewidth=3.0) 
-            ax2.tick_params(axis='y', labelcolor=color)
-            
-            color = 'tab:red'
-            ax2.set_xlabel('hour of the day')
-            ax2.set_ylabel('kW', color=color2)
-            ax2.plot(T,Ppv, color=color2)
-            ax2.tick_params(axis='y', labelcolor=color)
+            # ax2.tick_params(axis='y', labelcolor=color)
+
+            # ax2.set_xlabel('hour of the day')
+            ax2.set_ylabel('kW', color=color2,fontsize=fw)
+            ax2.plot(T,Ppv, color='tab:orange')
+            ax2.tick_params(axis='y', labelsize=fw)
             fig.tight_layout()  # otherwise the right y-label is slightly clipped
             file=ResultsFolder + '/DP_N_%i' %len(Iagent)
-            plt.savefig(file,dpi=200)
+            plt.savefig(file,dpi=300)
 
         Pag_dict=dict(enumerate(Pag))
         Ppv_dict=dict(enumerate(Ppv))
@@ -246,5 +252,5 @@ for n in Ndev:
 df_R=Calc_Tables_mat(ResultsFolder)
 
 
-df_R_Server=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results')
-
+# df_R_Server=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results')
+# PlotCompare(df_R_Server,Ndev,ResultsFolder)

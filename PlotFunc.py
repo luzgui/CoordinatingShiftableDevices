@@ -30,44 +30,87 @@ def PlotFunc_Central(Model,Ppv, n, ResultsFolder):
     Pag=P_Raw.sum(axis=0)
     T=array(list(Model.T))
     
-    
+    #make figure
     fig, ax1 = plt.subplots()
+    fw=14
     
-    color = 'tab:red'
-    ax1.set_xlabel('hour of the day')
-    ax1.set_ylabel('euro/kWh', color=color)
-    ax1.plot(T,np.asarray(list(c)), color=color)
-    ax1.tick_params(axis='y', labelcolor=color)
+    color = 'tab:gray'
+    color2='tab:orange'
+    ax1.set_xlabel('hour of the day', fontsize=fw)
+    ax1.set_ylabel('€/kWh', color=color,fontsize=fw)
+    ax1.plot(T,np.asarray(list(c)), color=color,linestyle='dashed')
+    ax1.tick_params(axis='y',labelsize=fw)
+    ax1.set_title('CP N=%i' %n)
+    div=12
+    L=np.linspace(0,H,div,endpoint=False)
+    ax1.set_xticks(L)
+    ax1.set_xticklabels(np.linspace(0,24,div,dtype=int,endpoint=False),fontsize=fw)
+
     
     
-    ax1.set_title('CP Nagents: %i' %n)
-    
-    ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
-    
-    color = 'tab:blue'
-    color2= 'tab:green'
-    ax2.set_ylabel('kW', color=color)  # we already handled the x-label with ax1
+    ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis'
+    ax2.set_ylabel('kW', color=color2)  # we already handled the x-label with ax1
+    # ax2.plot(T,power)
     
     for k in range(len(P_Raw)):
        ax2.plot(T,P_Raw[k,:]) 
-    
-    ax2.plot(T,Pag , color='black',linewidth=3.0)
-    ax2.tick_params(axis='y', labelcolor=color)
-    
-    color = 'tab:red'
-    ax2.set_xlabel('hour of the day')
-    ax2.set_ylabel('kW', color=color2)
-    ax2.plot(T,Ppv, color=color2)
-    ax2.tick_params(axis='y', labelcolor=color)
-    
+        
+    ax2.plot(T, Pag, color='black',linewidth=3.0) 
+    # ax2.tick_params(axis='y', labelcolor=color)
+
+    # ax2.set_xlabel('hour of the day')
+    ax2.set_ylabel('kW', color=color2,fontsize=fw)
+    ax2.plot(T,Ppv, color='tab:orange')
+    ax2.tick_params(axis='y', labelsize=fw)
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
     file=ResultsFolder + '/CP_N_%i' %n
-    plt.savefig(file,dpi=200)
-    
+    plt.savefig(file,dpi=300)
     plt.show()
 
+    
+    
+    
+    
+    
+    
+    
+    # color = 'tab:red'
+    # ax1.set_xlabel('hour of the day',fontsize=fw)
+    # ax1.set_ylabel('euro/kWh', color=color,fontsize=fw)
+    # ax1.plot(T,np.asarray(list(c)), color=color)
+    # ax1.tick_params(axis='y', labelcolor=color,labelsize=fw)
+    
+    
+    # ax1.set_title('CP N=%i' %n)
+    
+    # ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+    
+    # color = 'tab:blue'
+    # color2= 'tab:green'
+    # ax2.set_ylabel('kW', color=color)  # we already handled the x-label with ax1
+    
+    # for k in range(len(P_Raw)):
+    #    ax2.plot(T,P_Raw[k,:]) 
+    
+    # ax2.plot(T,Pag , color='black',linewidth=3.0)
+    # ax2.tick_params(axis='y', labelcolor=color)
+    
+    # color = 'tab:red'
+    # ax2.set_xlabel('hour of the day')
+    # ax2.set_ylabel('kW', color=color2)
+    # ax2.plot(T,Ppv, color=color2)
+    # ax2.tick_params(axis='y', labelcolor=color)
+    
+    # fig.tight_layout()  # otherwise the right y-label is slightly clipped
+    # file=ResultsFolder + '/CP_N_%i' %n
+    # plt.savefig(file,dpi=300)
+    
+    # plt.show()
 
-def DevScat(p,d):
+
+def DevScat(p,d,ResultsFolder,n):
+    'Gerate a scatter for the generated devices with points (p,d)=(power, duration)'
+    fw=14
     fig = plt.figure()
     #Generate a list of unique points
     points=list(set(zip(p,d))) 
@@ -78,12 +121,17 @@ def DevScat(p,d):
     plot_y=[i[1] for i in points]
     count=np.array(count)
     plt.scatter(plot_x,plot_y,c=count,s=100*count**0.5,cmap='Spectral_r')
+    plt.xlabel("power demand (kW)", fontsize=fw)
+    plt.ylabel("Duration (nº timeslots)", fontsize=fw)
     plt.colorbar()
     plt.grid(True)
+    plt.title('Shiftable devices distribution N=%i' %n, fontsize=fw)
+    file=ResultsFolder + '/Scatter_N_%i' %n
+    plt.savefig(file,dpi=300)
     plt.show()
 
 
-def PlotCompare(df):
+def PlotCompare(df,N,ResultsFolder):
     'df is a data frame'
     df_DP=pd.DataFrame
     df_DP=df[df.Model.str.contains('DP', case=True)]
@@ -95,11 +143,7 @@ def PlotCompare(df):
     df_CP=df_CP.sort_values(by='Model')
     df_CP=df_CP.reset_index(drop=True)
     t.astype(float).plot.bar()
-    
-    
-    N=[15,25,35,45,55,65,75,85]
-    
-    
+
     fig, axs = plt.subplots(2, 2)
 
     axs[0,0].plot(N,df_DP['Wall_Time'].astype(float),color='red')
@@ -133,3 +177,7 @@ def PlotCompare(df):
     axs[1,1].axes.set_xlabel('Number of Agents')
     axs[1,1].axes.set_ylabel('%')
     axs[1,1].set_title('Self-Suficiency Ratio')
+    
+    file=ResultsFolder + '/Compare'
+    plt.savefig(file,dpi=300)
+    plt.show()

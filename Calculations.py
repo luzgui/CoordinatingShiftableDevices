@@ -16,8 +16,6 @@ import os
 # from MainScript import n
 import scipy.io as sio
 
-n=14
-
 cwd = os.getcwd()
 DataFolder=cwd + '/Data'
 DPFolder=DataFolder + '/DP_Results'
