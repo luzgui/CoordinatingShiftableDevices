@@ -131,19 +131,22 @@ def DevScat(p,d,ResultsFolder,n):
     plt.show()
 
 
-def PlotCompare(df,N,ResultsFolder):
+def PlotCompare(df,ResultsFolder):
     'df is a data frame'
     df_DP=pd.DataFrame
     df_DP=df[df.Model.str.contains('DP', case=True)]
-    df_DP=df_DP.sort_values(by='Model')
+    df_DP=df_DP.sort_values(by='N')
     df_DP=df_DP.reset_index(drop=True)
 
     df_CP=pd.DataFrame
     df_CP=df[df.Model.str.contains('CP', case=True)]
-    df_CP=df_CP.sort_values(by='Model')
+    df_CP=df_CP.sort_values(by='N')
     df_CP=df_CP.reset_index(drop=True)
-    t.astype(float).plot.bar()
-
+    
+    assert df_CP['N'].equals(df_DP['N']), 'Number of agents diffreent in DP and CP'
+    
+    N=df_CP['N']
+    
     fig, axs = plt.subplots(2, 2)
 
     axs[0,0].plot(N,df_DP['Wall_Time'].astype(float),color='red')

@@ -168,7 +168,9 @@ for n in Ndev:
     # Agents can be queued in different ways (uncomment line):
     # Random queue
     #Iagent=random.sample(range(len(d)),len(d))
+    
     # Sorted by the size of its rated power
+    #This was previsously sorted!!!
     Iagent=range(len(d))
     
     for k in Iagent:
@@ -252,5 +254,10 @@ for n in Ndev:
 df_R=Calc_Tables_mat(ResultsFolder)
 
 
-# df_R_Server=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results')
-# PlotCompare(df_R_Server,Ndev,ResultsFolder)
+df_R_Server=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results')
+
+
+# N=[15,25,35,45,55,65,75,85,95,105,115,125]
+PlotCompare(df_R_Server,ResultsFolder)
+
+
