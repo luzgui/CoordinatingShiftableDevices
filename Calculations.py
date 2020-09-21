@@ -78,9 +78,9 @@ def Calc_Tables_mat(ResultsFolder):
          file=ResultsFolder + '/' + file
          Results=sio.loadmat(file)
          df_temp['Model']=Results['Model']
+         df_temp['N']=len(Results['P'])
          df_temp['Objective']=Results['Objective']
          df_temp['Wall_Time']=Results['Wall Time']
-         
          
          df_temp['Tshift']=Results['Tshift']
          df_temp['Txcess']=Results['Txcess']
