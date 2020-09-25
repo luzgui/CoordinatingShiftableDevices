@@ -18,7 +18,6 @@ import scipy.io as sio
 from PostProcess import *
 from Calculations import *
 
-
 cwd = os.getcwd()
 #general data folder
 DataFolder=cwd + '/Data'
@@ -35,49 +34,108 @@ dt=10 #discretization
 H=int((24*60)/dt) # Time horizon
 miu=dt/60 #power-energy convertion
 
-Ndev=[15]
+Ndev=[17]
 # Ndev=[15,25,35,45]
 
+# %% generate set of devices
+# Function Appliances() randomly generates a set of pairs (p,d)_n with values in between [1,p_max] [1, d_max]
+FileName='devices_list.csv'
+n_max=155
+p_max=6
+d_max=10
+
+#Uncoment only when want to generate new devices list
+
+# Appliances(n_max, p_max, d_max, DataFolder,FileName)# generate the devices lst csv
+
+#Import the full set of devices
+
+DevicesFull=pd.read_csv(DataFolder+'/'+FileName)
+DevicesFull = DevicesFull.rename(columns={'Unnamed: 0': 'ind'})
+# Plotting a scatter with the distribution of devices
+# DevScat(p,d,ResultsFolder,len(DevicesFull))
+
+# %%
 for n in Ndev:
     print(n)
     
-    # %% generate set of devices
-    # Function Appliances() randomly generates a set of pairs (p,d)_n with values in between [1,p_max] [1, d_max]
-    p_max=6
-    d_max=10
-    Devices=Appliances(n, p_max, d_max)
-    # print(Devices)
-    
-    p=Devices[0]
-    d=Devices[1]
+    #Slice first n devices
+    Devices=DevicesFull.head(n).copy()
+    Devices_original=DevicesFull.head(n)
     
     # D=[p,d]
     # print(pd.DataFrame(D))
+
+    # BUG fix: 
+    #identify the index of the first maximum duration device
+    idmax=Devices['Duration'].idxmax()
+    #swap the row with the biggest duration with the first element of dataframe
+    firstmax=Devices.iloc[idmax,:]
+    first=Devices.iloc[0,:]
+
+    Devices.loc[idmax,['ind','Power','Duration']]=[int(first['ind']),float(first['Power']),float(first['Duration'])]
+    Devices.loc[0,['ind','Power','Duration']]=[int(firstmax['ind']),float(firstmax['Power']),float(firstmax['Duration'])]
+
+    # Devices.iloc[idmax,:]=first.copy()
+    # Devices.iloc[0,:]=firstmax.copy()
     
+    # Devices.loc[idmax]
     #BUG temporary fix
-    d[0]=max(d)
+    # d[0]=max(d)
     
-    ####
-    # print(d)
+    #extract to list
+    # p=Devices['Power']
+    # d=Devices['Duration']
+    # p=p.tolist()
+    # d=d.tolist()
+    power=Devices['Power'].tolist()
+    duration=Devices['Duration'].tolist()
     
-    # Plotting a scatter with the distribution of devices
-    DevScat(p,d,ResultsFolder,n)
+    #these vectors will enter centralized model
+    # p0=dict(enumerate(Devices['Power'].tolist()))
+    # d0=dict(enumerate(Devices['Duration'].tolist()))
     
-    p0=dict(enumerate(p))
-    d0=dict(enumerate(d))
+    p0=dict(enumerate(power))
+    # d0=dict(enumerate(duration))
+    dd0=[]
+    for k in duration:
+        dd0.append(int(k))
+    d0=dict(enumerate(dd0))
+
     
-    nI=len(p)
+    # p0=dict(enumerate(p))
+    # d0=dict(enumerate(d))
     
-    PD=list((p[i],d[i]) for i in range(len(p)))
-    # sorting agents
-    
+    # Sorting devices
     # Sorting is performed based on consumed power (bigger rated power machines are schedulled first)
-    PDsorted=np.array(sorted(PD,key=itemgetter(0),reverse = True))
+    Devices_Sort=Devices.sort_values(by='Power',ascending=False)
+    Devices_Sort=Devices_Sort.reset_index(drop=True)
     
-    p=list(PDsorted[:,0])
-    d=list(PDsorted[:,1]);d=[int(round(x)) for x in d]
+    p=Devices_Sort['Power'].tolist()
+    d=Devices_Sort['Duration'].tolist()
+    #convert to integer
+    dd=[]
+    for k in d:
+        dd.append(int(k))
+    d=dd
+
+    nI=len(p)
+
+
+
+
+
+    # PD=list((p[i],d[i]) for i in range(len(p)))
+    # # sorting agents
     
-    #Calculate energy consumption of all devices
+    # # Sorting is performed based on consumed power (bigger rated power machines are schedulled first)
+    # PDsorted=np.array(sorted(PD,key=itemgetter(0),reverse = True))
+    
+    # p=list(PDsorted[:,0])
+    # d=list(PDsorted[:,1]);d=[int(round(x)) for x in d]
+    
+    
+    # %% Calculate energy consumption of all devices
     Eshift_i=[p[k]*d[k]*miu for k in range(len(d))];
     Eshift=sum(p[k]*d[k]*miu for k in range(len(d)));
     
@@ -120,7 +178,6 @@ for n in Ndev:
     c0= dict(enumerate(Tar0))    
     c = dict(enumerate(Tar))
         
-    
     # %%Solver
     opt = SolverFactory('gurobi')
     # opt.options['MIPGap'] = 1e-2
