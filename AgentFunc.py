@@ -133,26 +133,30 @@ def Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv):
 
 
 
-def Appliances(n_max, p_max, d_max, DataFolder,FileName):
-    'Randomly generates a set of n appliances'
+def Appliances(N_max, n_max, p_max, d_max, AppsFolder):
+    'Randomly generates a set of files with a set of n appliances each file'
     'BUG: The biggest d must comes first since in Agent_C set Ts is defined' 
     'as a function of the first element'
-
-    p=[]
-    d=[]
-    for i in range(n_max):
-        p.append(round(random.uniform(1, p_max),1))
-        d.append(round(random.uniform(1, d_max)))
-
-    df=pd.DataFrame({'Power': p, 'Duration': d})
-    df.reset_index(drop=True)
-        
-    p_out=df['Power']
-    d_out=df['Duration']
     
-    df.to_csv(DataFolder+'/'+FileName)
+    'N_max: Number of sets of appliances to be generated (number of files)'
+
+    for k in range(N_max):
+        p=[]
+        d=[]
+        for i in range(n_max):
+            p.append(round(random.uniform(1, p_max),1))
+            d.append(round(random.uniform(1, d_max)))
     
-    return list(p_out), list(d_out)
+        df=pd.DataFrame({'Power': p, 'Duration': d})
+        df.reset_index(drop=True)
+            
+        p_out=df['Power']
+        d_out=df['Duration']
+        FileName='AppsList_%i.csv' %k
+        print(FileName)
+        df.to_csv(AppsFolder+'/'+FileName)
+    
+    # return list(p_out), list(d_out)
     
     
     

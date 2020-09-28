@@ -27,33 +27,58 @@ DPFolder=DataFolder + '/DP_Results'
 CPFolder=DataFolder + '/CP_Results'
 # Paper Results
 ResultsFolder=DataFolder + '/Results'
-
+#CSV Apps folder
+AppsFolder=DataFolder + '/Apps_List'
 
 # Problem  time data
 dt=10 #discretization
 H=int((24*60)/dt) # Time horizon
 miu=dt/60 #power-energy convertion
 
-Ndev=[17]
+Ndev=[14]
 # Ndev=[15,25,35,45]
 
 # %% generate set of devices
 # Function Appliances() randomly generates a set of pairs (p,d)_n with values in between [1,p_max] [1, d_max]
-FileName='devices_list.csv'
+
 n_max=155
 p_max=6
 d_max=10
-
+N_max=20 # number of files to generate/sets of appliances
+## Using several sets of appliances
 #Uncoment only when want to generate new devices list
+# Appliances(N_max, n_max, p_max, d_max, AppsFolder)
 
-# Appliances(n_max, p_max, d_max, DataFolder,FileName)# generate the devices lst csv
+
+#Using just one set of appliances
+FileName='devices_list.csv'
+DevicesFull=pd.read_csv(DataFolder + '/' + FileName)
+DevicesFull = DevicesFull.rename(columns={'Unnamed: 0': 'ind'})
+
+
+
+
+
 
 #Import the full set of devices
+# Appsfiles=[f for f in listdir(AppsFolder)]
+# #Sort the files
+# Appsfiles.sort(key=lambda var:[int(x) if x.isdigit() else x for x in re.findall(r'[^0-9]|[0-9]+', var)])
 
-DevicesFull=pd.read_csv(DataFolder+'/'+FileName)
-DevicesFull = DevicesFull.rename(columns={'Unnamed: 0': 'ind'})
-# Plotting a scatter with the distribution of devices
-# DevScat(p,d,ResultsFolder,len(DevicesFull))
+# for afiles in Appsfiles:
+#     print(afiles)
+#     run=re.findall(r"\d+", afiles)
+#     print(run[0])
+#     DevicesFull=pd.read_csv(AppsFolder+ '/'+ afiles)
+#     DevicesFull = DevicesFull.rename(columns={'Unnamed: 0': 'ind'})
+    # Plotting a scatter with the distribution of devices
+    # power=DevicesFull['Power'];duration=DevicesFull['Duration']
+    # DevScat(power,duration,ResultsFolder,len(DevicesFull))
+
+
+
+
+
 
 # %%
 for n in Ndev:
@@ -62,7 +87,7 @@ for n in Ndev:
     #Slice first n devices
     Devices=DevicesFull.head(n).copy()
     Devices_original=DevicesFull.head(n)
-    
+
     # D=[p,d]
     # print(pd.DataFrame(D))
 
