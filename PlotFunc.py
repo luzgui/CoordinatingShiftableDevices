@@ -9,7 +9,7 @@ import os
 
 
 
-def PlotFunc_Central(Model,Ppv, n, ResultsFolder):
+def PlotFunc_Central(Model,Ppv, n, ResultsFolder,RunFile):
     "Model argument is a Pyomo model with results, n: number of agents, Ppv: PV capacity,"
     "Resultsfolder: destination of plots"
 
@@ -63,7 +63,7 @@ def PlotFunc_Central(Model,Ppv, n, ResultsFolder):
     ax2.plot(T,Ppv, color='tab:orange')
     ax2.tick_params(axis='y', labelsize=fw)
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
-    file=ResultsFolder + '/CP_N_%i' %n
+    file=ResultsFolder + '/CP_N_%i' %n + RunFile
     plt.savefig(file,dpi=300)
     plt.show()
 
@@ -108,7 +108,7 @@ def PlotFunc_Central(Model,Ppv, n, ResultsFolder):
     # plt.show()
 
 
-def DevScat(p,d,ResultsFolder,n):
+def DevScat(p,d,ResultsFolder,n,RunFile):
     'Gerate a scatter for the generated devices with points (p,d)=(power, duration)'
     fw=14
     fig = plt.figure()
@@ -126,7 +126,7 @@ def DevScat(p,d,ResultsFolder,n):
     plt.colorbar()
     plt.grid(True)
     plt.title('Shiftable devices distribution N=%i' %n, fontsize=fw)
-    file=ResultsFolder + '/Scatter_N_%i' %n
+    file=ResultsFolder + '/Scatter_N_%i' %n + '_' + RunFile
     plt.savefig(file,dpi=300)
     plt.show()
 
