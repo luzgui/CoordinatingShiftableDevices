@@ -37,13 +37,10 @@ dt=10 #discretization
 H=int((24*60)/dt) # Time horizon
 miu=dt/60 #power-energy convertion
 
-Ndev=[14]
-# Ndev=[15,25,35,45]
-
 # %% generate set of devices
 # Function Appliances() randomly generates a set of pairs (p,d)_n with values in between [1,p_max] [1, d_max]
 
-n_max=155
+n_max=125
 p_max=6
 d_max=10
 N_max=20 # number of files to generate/sets of appliances
@@ -51,13 +48,15 @@ N_max=20 # number of files to generate/sets of appliances
 #Uncoment only when want to generate new devices list
 # Appliances(N_max, n_max, p_max, d_max, AppsFolder)
 
+# Generate the sequence of appliances numbers [15,125]
+Ndev=125
+
+# Ndev=np.linspace(15,n_max,12,dtype=int)
 
 #Using just one set of appliances
 # FileName='devices_list.csv'
 # DevicesFull=pd.read_csv(DataFolder + '/' + FileName)
 # DevicesFull = DevicesFull.rename(columns={'Unnamed: 0': 'ind'})
-
-
 
 # Import the full set of devices
 Appsfiles=[f for f in listdir(AppsFolder)]
@@ -76,7 +75,6 @@ for afiles in Appsfiles:
     # power=DevicesFull['Power'];duration=DevicesFull['Duration']
     # RunFile='run'+ run[0]
     # DevScat(power,duration,ResultsFolder,len(DevicesFull),RunFile)
-    
 
 # %%
     for n in Ndev:
@@ -85,9 +83,6 @@ for afiles in Appsfiles:
         #Slice first n devices
         Devices=DevicesFull.head(n).copy()
         Devices_original=DevicesFull.head(n)
-    
-        # D=[p,d]
-        # print(pd.DataFrame(D))
     
         # BUG fix: 
         #identify the index of the first maximum duration device
@@ -98,38 +93,16 @@ for afiles in Appsfiles:
     
         Devices.loc[idmax,['ind','Power','Duration']]=[int(first['ind']),float(first['Power']),float(first['Duration'])]
         Devices.loc[0,['ind','Power','Duration']]=[int(firstmax['ind']),float(firstmax['Power']),float(firstmax['Duration'])]
-    
-        # Devices.iloc[idmax,:]=first.copy()
-        # Devices.iloc[0,:]=firstmax.copy()
-        
-        # Devices.loc[idmax]
-        #BUG temporary fix
-        # d[0]=max(d)
-        
-        #extract to list
-        # p=Devices['Power']
-        # d=Devices['Duration']
-        # p=p.tolist()
-        # d=d.tolist()
         power=Devices['Power'].tolist()
         duration=Devices['Duration'].tolist()
         
-        #these vectors will enter centralized model
-        # p0=dict(enumerate(Devices['Power'].tolist()))
-        # d0=dict(enumerate(Devices['Duration'].tolist()))
-        
         p0=dict(enumerate(power))
-        # d0=dict(enumerate(duration))
         dd0=[]
         for k in duration:
             dd0.append(int(k))
         d0=dict(enumerate(dd0))
     
-        
-        # p0=dict(enumerate(p))
-        # d0=dict(enumerate(d))
-        
-        # Sorting devices
+        # %% Sorting devices
         # Sorting is performed based on consumed power (bigger rated power machines are schedulled first)
         Devices_Sort=Devices.sort_values(by='Power',ascending=False)
         Devices_Sort=Devices_Sort.reset_index(drop=True)
@@ -143,26 +116,11 @@ for afiles in Appsfiles:
         d=dd
     
         nI=len(p)
-    
-    
-    
-    
-    
-        # PD=list((p[i],d[i]) for i in range(len(p)))
-        # # sorting agents
-        
-        # # Sorting is performed based on consumed power (bigger rated power machines are schedulled first)
-        # PDsorted=np.array(sorted(PD,key=itemgetter(0),reverse = True))
-        
-        # p=list(PDsorted[:,0])
-        # d=list(PDsorted[:,1]);d=[int(round(x)) for x in d]
         
         
         # %% Calculate energy consumption of all devices
         Eshift_i=[p[k]*d[k]*miu for k in range(len(d))];
         Eshift=sum(p[k]*d[k]*miu for k in range(len(d)));
-        
-        
         
         # %% PV definition
         PVfile=os.path.join(DataFolder,'PV_sim.csv') #csv for PV
@@ -178,7 +136,6 @@ for afiles in Appsfiles:
         PVcap=f*Eshift/sum(PpvNorm[k]*(miu) for k in range(H))
         PVcap=PVcap[0]
         Ppv=PVcap*PpvNorm
-        
         
         Epv=sum(Ppv[k]*(miu) for k in range(H));
         
@@ -208,11 +165,9 @@ for afiles in Appsfiles:
         # opt.options['MIPFocus'] = 3
         
         # %%
-        
         ##############################################################################
         ##### CENTRALIZED #####
         ##############################################################################
-        
         
         # Allowed violation at each timestep
         alpha=0.2
@@ -247,25 +202,27 @@ for afiles in Appsfiles:
         
         # Agents can be queued in different ways (uncomment line):
         # Random queue
-        #Iagent=random.sample(range(len(d)),len(d))
+        # Iagent=random.sample(range(n),n)
+        # ModelSort='_Random'
         
         # Sorted by the size of its rated power
         #This was previsously sorted!!!
-        Iagent=range(len(d))
+        Iagent=range(n)
+        ModelSort='_Sorted'
         
         for k in Iagent:
+            # print(k)
             
             AgentModel=Agent(H,d[k],p[k],c,miu)
             Com.append(AgentModel)
             
             # Write files with individual solution (only needed if a specific agent needs to be investigated)
-            SolFile_yaml=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + RunFile + '.yaml')
-            SolFile_csv=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + RunFile + '.csv')
-            LogFile=os.path.join(DPFolder, 'DP_Log_Ns_' + str(len(p)) + '_Ag_' + str(k) + RunFile + '.yaml')
-            
+            SolFile_yaml=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + ModelSort + RunFile + '.yaml')
+            SolFile_csv=os.path.join(DPFolder, 'DP_Sol_Ns_' + str(len(p)) + '_Ag_' + str(k) + ModelSort + RunFile + '.csv')
+            LogFile=os.path.join(DPFolder, 'DP_Log_Ns_' + str(len(p)) + '_Ag_' + str(k) + ModelSort + RunFile + '.yaml')
             
             Results=opt.solve(AgentModel, tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile_yaml)
-    
+            
             #Lists containing all Model results
             R.append(Results)
             M.append(AgentModel)
@@ -280,7 +237,6 @@ for afiles in Appsfiles:
             
             if k==len(Iagent)-1: #Plotting only at last iteration to get all agents solution
                 
-            # Plotting
                 fig, ax1 = plt.subplots()
                 
                 fw=14
@@ -297,9 +253,7 @@ for afiles in Appsfiles:
                 L=np.linspace(0,H,div,endpoint=False)
                 ax1.set_xticks(L)
                 ax1.set_xticklabels(np.linspace(0,24,div,dtype=int,endpoint=False),fontsize=fw)
-    
-                
-                
+
                 ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis'
                 ax2.set_ylabel('kW', color=color2)  # we already handled the x-label with ax1
                 # ax2.plot(T,power)
@@ -315,7 +269,7 @@ for afiles in Appsfiles:
                 ax2.plot(T,Ppv, color='tab:orange')
                 ax2.tick_params(axis='y', labelsize=fw)
                 fig.tight_layout()  # otherwise the right y-label is slightly clipped
-                file=ResultsFolder + '/DP_N_%i' %len(Iagent) + RunFile
+                file=ResultsFolder + '/DP_N_%i' %len(Iagent) + ModelSort + RunFile
                 plt.savefig(file,dpi=300)
     
             Pag_dict=dict(enumerate(Pag))
@@ -327,17 +281,14 @@ for afiles in Appsfiles:
                 c[k]=c0[k]+0.5*(Pag_dict[k]/PVcap)*TarS
         
         #Write results
-        ModelName='DP'+ RunFile
+        ModelName='DP'+ ModelSort + RunFile
         get_Results_D(M,R, c, Ppv,PVcap, n,miu,p,d, ResultsFolder, ModelName)
     
 # Getting a dataframe wit comaprison of all solution .mat files existing in ResultsFolder
 df_R=Calc_Tables_mat(ResultsFolder)
 
-
-df_R_Server=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results')
-
-
-# N=[15,25,35,45,55,65,75,85,95,105,115,125]
-PlotCompare(df_R_Server,ResultsFolder)
+#To use on local computer after download results
+# df_R_Server=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results')
+# PlotCompare(df_R_Server,ResultsFolder)
 
 
