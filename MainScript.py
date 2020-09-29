@@ -59,9 +59,6 @@ N_max=20 # number of files to generate/sets of appliances
 
 
 
-
-
-
 # Import the full set of devices
 Appsfiles=[f for f in listdir(AppsFolder)]
 #Sort the files
@@ -79,7 +76,6 @@ for afiles in Appsfiles:
     # power=DevicesFull['Power'];duration=DevicesFull['Duration']
     # RunFile='run'+ run[0]
     # DevScat(power,duration,ResultsFolder,len(DevicesFull),RunFile)
-    
     
 
 # %%
