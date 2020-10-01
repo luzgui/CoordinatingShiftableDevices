@@ -49,7 +49,8 @@ N_max=20 # number of files to generate/sets of appliances
 # Appliances(N_max, n_max, p_max, d_max, AppsFolder)
 
 # Generate the sequence of appliances numbers [15,125]
-Ndev=125
+# Ndev=125
+Ndev=[14]
 
 # Ndev=np.linspace(15,n_max,12,dtype=int)
 
@@ -164,7 +165,7 @@ for afiles in Appsfiles:
         opt.options['MIPGapAbs'] = 1e-2
         # opt.options['MIPFocus'] = 3
         
-        # %%
+        # %% Centralized
         ##############################################################################
         ##### CENTRALIZED #####
         ##############################################################################
@@ -191,7 +192,7 @@ for afiles in Appsfiles:
         #PlotResults
         PlotFunc_Central(prosumer, Ppv, n, ResultsFolder,RunFile)
         
-        # %%
+        # %% Decentralized
         # 
         ##############################################################################
         ##### MULTI-AGENT #####
@@ -275,7 +276,7 @@ for afiles in Appsfiles:
             Pag_dict=dict(enumerate(Pag))
             Ppv_dict=dict(enumerate(Ppv))
             
-            ## Tariff Update: tariff is incraesed in timeslots in which there is more load
+            ## Tariff Update: tariff is increased in timeslots in which there is more load
             ## This tarif is sent to the nex agent
             for k in range(H):
                 c[k]=c0[k]+0.5*(Pag_dict[k]/PVcap)*TarS
@@ -285,8 +286,8 @@ for afiles in Appsfiles:
         get_Results_D(M,R, c, Ppv,PVcap, n,miu,p,d, ResultsFolder, ModelName)
     
 # Getting a dataframe wit comaprison of all solution .mat files existing in ResultsFolder
-df_R=Calc_Tables_mat(ResultsFolder)
-
+# df_R=Calc_Tables_mat(ResultsFolder)
+df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')
 #To use on local computer after download results
 # df_R_Server=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results')
 # PlotCompare(df_R_Server,ResultsFolder)

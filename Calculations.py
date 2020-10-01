@@ -80,11 +80,13 @@ def Calc_Tables_mat(ResultsFolder):
          df_temp['Model']=Results['Model']
          df_temp['N']=len(Results['P'])
          df_temp['Objective']=Results['Objective']
+         df_temp['Objective_T']=Results['Objective_Trans']
          df_temp['Wall_Time']=Results['Wall Time']
          
          df_temp['Tshift']=Results['Tshift']
          df_temp['Txcess']=Results['Txcess']
          df_temp['SSR']=Results['SSR']
+         df_temp['SCR']=Results['SCR']
          
          df=df.append(df_temp, ignore_index=True)
      return df

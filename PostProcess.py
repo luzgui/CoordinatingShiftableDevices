@@ -66,17 +66,22 @@ def get_Results_C(Model,ModelResults,Ppv,PVcap,n,miu,p,d,ResultsFolder,ModelName
     #Calculate total excess load
     E_x=sum(P_x[t]*miu for t in range(H));
     
-    #Toal shiftable energy
+    #Total shiftable energy
     Eshift=sum(Pag[t]*miu for t in range(H));
+    #Total PV production
+    Epv=sum(Ppv[t]*miu for t in range(H));
     
     #Calculate SSR (gamma% of load is supplied by PV)
     gamma=(Eshift-E_x)/Eshift
+    #Calculate Self-consumption ratio
+    gamma2=(Eshift-E_x)/Epv
     
     
     SolutionDict={}
     
     SolutionDict['Model']=ModelName + '_%i' %n
     SolutionDict['Objective']=Model.objective()
+    SolutionDict['Objective_Trans']=Model.objective()
     SolutionDict['Wall Time']=ModelResults.solver.wall_time
     SolutionDict['Termination Condition']=str(ModelResults.solver.termination_condition)
     SolutionDict['P']=P_Raw
@@ -87,6 +92,7 @@ def get_Results_C(Model,ModelResults,Ppv,PVcap,n,miu,p,d,ResultsFolder,ModelName
     SolutionDict['Tshift']=Eshift
     SolutionDict['Txcess']=E_x
     SolutionDict['SSR']=gamma
+    SolutionDict['SCR']=gamma2
     
     
     FileName = ResultsFolder + '/' + SolutionDict['Model'] + '.mat'
@@ -125,11 +131,14 @@ def get_Results_D(ModelArray,ModelResultsArray, Tar, Ppv,PVcap, n,miu,p,d, Resul
         x_D.append(x)
         c_D.append(c)
         Obj.append(obj)
-        
+    
+    #Original Tariff
+    czero=c_D[0]
+    
     #Aggregated Load
     Pag=pd.DataFrame(P_D).sum(axis=0)
     Total_Obj=pd.DataFrame(Obj).sum(axis=0)
-    
+
     
     for r in ModelResultsArray:
         wall_time=r.solver.wall_time
@@ -145,22 +154,46 @@ def get_Results_D(ModelArray,ModelResultsArray, Tar, Ppv,PVcap, n,miu,p,d, Resul
     # Calculating SSR
     # Identify timeslots with violation
     P_x=np.zeros(H)
+    P_in=np.zeros(H)
+    #Cost vectors
+    C_in=np.zeros(H)
+    C_x=np.zeros(H)
+    C_T=np.zeros(H)
     for k in range(H):
         if Pag[k]>Ppv[k]:
             P_x[k]=Pag[k]-Ppv[k]
+        P_in[k]=Pag[k]-P_x[k]    
+        #Calculate the costs dividing energy spplied by PV and energy supplied by grid
+        C_in[k]=P_in[k]*miu*czero[k] #cost of energy supplied by PV
+        C_x[k]=P_x[k]*miu*0.185
+        C_T[k]=C_in[k]+C_x[k]
+    C_Total=C_T.sum()    
+    assert (P_in.sum()+P_x.sum())==Pag.sum()
         
     #Calculate total excess load
     E_x=sum(P_x[t]*miu for t in range(H));
     
     #Toal shiftable energy
     Eshift=sum(Pag[t]*miu for t in range(H));
+     #Total PV production
+    Epv=sum(Ppv[t]*miu for t in range(H));
     
     #Calculate SSR (gamma% of load is supplied by PV)
     gamma=(Eshift-E_x)/Eshift
+    #Calculate Self-consumption ratio
+    gamma2=(Eshift-E_x)/Epv
+    
+    #Calculating the objective with original tariff
+    # PowerDev=pd.DataFrame(P_D)
+    # Pag_iter=[]
+    # for j in range(n):
+    #     Pag_iter.append(P_D.sum)
+
 
     #Storing values
     SolutionDict['Model']=ModelName + '_%i' %n
     SolutionDict['Objective']=list(Total_Obj)
+    SolutionDict['Objective_Trans']=C_Total
     SolutionDict['Wall Time']=list(Total_Wall_t)
     SolutionDict['Termination Condition']=Cond
     SolutionDict['P']=P_D
@@ -174,6 +207,7 @@ def get_Results_D(ModelArray,ModelResultsArray, Tar, Ppv,PVcap, n,miu,p,d, Resul
     SolutionDict['Dev_d']=d
     SolutionDict['Txcess']=E_x
     SolutionDict['SSR']=gamma
+    SolutionDict['SCR']=gamma2
     
     FileName = ResultsFolder + '/' + SolutionDict['Model'] + '.mat'
     
