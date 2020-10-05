@@ -184,3 +184,45 @@ def PlotCompare(df,ResultsFolder):
     file=ResultsFolder + '/Compare'
     plt.savefig(file,dpi=300)
     plt.show()
+    
+#%% Simple fast plot for a specific N
+
+def PlotCompareFixN(df,Folder):
+    
+    fig, axs = plt.subplots(2, 2)
+
+    axs[0,0].plot(df['Model'],df['Wall_Time'].astype(float),color='red')
+    axs[0,0].axes.set_xticks(df['Model'])
+    axs[0,0].axes.set_xticklabels(df['Model'], Rotation=90)
+    axs[0,0].grid()
+    axs[0,0].axes.set_xlabel('Model')
+    axs[0,0].axes.set_ylabel('Time(s)')
+    axs[0,0].set_title('Wall Time')
+
+    axs[1,0].plot(df['Model'],df['Objective'].astype(float))
+    axs[1,0].axes.set_xticks(df['Model'])
+    axs[1,0].legend(['Centralized Problem'],loc='upper left')
+    axs[1,0].grid()
+    axs[1,0].axes.set_xlabel('Model')
+    axs[1,0].axes.set_ylabel('Obj')
+
+    axs[0,1].plot(df['Model'],df['Tshift'].astype(float))
+    axs[0,1].axes.set_xticks(df['Model'])
+    axs[0,1].grid()
+    axs[0,1].axes.set_xlabel('Model')
+    axs[0,1].axes.set_ylabel('E')
+    axs[0,1].set_title('Energy')
+
+    axs[1,1].plot(N,df['SSR'].astype(float),color='red')
+    axs[1,1].axes.set_xticks(N)
+    axs[1,1].grid()
+    axs[1,1].axes.set_xlabel('Number of Agents')
+    axs[1,1].axes.set_ylabel('%')
+    axs[1,1].set_title('Self-Suficiency Ratio')
+    
+    file=ResultsFolder + '/Compare'
+    plt.savefig(file,dpi=300)
+    plt.show()
+
+
+

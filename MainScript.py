@@ -49,10 +49,7 @@ N_max=20 # number of files to generate/sets of appliances
 # Appliances(N_max, n_max, p_max, d_max, AppsFolder)
 
 # Generate the sequence of appliances numbers [15,125]
-# Ndev=125
-Ndev=[14]
-
-# Ndev=np.linspace(15,n_max,12,dtype=int)
+Ndev=np.linspace(15,n_max,12,dtype=int)
 
 #Using just one set of appliances
 # FileName='devices_list.csv'
@@ -60,9 +57,13 @@ Ndev=[14]
 # DevicesFull = DevicesFull.rename(columns={'Unnamed: 0': 'ind'})
 
 # Import the full set of devices
-Appsfiles=[f for f in listdir(AppsFolder)]
-#Sort the files
-Appsfiles.sort(key=lambda var:[int(x) if x.isdigit() else x for x in re.findall(r'[^0-9]|[0-9]+', var)])
+# Appsfiles=[f for f in listdir(AppsFolder)]
+# #Sort the files
+# Appsfiles.sort(key=lambda var:[int(x) if x.isdigit() else x for x in re.findall(r'[^0-9]|[0-9]+', var)])
+
+#The 10 fastest sets of appliances
+Appsfiles=['CP_AppsList_2','CP_AppsList_3','CP_AppsList_4','CP_AppsList_8','CP_AppsList_10','CP_AppsList_11','CP_AppsList_12','CP_AppsList_17','CP_AppsList_18','CP_AppsList_19']
+
 
 for afiles in Appsfiles:
     print(afiles)
@@ -285,11 +286,16 @@ for afiles in Appsfiles:
         ModelName='DP'+ ModelSort + RunFile
         get_Results_D(M,R, c, Ppv,PVcap, n,miu,p,d, ResultsFolder, ModelName)
     
-# Getting a dataframe wit comaprison of all solution .mat files existing in ResultsFolder
-# df_R=Calc_Tables_mat(ResultsFolder)
-df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')
+# Getting a dataframe wit comparison of all solution .mat files existing in ResultsFolder
+df_R=Calc_Tables_mat(ResultsFolder)
+# df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')
+
 #To use on local computer after download results
 # df_R_Server=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results')
 # PlotCompare(df_R_Server,ResultsFolder)
 
+#Comapring 20 appsList
+# df_FullList=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/ResultsFullAppsList/AppsList_MAT')
+# #Check the first 10 with lower walltime
+# df_FullList['Wall_Time']=df_FullList['Wall_Time'].astype(float)
 
