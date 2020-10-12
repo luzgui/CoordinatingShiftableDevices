@@ -67,16 +67,16 @@ def Calcs_Tables(n,DPFolder,CPFolder, ResultsFolder):
 
 
 
-def Calc_Tables_mat(ResultsFolder):
+def Calc_Tables_mat(ResultsFolder, Appsfiles):
      
      # import files
      files=[f for f in listdir(ResultsFolder) if '.mat' in f]
-     df_temp=pd.DataFrame()
      df=pd.DataFrame()
      
      for file in files:
-         file=ResultsFolder + '/' + file
-         Results=sio.loadmat(file)
+         df_temp=pd.DataFrame()
+         filename=ResultsFolder + '/' + file
+         Results=sio.loadmat(filename)
          df_temp['Model']=Results['Model']
          df_temp['N']=len(Results['P'])
          df_temp['Objective']=Results['Objective']
@@ -88,7 +88,20 @@ def Calc_Tables_mat(ResultsFolder):
          df_temp['SSR']=Results['SSR']
          df_temp['SCR']=Results['SCR']
          
+         df_temp['AppsList']=[ele for ele in Appsfiles if(ele in str(Results['Model']))]
+         #Classify according to the used applist
+         # for k in Appsfiles:
+         #     df_temp['AppsList']=[f for f in k if f in Results['Model'][0]]
+         
+         # for k in Appsfiles:
+         #      if k in str(Results['Model']):
+         #         print(k)
+         #         print(Results['Model'])
+         #         df_temp['AppsList']=k
+         #      else: 
+         #          df_temp['AppsList']='Not on Apps'
+                  
          df=df.append(df_temp, ignore_index=True)
+
      return df
-         
-         
+
