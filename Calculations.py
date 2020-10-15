@@ -93,6 +93,13 @@ def Calc_Tables_mat(ResultsFolder):
          # val=[ele for ele in Appsfiles if(ele in Results['Model'][0])]
          mod=re.findall(r'\d+',Results['Model'][0])
          df_temp['AppsList']='AppsList_'+ mod[0]
+         
+         if 'Sorted' in Results['Model'][0]:
+             df_temp['Sort']='Sorted'
+         elif 'Random' in Results['Model'][0]:
+             df_temp['Sort']='Random'
+         else :
+             df_temp['Sort']='NA'    
 
          #Classify according to the used applist
          # for k in Appsfiles:

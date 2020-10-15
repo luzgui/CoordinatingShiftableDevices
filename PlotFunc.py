@@ -175,12 +175,14 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile):
     # axs[0,1].legend(['CP'])
     
     Norm=((df_mean_DP['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+    Norm2=((df_mean_DP['Objective']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
     axs[0,1].plot(df_mean_DP['N'], Norm)
+    axs[0,1].plot(df_mean_DP['N'], Norm2)
     axs[0,1].legend(['Dp'])
     axs[0,1].axes.set_xticks(df_CP['N'])
     axs[0,1].grid()
     axs[0,1].axes.set_xlabel('Number of Agents')
-    axs[0,1].axes.set_ylabel('€')
+    axs[0,1].axes.set_ylabel('%')
     axs[0,1].set_title('DP objective (trans) relative to CP optimal')
     
     axs[1,1].plot(df_mean_CP['N'],df_mean_CP['SSR'], color='k')

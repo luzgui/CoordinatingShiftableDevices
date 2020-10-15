@@ -74,7 +74,8 @@ Appsfiles=['AppsList_2.csv',
 'AppsList_19.csv']
 
 # full anmes of files Appsfiles=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16''AppsList_17','AppsList_18','AppsList_19']
-
+# Ndev=[15]
+# Appsfiles=['AppsList_2.csv']
 
 DevicesList_Mean=pd.DataFrame(columns=['AppsList','N','m_p','m_d'])
 
@@ -223,16 +224,17 @@ for afiles in Appsfiles:
         
         # Agents can be queued in different ways (uncomment line):
         # Random queue
-        # Iagent=random.sample(range(n),n)
-        # ModelSort='_Random'
+        Iagent=random.sample(range(n),n)
+        ModelSort='_Random'
         
         # Sorted by the size of its rated power
         #This was previsously sorted!!!
-        Iagent=range(n)
-        ModelSort='_Sorted'
+        # Iagent=range(n)
+        # ModelSort='_Sorted'
         
-        for k in Iagent:
+        for i, k in enumerate(Iagent):
             # print(k)
+            # print(i)
             
             AgentModel=Agent(H,d[k],p[k],c,miu)
             Com.append(AgentModel)
@@ -256,7 +258,7 @@ for afiles in Appsfiles:
             
             #Plotting
             
-            if k==len(Iagent)-1: #Plotting only at last iteration to get all agents solution
+            if i==len(Iagent)-1: #Plotting only at last iteration to get all agents solution
                 
                 fig, ax1 = plt.subplots()
                 
@@ -280,6 +282,7 @@ for afiles in Appsfiles:
                 # ax2.plot(T,power)
                 
                 for i in Iagent:
+                    print(i)
                     ax2.plot(T,P[i])
                     
                 ax2.plot(T, Pag, color='black',linewidth=3.0) 
@@ -311,7 +314,7 @@ for afiles in Appsfiles:
 # AppsfilesNames=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16','AppsList_17','AppsList_18','AppsList_19']
 # from PlotFunc import *
 # df_R=Calc_Tables_mat(ResultsFolder)
-# PlotCompare(df_R,ResultsFolder, AppsfilesNames, DevMeanFile)
+# PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv')
 
 # df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')
 
