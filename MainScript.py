@@ -312,9 +312,23 @@ for afiles in Appsfiles:
 
 # Getting a dataframe wit comparison of all solution .mat files existing in ResultsFolder
 # AppsfilesNames=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16','AppsList_17','AppsList_18','AppsList_19']
-# from PlotFunc import *
-# df_R=Calc_Tables_mat(ResultsFolder)
-# PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv')
+
+Appsfiles=['AppsList_2',
+'AppsList_3',
+# 'AppsList_4',
+'AppsList_8',
+'AppsList_10',
+'AppsList_11',
+'AppsList_12',
+'AppsList_17',
+'AppsList_18',
+'AppsList_19']
+
+AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8']
+AppsfilesNames=['AppsList_3','AppsList_8']
+from PlotFunc import *
+df_R=Calc_Tables_mat(ResultsFolder)
+PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv')
 
 # df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')
 

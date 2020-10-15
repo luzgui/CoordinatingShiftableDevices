@@ -143,131 +143,255 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile):
     
     df_mean_CP = pd.DataFrame(columns=df.columns)
     df_mean_DP = pd.DataFrame(columns=df.columns)
+    df_mean_DP_Sorted = pd.DataFrame(columns=df.columns)
+    df_mean_DP_Random = pd.DataFrame(columns=df.columns)
+    
     # Calculate the means for each N
     
 
-    df=df.loc[df['AppsList'].isin(Appsfiles)]
+    df=df.loc[df['AppsList'].isin(Appsfiles)] # its important if there are other mat files in folder
     df_CP=df[df.Model.str.contains('CP', case=True)]
     df_DP=df[df.Model.str.contains('DP', case=True)]
     
+    df_DP_Sorted=df[df.Model.str.contains('DP_Sorted', case=True)]
+    df_DP_Random=df[df.Model.str.contains('DP_Random', case=True)]
+    
     for i in df.N.unique():
+        print(i)
         df_temp_CP=df_CP.loc[df_CP.N==i]
         df_temp_DP=df_DP.loc[df_DP.N==i]
+        df_temp_DP_Sorted=df_DP_Sorted.loc[df_DP_Sorted.N==i]
+        df_temp_DP_Random=df_DP_Random.loc[df_DP_Random.N==i]
         # print(df_temp)
         #Incredible sequance of 3 functions applied
         df_mean_CP=pd.concat([df_mean_CP,df_temp_CP.mean().to_frame().transpose()])
         df_mean_DP=pd.concat([df_mean_DP,df_temp_DP.mean().to_frame().transpose()])
+        df_mean_DP_Sorted=pd.concat([df_mean_DP_Sorted,df_temp_DP_Sorted.mean().to_frame().transpose()])
+        df_mean_DP_Random=pd.concat([df_mean_DP_Random,df_temp_DP_Random.mean().to_frame().transpose()])
+        
     
     df_mean_CP=df_mean_CP.sort_values(by='N')    
     df_mean_DP=df_mean_DP.sort_values(by='N')   
+    df_mean_DP_Sorted=df_mean_DP_Sorted.sort_values(by='N')   
+    df_mean_DP_Random=df_mean_DP_Random.sort_values(by='N')   
     
     fig, axs = plt.subplots(3, 2)
-    # fig, axs = plt.subplots(2, 2)
+    # fig, axs = plt.subplots(1, 1)
     #Plot the mean
+    
+
+    
+    label=[]
+    for k in Appsfiles:
+        print(k)
+        # if k in str(df['AppsList']):
+        # print('XX '+ k)
+        label.append(k)
+        
+        df_temp=df.loc[df['AppsList']==k]
+        DevMean_temp=DevicesList_Mean.loc[DevicesList_Mean['AppsList']==k]
+        # print(df_temp)
+        
+        df_CP=pd.DataFrame
+        df_CP=df_temp[df_temp.Model.str.contains('CP', case=True)]
+        df_CP=df_CP.sort_values(by='N')
+        df_CP=df_CP.reset_index(drop=True)
+        
+        df_DP=pd.DataFrame
+        df_DP=df_temp[df_temp.Model.str.contains('DP', case=True)]
+        df_DP=df_DP.sort_values(by='N')
+        df_DP=df_DP.reset_index(drop=True)
+        
+        df_DP_Sorted=pd.DataFrame
+        df_DP_Sorted=df_temp[df_temp.Model.str.contains('DP_Sorted', case=True)]
+        df_DP_Sorted=df_DP_Sorted.sort_values(by='N')
+        df_DP_Sorted=df_DP_Sorted.reset_index(drop=True)
+        
+        df_DP_Random=pd.DataFrame
+        df_DP_Random=df_temp[df_temp.Model.str.contains('DP_Random', case=True)]
+        df_DP_Random=df_DP_Random.sort_values(by='N')
+        df_DP_Random=df_DP_Random.reset_index(drop=True)
+        
+        
+        #%% Sorted + Random plotting
+        axs[0,0].plot(df_DP_Sorted['N'],df_DP_Sorted['Wall_Time']/60)
+        axs[0,0].plot(df_DP_Random['N'],df_DP_Random['Wall_Time']/60)
+        axs[0,0].axes.set_xticks(df_DP['N'])
+        # axs[0,0].legend(['Distributed Problem'])
+        axs[0,0].grid()
+        axs[0,0].axes.set_xlabel('Number of Agents')
+        axs[0,0].axes.set_ylabel('Time(min)')
+        axs[0,0].set_title('Wall Time (DP)')
+    
+        axs[1,0].plot(df_CP['N'],df_CP['Wall_Time']/60)
+        axs[1,0].axes.set_xticks(df_CP['N'])
+        # axs[1,0].legend(label)
+        axs[1,0].grid()
+        axs[1,0].axes.set_xlabel('Number of Agents')
+        axs[1,0].axes.set_ylabel('Time(min)')
+        axs[1,0].set_title('Wall Time (CP)')
+        
+        Norm_temp=((df_DP['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
+        Norm_temp_Sorted=((df_DP_Sorted['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
+        Norm_temp_Random=((df_DP_Random['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
+        # Norm2=((df_mean_DP['Objective']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+        axs[0,1].plot(df_DP_Sorted['N'],Norm_temp_Sorted)
+        axs[0,1].plot(df_DP_Random['N'],Norm_temp_Random)
+        # axs[0,1].plot(df_CP['N'],df_CP['Objective'])
+        axs[0,1].axes.set_xticks(df_DP['N'])
+        axs[0,1].grid()
+        axs[0,1].axes.set_xlabel('Number of Agents')
+        axs[0,1].axes.set_ylabel('€')
+        axs[0,1].set_title('Objective function')
+        
+        # axs[1,1].plot(N,df_DP['SSR'].astype(float),color='red')
+        axs[1,1].plot(df_CP['N'],df_CP['SSR'])
+        axs[1,1].plot(df_DP_Sorted['N'],df_DP_Sorted['SSR'])
+        axs[1,1].plot(df_DP_Random['N'],df_DP_Random['SSR'])
+        axs[1,1].axes.set_xticks(df_CP['N'])
+        axs[1,1].grid()
+        # axs[1,1].axes.set_xlabel('Number of Agents')
+        axs[1,1].axes.set_ylabel('%')
+        axs[1,1].set_title('Self-Suficiency Ratio')
+        
+        # axs[2,0].plot(DevMean_temp['N'],DevMean_temp['m_p'])
+        # axs[2,0].plot(DevMean_temp['N'],DevMean_temp['m_d'])
+        # axs[2,0].axes.set_xticks(df_CP['N'])
+        # # axs[2,0].legend(label)
+        # axs[2,0].grid()
+        # axs[2,0].axes.set_xlabel('Number of Agents')
+        # axs[2,0].axes.set_ylabel('kW')
+        
+        
+        axs[2,1].plot(df_CP['N'],df_CP['SCR'])
+        # axs[2,1].plot(df_DP['N'],df_DP['SCR'])
+        axs[2,1].plot(df_DP_Sorted['N'],df_DP_Sorted['SCR'])
+        axs[2,1].plot(df_DP_Random['N'],df_DP_Random['SCR'])
+        axs[2,1].axes.set_xticks(df_CP['N'])
+        axs[2,1].grid()
+        axs[2,1].axes.set_xlabel('Number of Agents')
+        axs[2,1].axes.set_ylabel('%')
+        axs[2,1].set_title('Self-Consumption Rate')
+        
+        # assert df_CP['N'].equals(df_DP['N']), 'Number of agents diffreent in DP and CP'
+        # %% Only DP
+        # axs[0,0].plot(df_DP['N'],df_DP['Wall_Time']/60)
+        # axs[0,0].axes.set_xticks(df_DP['N'])
+        # # axs[0,0].legend(['Distributed Problem'])
+        # axs[0,0].grid()
+        # axs[0,0].axes.set_xlabel('Number of Agents')
+        # axs[0,0].axes.set_ylabel('Time(min)')
+        # axs[0,0].set_title('Wall Time (DP)')
+    
+        # axs[1,0].plot(df_CP['N'],df_CP['Wall_Time']/60)
+        # axs[1,0].axes.set_xticks(df_CP['N'])
+        # # axs[1,0].legend(label)
+        # axs[1,0].grid()
+        # axs[1,0].axes.set_xlabel('Number of Agents')
+        # axs[1,0].axes.set_ylabel('Time(min)')
+        # axs[1,0].set_title('Wall Time (CP)')
+        
+        # Norm_temp=((df_DP['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
+        # # Norm2=((df_mean_DP['Objective']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+        # axs[0,1].plot(df_DP['N'],Norm_temp)
+        # # axs[0,1].plot(df_CP['N'],df_CP['Objective'])
+        # axs[0,1].axes.set_xticks(df_DP['N'])
+        # axs[0,1].grid()
+        # axs[0,1].axes.set_xlabel('Number of Agents')
+        # axs[0,1].axes.set_ylabel('€')
+        # axs[0,1].set_title('Objective function')
+        
+        # # axs[1,1].plot(N,df_DP['SSR'].astype(float),color='red')
+        # axs[1,1].plot(df_CP['N'],df_CP['SSR'])
+        # axs[1,1].plot(df_DP['N'],df_DP['SSR'])
+        # axs[1,1].axes.set_xticks(df_CP['N'])
+        # axs[1,1].grid()
+        # # axs[1,1].axes.set_xlabel('Number of Agents')
+        # axs[1,1].axes.set_ylabel('%')
+        # axs[1,1].set_title('Self-Suficiency Ratio')
+        
+        # # axs[2,0].plot(DevMean_temp['N'],DevMean_temp['m_p'])
+        # axs[2,0].plot(DevMean_temp['N'],DevMean_temp['m_d'])
+        # axs[2,0].axes.set_xticks(df_CP['N'])
+        # # axs[2,0].legend(label)
+        # axs[2,0].grid()
+        # axs[2,0].axes.set_xlabel('Number of Agents')
+        # axs[2,0].axes.set_ylabel('kW')
+        
+        
+        # axs[2,1].plot(df_CP['N'],df_CP['SCR'])
+        # axs[2,1].plot(df_DP['N'],df_DP['SCR'])
+        # axs[2,1].axes.set_xticks(df_CP['N'])
+        # axs[2,1].grid()
+        # axs[2,1].axes.set_xlabel('Number of Agents')
+        # axs[2,1].axes.set_ylabel('%')
+        # axs[2,1].set_title('Self-Consumption Rate')
+
+            # file=ResultsFolder + '/Compare'
+            # plt.savefig(file,dpi=300)
+            
+            
+
+        
+    axs[0,0].plot(df_mean_DP_Sorted['N'],df_mean_DP_Sorted['Wall_Time']/60,color='k')
+    axs[0,0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['Wall_Time']/60,color='gold')
+    axs[0,0].legend(['Mean'],loc='upper left')
+    axs[0,0].axes.set_xticks(df_mean_DP['N'])
+    axs[0,0].grid()
+    axs[0,0].axes.set_xlabel('Number of Agents')
+    axs[0,0].axes.set_ylabel('Time(min)')
+    
     axs[1,0].plot(df_mean_CP['N'],df_mean_CP['Wall_Time']/60,color='k')
-    axs[1,0].axes.set_xticks(df_mean_CP['N'])
     axs[1,0].legend(['Mean'],loc='upper left')
+    axs[1,0].axes.set_xticks(df_mean_CP['N'])
     axs[1,0].grid()
     axs[1,0].axes.set_xlabel('Number of Agents')
     axs[1,0].axes.set_ylabel('Time(min)')
     
     # axs[0,1].plot(df_mean_CP['N'],df_mean_CP['Objective'])
     # axs[0,1].legend(['CP'])
+
     
-    Norm=((df_mean_DP['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
-    Norm2=((df_mean_DP['Objective']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
-    axs[0,1].plot(df_mean_DP['N'], Norm)
-    axs[0,1].plot(df_mean_DP['N'], Norm2)
-    axs[0,1].legend(['Dp'])
-    axs[0,1].axes.set_xticks(df_CP['N'])
+    # Norm=((df_mean_DP['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+    Norm_mean_Sorted=((df_mean_DP_Sorted['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+    Norm_mean_Random=((df_mean_DP_Random['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+
+    # Norm2=((df_mean_DP['Objective']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+    
+    axs[0,1].plot(df_mean_DP['N'], Norm_mean_Sorted, color='k')
+    axs[0,1].plot(df_mean_DP['N'], Norm_mean_Random, color='gold')
+    
+    axs[0,1].legend(['Mean'],loc='upper left')
+    # axs[0,1].plot(df_mean_DP['N'], Norm2)
+    # axs[0,1].legend(['Dp'])
+    axs[0,1].axes.set_xticks(df_DP['N'])
     axs[0,1].grid()
     axs[0,1].axes.set_xlabel('Number of Agents')
     axs[0,1].axes.set_ylabel('%')
     axs[0,1].set_title('DP objective (trans) relative to CP optimal')
     
+    
     axs[1,1].plot(df_mean_CP['N'],df_mean_CP['SSR'], color='k')
-    axs[1,1].plot(df_mean_DP['N'],df_mean_DP['SSR'], color='k')
+    axs[1,1].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SSR'], color='k')
+    axs[1,1].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SSR'], color='gold')
     axs[1,1].legend(['Mean'],loc='upper left')
-    axs[1,1].axes.set_xticks(df_CP['N'])
+    axs[1,1].axes.set_xticks(df_DP['N'])
     axs[1,1].grid()
     axs[1,1].axes.set_xlabel('Number of Agents')
     axs[1,1].axes.set_ylabel('%')
     axs[1,1].set_title('Self-Suficiency Ratio')
     
     axs[2,1].plot(df_mean_CP['N'],df_mean_CP['SCR'], color='blue')
-    axs[2,1].plot(df_mean_DP['N'],df_mean_DP['SCR'], color='k')
+    # axs[2,1].plot(df_mean_DP['N'],df_mean_DP['SCR'], color='k')
+    axs[2,1].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SCR'], color='k')
+    axs[2,1].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SCR'], color='gold')
     axs[2,1].legend(['Mean'],loc='upper left')
-    axs[2,1].axes.set_xticks(df_CP['N'])
+    axs[2,1].axes.set_xticks(df_DP['N'])
     axs[2,1].grid()
     axs[2,1].axes.set_xlabel('Number of Agents')
     axs[2,1].axes.set_ylabel('%')
     axs[2,1].set_title('Self-Consumption Rate')
     
-    label=[]
-    for k in Appsfiles:
-        if k in str(df['AppsList']):
-            print(k)
-            label.append(k)
-            
-            df_temp=df.loc[df['AppsList']==k]
-            DevMean_temp=DevicesList_Mean.loc[DevicesList_Mean['AppsList']==k]
-            # print(df_temp)
-            
-            df_CP=pd.DataFrame
-            df_CP=df_temp[df_temp.Model.str.contains('CP', case=True)]
-            df_CP=df_CP.sort_values(by='N')
-            df_CP=df_CP.reset_index(drop=True)
-            
-            df_DP=pd.DataFrame
-            df_DP=df[df.Model.str.contains('DP', case=True)]
-            df_DP=df_DP.sort_values(by='N')
-            df_DP=df_DP.reset_index(drop=True)
-            
-            # assert df_CP['N'].equals(df_DP['N']), 'Number of agents diffreent in DP and CP'
-                    
-            axs[0,0].plot(df_DP['N'],df_DP['Wall_Time']/60,color='red')
-            axs[0,0].axes.set_xticks(df_DP['N'])
-            # axs[0,0].legend(['Distributed Problem'])
-            axs[0,0].grid()
-            axs[0,0].axes.set_xlabel('Number of Agents')
-            axs[0,0].axes.set_ylabel('Time(min)')
-            axs[0,0].set_title('Wall Time (DP)')
-        
-            axs[1,0].plot(df_CP['N'],df_CP['Wall_Time']/60)
-            axs[1,0].axes.set_xticks(df_CP['N'])
-            # axs[1,0].legend(label)
-            axs[1,0].grid()
-            axs[1,0].axes.set_xlabel('Number of Agents')
-            axs[1,0].axes.set_ylabel('Time(min)')
-            axs[1,0].set_title('Wall Time (CP)')
-        
-            # axs[0,1].plot(N,df_DP['Objective'].astype(float),color='red')
-            # axs[0,1].plot(df_CP['N'],df_CP['Objective'])
-            # axs[0,1].axes.set_xticks(df_CP['N'])
-            # axs[0,1].grid()
-            # axs[0,1].axes.set_xlabel('Number of Agents')
-            # axs[0,1].axes.set_ylabel('€')
-            # axs[0,1].set_title('Objective function')
-        
-            # axs[1,1].plot(N,df_DP['SSR'].astype(float),color='red')
-            axs[1,1].plot(df_CP['N'],df_CP['SSR'])
-            axs[1,1].plot(df_DP['N'],df_DP['SSR'])
-            axs[1,1].axes.set_xticks(df_CP['N'])
-            axs[1,1].grid()
-            # axs[1,1].axes.set_xlabel('Number of Agents')
-            axs[1,1].axes.set_ylabel('%')
-            axs[1,1].set_title('Self-Suficiency Ratio')
-    
-            # axs[2,0].plot(DevMean_temp['N'],DevMean_temp['m_p'])
-            axs[2,0].plot(DevMean_temp['N'],DevMean_temp['m_d'])
-            axs[2,0].axes.set_xticks(df_CP['N'])
-            # axs[2,0].legend(label)
-            axs[2,0].grid()
-            axs[2,0].axes.set_xlabel('Number of Agents')
-            axs[2,0].axes.set_ylabel('kW')
-
-            # file=ResultsFolder + '/Compare'
-            # plt.savefig(file,dpi=300)
     plt.tight_layout()        
     plt.show()
     
