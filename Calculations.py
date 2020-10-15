@@ -15,6 +15,7 @@ import pandas as pd
 import os
 # from MainScript import n
 import scipy.io as sio
+import re
 
 cwd = os.getcwd()
 DataFolder=cwd + '/Data'
@@ -67,7 +68,7 @@ def Calcs_Tables(n,DPFolder,CPFolder, ResultsFolder):
 
 
 
-def Calc_Tables_mat(ResultsFolder, Appsfiles):
+def Calc_Tables_mat(ResultsFolder):
      
      # import files
      files=[f for f in listdir(ResultsFolder) if '.mat' in f]
@@ -81,14 +82,18 @@ def Calc_Tables_mat(ResultsFolder, Appsfiles):
          df_temp['N']=len(Results['P'])
          df_temp['Objective']=Results['Objective']
          df_temp['Objective_T']=Results['Objective_Trans']
-         df_temp['Wall_Time']=Results['Wall Time']
+         df_temp['Wall_Time']=Results['Wall Time'].astype(float)
          
          df_temp['Tshift']=Results['Tshift']
          df_temp['Txcess']=Results['Txcess']
          df_temp['SSR']=Results['SSR']
          df_temp['SCR']=Results['SCR']
+         df_temp['PVcap']=Results['PVcap']
          
-         df_temp['AppsList']=[ele for ele in Appsfiles if(ele in str(Results['Model']))]
+         # val=[ele for ele in Appsfiles if(ele in Results['Model'][0])]
+         mod=re.findall(r'\d+',Results['Model'][0])
+         df_temp['AppsList']='AppsList_'+ mod[0]
+
          #Classify according to the used applist
          # for k in Appsfiles:
          #     df_temp['AppsList']=[f for f in k if f in Results['Model'][0]]

@@ -131,85 +131,142 @@ def DevScat(p,d,ResultsFolder,n,RunFile):
     plt.show()
 
 
-def PlotCompare(df,ResultsFolder, Appsfiles):
-    'df is a data frame'
+def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile):
+    'df: data frame with the results'
+    'Resultsfolder: images destination'
+    'Appsfiles: list of Appsfiles names'
+    'DevMeanFile: a path to a CSV with the DevicesList_Mean dataframe (check mainscript) '
+    
+    DevicesList_Mean=pd.read_csv(DevMeanFile)
+    
     df['Wall_Time']=df['Wall_Time'].astype(float)
     
-    df_mean = pd.DataFrame(columns=df.columns)
+    df_mean_CP = pd.DataFrame(columns=df.columns)
+    df_mean_DP = pd.DataFrame(columns=df.columns)
     # Calculate the means for each N
     
 
     df=df.loc[df['AppsList'].isin(Appsfiles)]
-    for i in df.N.unique():
-        df_temp=df.loc[df.N==i]
-        print(df_temp)
-        #Incredible sequance of 3 functions applied
-        df_mean=pd.concat([df_mean,df_temp.mean().to_frame().transpose()])
-    df_mean=df_mean.sort_values(by='N')    
+    df_CP=df[df.Model.str.contains('CP', case=True)]
+    df_DP=df[df.Model.str.contains('DP', case=True)]
     
-    fig, axs = plt.subplots(2, 2)
+    for i in df.N.unique():
+        df_temp_CP=df_CP.loc[df_CP.N==i]
+        df_temp_DP=df_DP.loc[df_DP.N==i]
+        # print(df_temp)
+        #Incredible sequance of 3 functions applied
+        df_mean_CP=pd.concat([df_mean_CP,df_temp_CP.mean().to_frame().transpose()])
+        df_mean_DP=pd.concat([df_mean_DP,df_temp_DP.mean().to_frame().transpose()])
+    
+    df_mean_CP=df_mean_CP.sort_values(by='N')    
+    df_mean_DP=df_mean_DP.sort_values(by='N')   
+    
+    fig, axs = plt.subplots(3, 2)
+    # fig, axs = plt.subplots(2, 2)
     #Plot the mean
-    axs[1,0].plot(df_mean['N'],df_mean['Wall_Time'],color='k')
-    axs[1,0].axes.set_xticks(df_mean['N'])
-    axs[1,0].legend(['Centralized Problem - Mean'],loc='upper left')
+    axs[1,0].plot(df_mean_CP['N'],df_mean_CP['Wall_Time']/60,color='k')
+    axs[1,0].axes.set_xticks(df_mean_CP['N'])
+    axs[1,0].legend(['Mean'],loc='upper left')
     axs[1,0].grid()
     axs[1,0].axes.set_xlabel('Number of Agents')
-    axs[1,0].axes.set_ylabel('Time(s)')
-
+    axs[1,0].axes.set_ylabel('Time(min)')
+    
+    # axs[0,1].plot(df_mean_CP['N'],df_mean_CP['Objective'])
+    # axs[0,1].legend(['CP'])
+    
+    Norm=((df_mean_DP['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+    axs[0,1].plot(df_mean_DP['N'], Norm)
+    axs[0,1].legend(['Dp'])
+    axs[0,1].axes.set_xticks(df_CP['N'])
+    axs[0,1].grid()
+    axs[0,1].axes.set_xlabel('Number of Agents')
+    axs[0,1].axes.set_ylabel('€')
+    axs[0,1].set_title('DP objective (trans) relative to CP optimal')
+    
+    axs[1,1].plot(df_mean_CP['N'],df_mean_CP['SSR'], color='k')
+    axs[1,1].plot(df_mean_DP['N'],df_mean_DP['SSR'], color='k')
+    axs[1,1].legend(['Mean'],loc='upper left')
+    axs[1,1].axes.set_xticks(df_CP['N'])
+    axs[1,1].grid()
+    axs[1,1].axes.set_xlabel('Number of Agents')
+    axs[1,1].axes.set_ylabel('%')
+    axs[1,1].set_title('Self-Suficiency Ratio')
+    
+    axs[2,1].plot(df_mean_CP['N'],df_mean_CP['SCR'], color='blue')
+    axs[2,1].plot(df_mean_DP['N'],df_mean_DP['SCR'], color='k')
+    axs[2,1].legend(['Mean'],loc='upper left')
+    axs[2,1].axes.set_xticks(df_CP['N'])
+    axs[2,1].grid()
+    axs[2,1].axes.set_xlabel('Number of Agents')
+    axs[2,1].axes.set_ylabel('%')
+    axs[2,1].set_title('Self-Consumption Rate')
+    
+    label=[]
     for k in Appsfiles:
         if k in str(df['AppsList']):
+            print(k)
+            label.append(k)
+            
             df_temp=df.loc[df['AppsList']==k]
-            print(df_temp)
-    
+            DevMean_temp=DevicesList_Mean.loc[DevicesList_Mean['AppsList']==k]
+            # print(df_temp)
+            
             df_CP=pd.DataFrame
             df_CP=df_temp[df_temp.Model.str.contains('CP', case=True)]
             df_CP=df_CP.sort_values(by='N')
             df_CP=df_CP.reset_index(drop=True)
             
-            # df_DP=pd.DataFrame
-            # df_DP=df[df.Model.str.contains('DP', case=True)]
-            # df_DP=df_DP.sort_values(by='N')
-            # df_DP=df_DP.reset_index(drop=True)
+            df_DP=pd.DataFrame
+            df_DP=df[df.Model.str.contains('DP', case=True)]
+            df_DP=df_DP.sort_values(by='N')
+            df_DP=df_DP.reset_index(drop=True)
             
             # assert df_CP['N'].equals(df_DP['N']), 'Number of agents diffreent in DP and CP'
-            
-            N=df_CP['N']
                     
-            # axs[0,0].plot(N,df_DP['Wall_Time'].astype(float),color='red')
-            # axs[0,0].axes.set_xticks(N)
+            axs[0,0].plot(df_DP['N'],df_DP['Wall_Time']/60,color='red')
+            axs[0,0].axes.set_xticks(df_DP['N'])
             # axs[0,0].legend(['Distributed Problem'])
-            # axs[0,0].grid()
-            # axs[0,0].axes.set_xlabel('Number of Agents')
-            # axs[0,0].axes.set_ylabel('Time(s)')
-            # axs[0,0].set_title('Wall Time')
+            axs[0,0].grid()
+            axs[0,0].axes.set_xlabel('Number of Agents')
+            axs[0,0].axes.set_ylabel('Time(min)')
+            axs[0,0].set_title('Wall Time (DP)')
         
-            axs[1,0].plot(N,df_CP['Wall_Time'])
-            axs[1,0].axes.set_xticks(N)
-            # axs[1,0].legend(['Centralized Problem'])
+            axs[1,0].plot(df_CP['N'],df_CP['Wall_Time']/60)
+            axs[1,0].axes.set_xticks(df_CP['N'])
+            # axs[1,0].legend(label)
             axs[1,0].grid()
             axs[1,0].axes.set_xlabel('Number of Agents')
-            axs[1,0].axes.set_ylabel('Time(s)')
-            # axs[1,0].set_title('Centralized problem')
+            axs[1,0].axes.set_ylabel('Time(min)')
+            axs[1,0].set_title('Wall Time (CP)')
         
             # axs[0,1].plot(N,df_DP['Objective'].astype(float),color='red')
-            axs[0,1].plot(N,df_CP['Objective'])
-            axs[0,1].axes.set_xticks(N)
-            axs[0,1].grid()
-            axs[0,1].axes.set_xlabel('Number of Agents')
-            axs[0,1].axes.set_ylabel('€')
-            axs[0,1].set_title('Objective function')
+            # axs[0,1].plot(df_CP['N'],df_CP['Objective'])
+            # axs[0,1].axes.set_xticks(df_CP['N'])
+            # axs[0,1].grid()
+            # axs[0,1].axes.set_xlabel('Number of Agents')
+            # axs[0,1].axes.set_ylabel('€')
+            # axs[0,1].set_title('Objective function')
         
             # axs[1,1].plot(N,df_DP['SSR'].astype(float),color='red')
-            axs[1,1].plot(N,df_CP['SSR'].astype(float))
-            axs[1,1].axes.set_xticks(N)
+            axs[1,1].plot(df_CP['N'],df_CP['SSR'])
+            axs[1,1].plot(df_DP['N'],df_DP['SSR'])
+            axs[1,1].axes.set_xticks(df_CP['N'])
             axs[1,1].grid()
-            axs[1,1].axes.set_xlabel('Number of Agents')
+            # axs[1,1].axes.set_xlabel('Number of Agents')
             axs[1,1].axes.set_ylabel('%')
             axs[1,1].set_title('Self-Suficiency Ratio')
     
+            # axs[2,0].plot(DevMean_temp['N'],DevMean_temp['m_p'])
+            axs[2,0].plot(DevMean_temp['N'],DevMean_temp['m_d'])
+            axs[2,0].axes.set_xticks(df_CP['N'])
+            # axs[2,0].legend(label)
+            axs[2,0].grid()
+            axs[2,0].axes.set_xlabel('Number of Agents')
+            axs[2,0].axes.set_ylabel('kW')
 
             # file=ResultsFolder + '/Compare'
             # plt.savefig(file,dpi=300)
+    plt.tight_layout()        
     plt.show()
     
 #%% Simple fast plot for a specific N
@@ -252,4 +309,52 @@ def PlotCompareFixN(df,Folder):
     plt.show()
 
 
+def voxelsfunc(MatFile, d):
+
+    Results=sio.loadmat(MatFile)
+
+    M=Results['P']
+    Pag=Results['P_ag']
+    Ppv=Results['Ppv']
+
+    x, y, z = np.indices((len(M[0]), len(M)+3, d))
+
+    M=ResultsCP['P']
+    Pag=ResultsCP['P_ag']
+    Ppv=ResultsCP['Ppv']
+    
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    for k in range(len(M)):
+        m=M[k,:]
+        idx=np.nonzero(m)
+        idx=idx[0]
+        xi=idx[0]
+        xf=idx[len(idx)-1]
+        r = random.random()
+        b = random.random()
+        g = random.random()
+        color = (r, g, b)
+        # cube = (x >= xi) & (x <= xf) & (y < 1) & (z < max(m))
+        cube = (x >= xi) & (x <= xf) & (y >= k+1) & (y < k+2) & (z <= max(m))
+        ax.voxels(cube, facecolors=color, edgecolor='k')
+    
+    # plt.show()
+    
+    # for i in range(len(Pag[0])):
+    #     p=Pag[0][i]
+    #     # print(p)
+    #     cubeag = (x >= i) & (x <= i+1) & (y >= n+2) & (z < p)
+    #     ax.voxels(cubeag, facecolors='blue', edgecolor='k',label='parametric curve')
+        
+    for i in range(len(Ppv)):
+        p=Ppv[i]
+        print(p)
+        cubeag = (x >= i) & (x <= i+1) & (y >= n+2) & (z < p)
+        ax.voxels(cubeag, facecolors='gold', edgecolor='k',label='parametric curve')    
+    
+    ax.set_xlabel('Time of the day')
+    ax.set_ylabel('Agents')
+    ax.set_zlabel('Power (kW)')
+    plt.show()
 

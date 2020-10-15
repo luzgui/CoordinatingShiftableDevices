@@ -167,8 +167,9 @@ def get_Results_D(ModelArray,ModelResultsArray, Tar, Ppv,PVcap, n,miu,p,d, Resul
         C_in[k]=P_in[k]*miu*czero[k] #cost of energy supplied by PV
         C_x[k]=P_x[k]*miu*0.185
         C_T[k]=C_in[k]+C_x[k]
-    C_Total=C_T.sum()    
-    assert (P_in.sum()+P_x.sum())==Pag.sum()
+    C_Total=C_T.sum()
+    Pinsum=P_in.sum()+P_x.sum()   
+    assert round(Pinsum,1)==round(Pag.sum(), 1)
         
     #Calculate total excess load
     E_x=sum(P_x[t]*miu for t in range(H));
@@ -188,7 +189,6 @@ def get_Results_D(ModelArray,ModelResultsArray, Tar, Ppv,PVcap, n,miu,p,d, Resul
     # Pag_iter=[]
     # for j in range(n):
     #     Pag_iter.append(P_D.sum)
-
 
     #Storing values
     SolutionDict['Model']=ModelName + '_%i' %n

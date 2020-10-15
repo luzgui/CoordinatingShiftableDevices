@@ -62,8 +62,21 @@ Ndev=np.linspace(15,n_max,12,dtype=int)
 # Appsfiles.sort(key=lambda var:[int(x) if x.isdigit() else x for x in re.findall(r'[^0-9]|[0-9]+', var)])
 
 #The 10 fastest sets of appliances
-Appsfiles=['AppsList_2','AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11','AppsList_12','AppsList_17','AppsList_18','AppsList_19']
+Appsfiles=['AppsList_2.csv',
+'AppsList_3.csv',
+'AppsList_4.csv',
+'AppsList_8.csv',
+'AppsList_10.csv',
+'AppsList_11.csv',
+'AppsList_12.csv',
+'AppsList_17.csv',
+'AppsList_18.csv',
+'AppsList_19.csv']
 
+# full anmes of files Appsfiles=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16''AppsList_17','AppsList_18','AppsList_19']
+
+
+DevicesList_Mean=pd.DataFrame(columns=['AppsList','N','m_p','m_d'])
 
 for afiles in Appsfiles:
     print(afiles)
@@ -85,8 +98,15 @@ for afiles in Appsfiles:
         #Slice first n devices
         Devices=DevicesFull.head(n).copy()
         Devices_original=DevicesFull.head(n)
-    
-        # BUG fix: 
+        # %%
+        # #Compute means for power and duration
+        # DevicesList_Mean_temp=pd.DataFrame([['AppsList_' + run[0],n,Devices['Power'].mean(),Devices['Duration'].mean()]],columns=DevicesList_Mean.columns)
+
+        # DevicesList_Mean=pd.concat([DevicesList_Mean,DevicesList_Mean_temp])
+        
+        # DevicesList_Mean.to_csv(AppsFolder + '/DevMean.csv')
+
+        # %% BUG fix: 
         #identify the index of the first maximum duration device
         idmax=Devices['Duration'].idxmax()
         #swap the row with the biggest duration with the first element of dataframe
@@ -116,9 +136,8 @@ for afiles in Appsfiles:
         for k in d:
             dd.append(int(k))
         d=dd
-    
-        nI=len(p)
         
+        nI=len(p)
         
         # %% Calculate energy consumption of all devices
         Eshift_i=[p[k]*d[k]*miu for k in range(len(d))];
@@ -172,26 +191,26 @@ for afiles in Appsfiles:
         ##############################################################################
         
         # Allowed violation at each timestep
-        alpha=0.2
-        alpha=0
-        Viol=[alpha*Ppv[k][0] for k in range(len(Ppv))]
+        # alpha=0.2
+        # alpha=0
+        # Viol=[alpha*Ppv[k][0] for k in range(len(Ppv))]
         
-        # Solving problem
-        prosumer = Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv)
+        # # Solving problem
+        # prosumer = Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv)
     
-        # There will be log and solution in YAML, CSV files in Results folder
-        SolFile_yaml=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + RunFile + '.yaml')
-        SolFile_csv=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + RunFile + '.csv')
+        # # There will be log and solution in YAML, CSV files in Results folder
+        # SolFile_yaml=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + RunFile + '.yaml')
+        # SolFile_csv=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + RunFile + '.csv')
         
-        LogFile=os.path.join(CPFolder, 'CP_Log_Ns_' + str(len(p)) + RunFile + '.yaml')
+        # LogFile=os.path.join(CPFolder, 'CP_Log_Ns_' + str(len(p)) + RunFile + '.yaml')
         
-        Results=opt.solve(prosumer,tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile_yaml)
+        # Results=opt.solve(prosumer,tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile_yaml)
         
-        #Write results to a .mat file for further processing
-        name='CP'+ RunFile
-        get_Results_C(prosumer,Results,Ppv,PVcap, n,miu,p,d, ResultsFolder, name)
-        #PlotResults
-        PlotFunc_Central(prosumer, Ppv, n, ResultsFolder,RunFile)
+        # #Write results to a .mat file for further processing
+        # name='CP'+ RunFile
+        # get_Results_C(prosumer,Results,Ppv,PVcap, n,miu,p,d, ResultsFolder, name)
+        # #PlotResults
+        # PlotFunc_Central(prosumer, Ppv, n, ResultsFolder,RunFile)
         
         # %% Decentralized
         # 
@@ -285,23 +304,43 @@ for afiles in Appsfiles:
         #Write results
         ModelName='DP'+ ModelSort + RunFile
         get_Results_D(M,R, c, Ppv,PVcap, n,miu,p,d, ResultsFolder, ModelName)
+        plt.close('all')
+        
 
 # Getting a dataframe wit comparison of all solution .mat files existing in ResultsFolder
+AppsfilesNames=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16','AppsList_17','AppsList_18','AppsList_19']
+from PlotFunc import *
 df_R=Calc_Tables_mat(ResultsFolder)
+PlotCompare(df_R,ResultsFolder, AppsfilesNames, DevMeanFile)
+
 # df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')
 
 #To use on local computer after download results
-df_R_Server=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results',Appsfiles)
-PlotCompare(df_R_Server,ResultsFolder)
+# df_R_Server=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results',Appsfiles)
+# PlotCompare(df_R_Server,ResultsFolder)
 
 #Comapring 20 appsList
-# df_FullList=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/ResultsFullAppsList/AppsList_MAT')
+# from PlotFunc import *
+# from Calculations import *
+# Appsfiles=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16','AppsList_17','AppsList_18','AppsList_19']
+# df_125=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/ResultsFullAppsList/AppsList_MAT', Appsfiles)
+# df_125['Wall_Time']=df_125['Wall_Time'].astype(float)
 # #Check the first 10 with lower walltime
 # df_FullList['Wall_Time']=df_FullList['Wall_Time'].astype(float)
 
-from PlotFunc import *
-from Calculations import *
-Table=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results-11_10/Results',Appsfiles)
-PlotCompare(Table,'/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results-11_10/Results', Appsfiles2)
+# fig = plt.figure()
+# plt.plot(df_125['Wall_Time'].values)
+
+
+
+
+# Plotting all
+# from PlotFunc import *
+# from Calculations import *
+
+# Folder='/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results_12Oct'
+
+# Table=Calc_Tables_mat(Folder,Appsfiles)
+# PlotCompare(Table,Folder, Appsfiles)
 
 # ResultsFolder='/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results-11_10/Results'
