@@ -313,9 +313,8 @@ for afiles in Appsfiles:
 # Getting a dataframe wit comparison of all solution .mat files existing in ResultsFolder
 # AppsfilesNames=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16','AppsList_17','AppsList_18','AppsList_19']
 
-Appsfiles=['AppsList_2',
-'AppsList_3',
-# 'AppsList_4',
+AppsfilesNames=['AppsList_2','AppsList_3',
+'AppsList_4',
 'AppsList_8',
 'AppsList_10',
 'AppsList_11',
@@ -325,10 +324,10 @@ Appsfiles=['AppsList_2',
 'AppsList_19']
 
 AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8']
-AppsfilesNames=['AppsList_3','AppsList_8']
+AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11']
 from PlotFunc import *
 df_R=Calc_Tables_mat(ResultsFolder)
-PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv')
+PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv','Median')
 
 # df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')
 
@@ -361,3 +360,14 @@ PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv')
 # PlotCompare(Table,Folder, Appsfiles)
 
 # ResultsFolder='/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/Data/Results_IST/Results-11_10/Results'
+
+#Simple Plots
+# from PlotFunc import *
+# fw=15
+# color='k'
+# color2='gold'
+# SimplePlot(0,PpvNorm,0,H,fw,color,color2,'Simple')
+
+
+# x=np.linspace(25,125,11,dtype=int)
+# SimplePlot(x,df_DP_Sorted.PVcap,df_DP_Sorted.Tshift,H,fw,color,color2,'TwoAxis')
