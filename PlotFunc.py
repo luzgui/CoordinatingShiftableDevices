@@ -228,8 +228,8 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig):
         df_DP_Random=df_DP_Random.reset_index(drop=True)
         
         #%% Sorted + Random plotting
-        axs[0,0].plot(df_DP_Sorted['N'],df_DP_Sorted['Wall_Time']/60, color=colorRuns(1))
-        axs[0,0].plot(df_DP_Random['N'],df_DP_Random['Wall_Time']/60, color=colorRuns(2))
+        axs[0,0].plot(df_DP_Sorted['N'],df_DP_Sorted['Wall_Time']/60, color=colorMean(1), alpha=a)
+        axs[0,0].plot(df_DP_Random['N'],df_DP_Random['Wall_Time']/60, color=colorMean(14), alpha=a)
 
         axs[0,0].axes.set_xticks(df_DP['N'])
         # axs[0,0].legend(['Sorted','Random'])
@@ -238,22 +238,22 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig):
         axs[0,0].axes.set_ylabel('Time(min)')
         axs[0,0].set_title('Wall Time (DP)')
     
-        axs[1,0].plot(df_CP['N'],df_CP['Wall_Time']/60)
-        axs[1,0].axes.set_xticks(df_CP['N'])
-        # axs[1,0].legend(label)
-        # axs[1,0].grid()
-        axs[1,0].axes.set_xlabel('Number of Agents')
-        axs[1,0].axes.set_ylabel('Time(min)')
-        axs[1,0].set_title('Wall Time (CP)')
+        # axs[1,0].plot(df_CP['N'],df_CP['Wall_Time']/60,color='k', alpha=a)
+        # axs[1,0].axes.set_xticks(df_CP['N'])
+        # # axs[1,0].legend(label)
+        # # axs[1,0].grid()
+        # axs[1,0].axes.set_xlabel('Number of Agents')
+        # axs[1,0].axes.set_ylabel('Time(min)')
+        # axs[1,0].set_title('Wall Time (CP)')
         
         Norm_temp=((df_DP['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
         Norm_temp_Sorted=((df_DP_Sorted['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
         Norm_temp_Random=((df_DP_Random['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
         print(Norm_temp_Sorted)
         # Norm2=((df_mean_DP['Objective']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
-        axs[0,1].plot(df_DP_Sorted['N'],Norm_temp_Sorted,color='blue')
-        axs[0,1].plot(df_DP_Random['N'],Norm_temp_Random,color='red')
-        axs[0,1].legend(['Sorted','Random'])
+        axs[0,1].plot(df_DP_Sorted['N'],Norm_temp_Sorted,color=colorMean(1), alpha=a)
+        axs[0,1].plot(df_DP_Random['N'],Norm_temp_Random,color=colorMean(14), alpha=a)
+        # axs[0,1].legend(['Sorted','Random'])
         # axs[0,1].plot(df_CP['N'],df_CP['Objective'])
         axs[0,1].axes.set_xticks(df_DP['N'])
         # axs[0,1].grid()
@@ -263,9 +263,9 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig):
         
         # axs[1,1].plot(N,df_DP['SSR'].astype(float),color='red')
         axs[1,1].plot(df_CP['N'],df_CP['SSR']*100,color='k' )
-        axs[1,1].plot(df_DP_Sorted['N'],df_DP_Sorted['SSR']*100, color='blue')
-        axs[1,1].plot(df_DP_Random['N'],df_DP_Random['SSR']*100, color='red')
-        axs[1,1].legend(['CP-Optimal','Sorted','Random'])
+        axs[1,1].plot(df_DP_Sorted['N'],df_DP_Sorted['SSR']*100, color=colorMean(1), alpha=a)
+        axs[1,1].plot(df_DP_Random['N'],df_DP_Random['SSR']*100, color=colorMean(14), alpha=a)
+        # axs[1,1].legend(['CP-Optimal','Sorted','Random'])
         axs[1,1].axes.set_xticks(df_CP['N'])
         # axs[1,1].grid()
         # axs[1,1].axes.set_xlabel('Number of Agents')
@@ -282,8 +282,8 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig):
         
         axs[2,1].plot(df_CP['N'],df_CP['SCR']*100,color='k')
         # axs[2,1].plot(df_DP['N'],df_DP['SCR'])
-        axs[2,1].plot(df_DP_Sorted['N'],df_DP_Sorted['SCR']*100, color='blue')
-        axs[2,1].plot(df_DP_Random['N'],df_DP_Random['SCR']*100, color='red')
+        axs[2,1].plot(df_DP_Sorted['N'],df_DP_Sorted['SCR']*100, color=colorMean(1), alpha=a)
+        axs[2,1].plot(df_DP_Random['N'],df_DP_Random['SCR']*100, color=colorMean(14), alpha=a)
         axs[2,1].legend(['CP-Optimal','Sorted','Random'])
         axs[2,1].axes.set_xticks(df_CP['N'])
         axs[2,1].axes.set_xlabel('Number of Agents')
@@ -309,13 +309,15 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig):
     plt.show()
             
     # plt.style.use('seaborn-darkgrid')
-    fig, axs = plt.subplots(3, 2)
-        
-    # axs[0,0].plot(df_mean_DP_Sorted['N'],df_mean_DP_Sorted['Wall_Time']/60,color=colorMean(1),linewidth=linebig)
-    # axs[0,0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['Wall_Time']/60,color=colorMean(14),linewidth=linebig)
-    axs[0,0].plot(df_mean_DP_Sorted['N'],df_mean_DP_Sorted['Wall_Time']/60,color=colorRuns(1),linewidth=linebig)
-    axs[0,0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['Wall_Time']/60,color=colorRuns(2),linewidth=linebig)
-    axs[0,0].legend(['Sorted-' + MeanType,'Random-'+ MeanType])
+    # fig, axs = plt.subplots(3, 2)
+    axs[0,0].plot(df_mean_DP_Sorted['N'],df_mean_DP_Sorted['Wall_Time']/60, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
+    axs[0,0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['Wall_Time']/60,color=colorMean(14),linewidth=linebig,label='Random-'+ MeanType)
+    
+    # axs[0,0].plot(df_mean_DP_Sorted['N'],df_mean_DP_Sorted['Wall_Time']/60,color=colorRuns(1),linewidth=linebig)
+    # axs[0,0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['Wall_Time']/60,color=colorRuns(2),linewidth=linebig)
+    # axs[0,0].legend(['Sorted-' + MeanType,'Random-'+ MeanType], mode='expand',ncol=2, borderaxespad=0,bbox_to_anchor=(0., 1.02, 1., .102), loc='upper left')
+        # axs[0,0].legend(mode='expand',ncol=2,bbox_to_anchor=(0., 1.02, 1., .102), loc='upper left')
+    axs[0,0].legend()
     axs[0,0].axes.set_xticks(df_mean_DP['N'])
     axs[0,0].grid()
     # axs[0,0].axes.set_xlabel('Number of Agents')
@@ -339,10 +341,10 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig):
 
     # Norm2=((df_mean_DP['Objective']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
     
-    axs[0,1].plot(df_mean_DP['N'], Norm_mean_Sorted, color='k')
-    axs[0,1].plot(df_mean_DP['N'], Norm_mean_Random, color='gold')
+    axs[0,1].plot(df_mean_DP['N'], Norm_mean_Sorted, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
+    axs[0,1].plot(df_mean_DP['N'], Norm_mean_Random, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
     
-    axs[0,1].legend(['Sorted','Random'])
+    axs[0,1].legend()
     # axs[0,1].plot(df_mean_DP['N'], Norm2)
     # axs[0,1].legend(['Dp'])
     axs[0,1].axes.set_xticks(df_DP['N'])
@@ -351,21 +353,21 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig):
     axs[0,1].axes.set_ylabel('%')
     axs[0,1].set_title('DP objective (trans) relative to CP optimal')
     
-    axs[1,1].plot(df_mean_CP['N'],df_mean_CP['SSR']*100, color='blue')
-    axs[1,1].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SSR']*100, color='k')
-    axs[1,1].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SSR']*100, color='gold')
-    axs[1,1].legend(['CP-Optimal','Sorted','Random'])
+    axs[1,1].plot(df_mean_CP['N'],df_mean_CP['SSR']*100, color='k', label='CP -Optimal')
+    axs[1,1].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SSR']*100, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
+    axs[1,1].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SSR']*100, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
+    axs[1,1].legend()
     axs[1,1].axes.set_xticks(df_DP['N'])
     axs[1,1].grid()
     axs[1,1].axes.set_xlabel('Number of Agents')
     axs[1,1].axes.set_ylabel('%')
     axs[1,1].set_title('Self-Suficiency Ratio')
     
-    axs[2,1].plot(df_mean_CP['N'],df_mean_CP['SCR']*100, color='blue')
+    axs[2,1].plot(df_mean_CP['N'],df_mean_CP['SCR']*100, color='k', label='CP-Optimal')
     # axs[2,1].plot(df_mean_DP['N'],df_mean_DP['SCR'], color='k')
-    axs[2,1].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SCR']*100, color='k')
-    axs[2,1].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SCR']*100, color='gold')
-    axs[2,1].legend(['CP-Optimal','Sorted','Random'])
+    axs[2,1].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SCR']*100, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
+    axs[2,1].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SCR']*100, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
+    axs[2,1].legend()
 
     axs[2,1].axes.set_xticks(df_DP['N'])
     axs[2,1].grid()

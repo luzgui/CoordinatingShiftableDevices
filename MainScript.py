@@ -324,11 +324,13 @@ AppsfilesNames=['AppsList_2','AppsList_3',
 'AppsList_19']
 
 AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8']
-AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11']
-from PlotFunc import *
-df_R=Calc_Tables_mat(ResultsFolder)
-PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv','Median')
+AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11','AppsList_12']
 
+from PlotFunc import *
+alpha=0.2
+PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv','Median', alpha, 2.5)
+
+df_R=Calc_Tables_mat(ResultsFolder)
 # df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')
 
 #To use on local computer after download results
