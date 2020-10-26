@@ -32,6 +32,8 @@ ResultsFolder=DataFolder + '/Results'
 #CSV Apps folder
 AppsFolder=DataFolder + '/Apps_List'
 
+#%%
+
 # Problem  time data
 dt=10 #discretization
 H=int((24*60)/dt) # Time horizon
@@ -76,7 +78,7 @@ Appsfiles=['AppsList_2.csv',
 # full anmes of files Appsfiles=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16''AppsList_17','AppsList_18','AppsList_19']
 # Ndev=[15]
 # Appsfiles=['AppsList_2.csv']
-
+Appsfiles=['AppsList_10.csv']
 DevicesList_Mean=pd.DataFrame(columns=['AppsList','N','m_p','m_d'])
 
 for afiles in Appsfiles:
@@ -88,9 +90,9 @@ for afiles in Appsfiles:
     DevicesFull=pd.read_csv(AppsFolder+ '/'+ afiles)
     DevicesFull = DevicesFull.rename(columns={'Unnamed: 0': 'ind'})
     # Plotting a scatter with the distribution of devices
-    # power=DevicesFull['Power'];duration=DevicesFull['Duration']
+    power=DevicesFull['Power'];duration=DevicesFull['Duration']
     # RunFile='run'+ run[0]
-    # DevScat(power,duration,ResultsFolder,len(DevicesFull),RunFile)
+    DevScat(power,duration,ResultsFolder,len(DevicesFull),RunFile)
 
 # %%
     for n in Ndev:
@@ -313,24 +315,44 @@ for afiles in Appsfiles:
 # Getting a dataframe wit comparison of all solution .mat files existing in ResultsFolder
 # AppsfilesNames=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16','AppsList_17','AppsList_18','AppsList_19']
 
-AppsfilesNames=['AppsList_2','AppsList_3',
-'AppsList_4',
-'AppsList_8',
-'AppsList_10',
-'AppsList_11',
-'AppsList_12',
-'AppsList_17',
-'AppsList_18',
-'AppsList_19']
+# AppsfilesNames=['AppsList_2','AppsList_3',
+# 'AppsList_4',
+# 'AppsList_8',
+# 'AppsList_10',
+# 'AppsList_11',
+# 'AppsList_12',
+# 'AppsList_17',
+# 'AppsList_18',
+# 'AppsList_19']
 
-AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8']
-AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11','AppsList_12']
+# AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8']
+
+
+#%% PlotCompare
+df_R=Calc_Tables_mat(ResultsFolder)
 
 from PlotFunc import *
-alpha=0.2
-PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv','Median', alpha, 2.5)
+AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11','AppsList_12','AppsList_17','AppsList_18']
+# AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11','AppsList_12']
+# AppsfilesNames=['AppsList_3','AppsList_8','AppsList_10','AppsList_11','AppsList_12']
 
-df_R=Calc_Tables_mat(ResultsFolder)
+alpha=0.2
+fw=14
+[M_CP, M_Rand, M_Sort, Min_CP, Min_Rand, Min_Sorted]=PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv','Mean', alpha, 2.5,fw)
+
+#%% AppsPlott
+from PlotFunc import *
+color = 'k'
+color2='tab:orange'
+fw=16
+lw=4
+MatfilesCP=[ResultsFolder + '/CP_AppsList_10_25.mat',ResultsFolder +'/CP_AppsList_10_125.mat']
+ProfilePlot(MatfilesCP,TarInit, fw,lw, color,color2)
+
+MatfilesDP=[ResultsFolder + '/DP_Sorted_AppsList_10_25.mat',ResultsFolder +'/DP_Sorted_AppsList_10_125.mat']
+# MatfilesDP=[ResultsFolder + '/DP_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Random_AppsList_10_125.mat']
+ProfilePlot(MatfilesDP,TarInit, fw,lw, color,color2)
+
 # df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')
 
 #To use on local computer after download results
