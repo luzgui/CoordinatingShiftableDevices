@@ -76,9 +76,9 @@ Appsfiles=['AppsList_2.csv',
 'AppsList_19.csv']
 
 # full anmes of files Appsfiles=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16''AppsList_17','AppsList_18','AppsList_19']
-# Ndev=[15]
+# Ndev=[25]
 # Appsfiles=['AppsList_2.csv']
-Appsfiles=['AppsList_10.csv']
+# Appsfiles=['AppsList_10.csv']
 DevicesList_Mean=pd.DataFrame(columns=['AppsList','N','m_p','m_d'])
 
 for afiles in Appsfiles:
@@ -93,6 +93,7 @@ for afiles in Appsfiles:
     power=DevicesFull['Power'];duration=DevicesFull['Duration']
     # RunFile='run'+ run[0]
     DevScat(power,duration,ResultsFolder,len(DevicesFull),RunFile)
+from PlotFunc import *
 
 # %%
     for n in Ndev:
@@ -307,7 +308,8 @@ for afiles in Appsfiles:
                 c[k]=c0[k]+0.5*(Pag_dict[k]/PVcap)*TarS
         
         #Write results
-        ModelName='DP'+ ModelSort + RunFile
+        # ModelName='DP'+ ModelSort + RunFile
+        ModelName='Nocord'+ ModelSort + RunFile
         get_Results_D(M,R, c, Ppv,PVcap, n,miu,p,d, ResultsFolder, ModelName)
         plt.close('all')
         
@@ -333,18 +335,18 @@ df_R=Calc_Tables_mat(ResultsFolder)
 
 from PlotFunc import *
 AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11','AppsList_12','AppsList_17','AppsList_18']
-# AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11','AppsList_12']
-# AppsfilesNames=['AppsList_3','AppsList_8','AppsList_10','AppsList_11','AppsList_12']
+# # AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11','AppsList_12']
+# # AppsfilesNames=['AppsList_3','AppsList_8','AppsList_10','AppsList_11','AppsList_12']
 
 alpha=0.2
 fw=14
-[M_CP, M_Rand, M_Sort, Min_CP, Min_Rand, Min_Sorted]=PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv','Mean', alpha, 2.5,fw)
+[M_CP, M_Rand, M_Sort, Min_CP, Min_Rand, Min_Sorted, Poly]=PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv','Mean', alpha, 2.5,fw)
 
 #%% AppsPlott
 from PlotFunc import *
 color = 'k'
 color2='tab:orange'
-fw=16
+fw=24
 lw=4
 MatfilesCP=[ResultsFolder + '/CP_AppsList_10_25.mat',ResultsFolder +'/CP_AppsList_10_125.mat']
 ProfilePlot(MatfilesCP,TarInit, fw,lw, color,color2)
@@ -352,6 +354,11 @@ ProfilePlot(MatfilesCP,TarInit, fw,lw, color,color2)
 MatfilesDP=[ResultsFolder + '/DP_Sorted_AppsList_10_25.mat',ResultsFolder +'/DP_Sorted_AppsList_10_125.mat']
 # MatfilesDP=[ResultsFolder + '/DP_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Random_AppsList_10_125.mat']
 ProfilePlot(MatfilesDP,TarInit, fw,lw, color,color2)
+
+MatfilesNOc=[ResultsFolder + '/Nocord_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Sorted_AppsList_10_125.mat']
+# MatfilesDP=[ResultsFolder + '/DP_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Random_AppsList_10_125.mat']
+ProfilePlot(MatfilesNOc,TarInit, fw,lw, color,color2)
+
 
 # df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')
 

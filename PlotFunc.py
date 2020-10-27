@@ -120,9 +120,9 @@ def DevScat(p,d,ResultsFolder,n,RunFile):
     plot_x=[i[0] for i in points]
     plot_y=[i[1] for i in points]
     count=np.array(count)
-    plt.scatter(plot_x,plot_y,c=count,s=100*count**0.5,cmap='Spectral_r')
-    plt.xlabel("power demand (kW)", fontsize=fw)
-    plt.ylabel("Duration (nº timeslots)", fontsize=fw)
+    plt.scatter(plot_x,plot_y,c=count,s=100*count**0.5,cmap='viridis_r')
+    plt.xlabel("Power Demand (kW)", fontsize=fw)
+    plt.ylabel("Duration (number of timeslots)", fontsize=fw)
     plt.colorbar()
     plt.grid(True)
     plt.title('Shiftable devices distribution N=%i' %n, fontsize=fw)
@@ -226,13 +226,13 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     # Atributes for plots
     colorRuns = plt.get_cmap('Pastel2')
     colorMean = plt.get_cmap('tab20b')
-
+    
     #%% Figure
     import seaborn as sns
     plt.style.use('seaborn-darkgrid')
-    figcp, axscp = plt.subplots(3, 1)
+    figcp, axscp = plt.subplots(1, 2)
     plt.style.use('seaborn-darkgrid')
-    figdp, axsdp = plt.subplots(2, 2)
+    figdp, axsdp = plt.subplots(1, 3)
     
     TitleTime='Computational Time'
     ylabelTime='Time(minutes)'
@@ -270,70 +270,69 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
         df_DP_Random=df_DP_Random.reset_index(drop=True)
         
         #%% Sorted + Random plotting
-        axsdp[0,0].plot(df_DP_Sorted['N'],df_DP_Sorted['Wall_Time']/60, color=colorMean(1), alpha=a)
-        axsdp[0,0].plot(df_DP_Random['N'],df_DP_Random['Wall_Time']/60, color=colorMean(14), alpha=a)
+        # axsdp[0,0].plot(df_DP_Sorted['N'],df_DP_Sorted['Wall_Time']/60, color=colorMean(1), alpha=a)
+        # axsdp[0,0].plot(df_DP_Random['N'],df_DP_Random['Wall_Time']/60, color=colorMean(14), alpha=a)
+        # axsdp[0,0].axes.set_xticks(df_DP['N'])
+        # axsdp[0,0].axes.set_ylabel(ylabelTime)
+        
+        # Norm_temp=((df_DP['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
+        # Norm_temp_Sorted=((df_DP_Sorted['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
+        # Norm_temp_Random=((df_DP_Random['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
 
-        axsdp[0,0].axes.set_xticks(df_DP['N'])
-        # axsdp[0,0].legend(['Sorted','Random'])
-        # axsdp[0,0].grid()
-        # axsdp[0].axes.set_xlabel('Number of Agents')
-        axsdp[0,0].axes.set_ylabel(ylabelTime)
-        # axsdp[0].set_title('Wall Time (DP)')
+        # axsdp[0,1].plot(df_DP_Sorted['N'],Norm_temp_Sorted,color=colorMean(1), alpha=a)
+        # axsdp[0,1].plot(df_DP_Random['N'],Norm_temp_Random,color=colorMean(14), alpha=a)
+        # axsdp[0,1].axes.set_xticks(N)
+        # axsdp[0,1].axes.set_ylabel('%')
+        # # axsdp[1].set_title('DP objective (trans) relative to CP optimal')
+        
+        # axsdp[0,2].plot(df_CP['N'],df_CP['SSR']*100,color='k' )
+        # axsdp[0,2].plot(df_DP_Sorted['N'],df_DP_Sorted['SSR']*100, color=colorMean(1), alpha=a)
+        # axsdp[0,2].plot(df_DP_Random['N'],df_DP_Random['SSR']*100, color=colorMean(14), alpha=a)
+        # axsdp[0,2].axes.set_xticks(N)
+        # axsdp[0,2].axes.set_ylabel('%')
+
+        axsdp[0].plot(df_DP_Sorted['N'],df_DP_Sorted['Wall_Time']/60, color=colorMean(1), alpha=a)
+        axsdp[0].plot(df_DP_Random['N'],df_DP_Random['Wall_Time']/60, color=colorMean(14), alpha=a)
+        axsdp[0].axes.set_xticks(df_DP['N'])
+        axsdp[0].axes.set_ylabel(ylabelTime)
         
         Norm_temp=((df_DP['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
         Norm_temp_Sorted=((df_DP_Sorted['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
         Norm_temp_Random=((df_DP_Random['Objective_T']-df_CP['Objective'])/df_CP['Objective'])*100
-        # print(Norm_temp_Sorted)
-        # Norm2=((df_mean_DP['Objective']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
-        axsdp[0,1].plot(df_DP_Sorted['N'],Norm_temp_Sorted,color=colorMean(1), alpha=a)
-        axsdp[0,1].plot(df_DP_Random['N'],Norm_temp_Random,color=colorMean(14), alpha=a)
-        # axsdp[0,1].legend(['Sorted','Random'])
-        # axsdp[0,1].plot(df_CP['N'],df_CP['Objective'])
-        axsdp[0,1].axes.set_xticks(df_DP['N'])
-        # axsdp[0,1].grid()
-        # axsdp[1].axes.set_xlabel('Number of Agents')
-        axsdp[0,1].axes.set_ylabel('%')
+
+        axsdp[1].plot(df_DP_Sorted['N'],Norm_temp_Sorted,color=colorMean(1), alpha=a)
+        axsdp[1].plot(df_DP_Random['N'],Norm_temp_Random,color=colorMean(14), alpha=a)
+        axsdp[1].axes.set_xticks(N)
+        axsdp[1].axes.set_ylabel('%')
         # axsdp[1].set_title('DP objective (trans) relative to CP optimal')
         
-        # axsdp[1,1].plot(N,df_DP['SSR'].astype(float),color='red')
-        axsdp[1,0].plot(df_CP['N'],df_CP['SSR']*100,color='k' )
-        axsdp[1,0].plot(df_DP_Sorted['N'],df_DP_Sorted['SSR']*100, color=colorMean(1), alpha=a)
-        axsdp[1,0].plot(df_DP_Random['N'],df_DP_Random['SSR']*100, color=colorMean(14), alpha=a)
-        # axsdp[1,1].legend(['CP-Optimal','Sorted','Random'])
-        axsdp[1,0].axes.set_xticks(N)
-        # axsdp[1,1].grid()
-        # axsdp[1,1].axes.set_xlabel('Number of Agents')
-        axsdp[1,0].axes.set_ylabel('%')
-        # axsdp[2].set_title('Self-Suficiency Ratio')
+        axsdp[2].plot(df_CP['N'],df_CP['SSR']*100,color='k' )
+        axsdp[2].plot(df_DP_Sorted['N'],df_DP_Sorted['SSR']*100, color=colorMean(1), alpha=a)
+        axsdp[2].plot(df_DP_Random['N'],df_DP_Random['SSR']*100, color=colorMean(14), alpha=a)
+        axsdp[2].axes.set_xticks(N)
+        axsdp[2].axes.set_ylabel('%')        
+
         
-        # if k==Appsfiles[0]:
-        #     axsdp2=axsdp[2].twinx()
-        
-        # axsdp2.plot(df_CP['N'],df_CP['SCR']*100,color='k')
-        # # axs1[2,1].plot(df_DP['N'],df_DP['SCR'])
-        # axsdp2.plot(df_DP_Sorted['N'],df_DP_Sorted['SCR']*100, color=colorMean(1), alpha=a)
-        # axs1[2,1].plot(df_DP_Random['N'],df_DP_Random['SCR']*100, color=colorMean(14), alpha=a)
-        # axs1[2,1].legend(['CP-Optimal','Sorted','Random'])
-        # axs1[2,1].axes.set_xticks(df_CP['N'])
-        # axs1[2,1].axes.set_xlabel('Number of Agents')
-        # axs1[2,1].axes.set_ylabel('%')
-        # axs1[2,1].set_title('Self-Consumption Rate')
-        # axs1[2,1].grid()
-        
-        # axs1[2,0].plot(DevMean_temp['N'],DevMean_temp['m_p'])
-        # axs1[2,0].plot(DevMean_temp['N'],DevMean_temp['m_d'])
-        # axs1[2,0].axes.set_xticks(df_CP['N'])
-        # # axs1[2,0].legend(label)
-        # axs1[2,0].grid()
-        # axs1[2,0].axes.set_xlabel('Number of Agents')
-        # axs1[2,0].axes.set_ylabel('kW')
+        # axsdp[1,0].plot(df_CP['N'],df_CP['SSR']*100,color='k' )
+        # axsdp[1,0].plot(df_DP_Sorted['N'],df_DP_Sorted['SSR']*100, color=colorMean(1), alpha=a)
+        # axsdp[1,0].plot(df_DP_Random['N'],df_DP_Random['SSR']*100, color=colorMean(14), alpha=a)
+        # axsdp[1,0].axes.set_xticks(N)
+        # axsdp[1,0].axes.set_ylabel('%')
+
+        # axsdp[1,1].plot(df_CP['N'],df_CP['SCR']*100,color='k')
+        # axsdp[1,1].plot(df_DP_Sorted['N'],df_DP_Sorted['SCR']*100, color=colorMean(1), alpha=a)
+        # axsdp[1,1].plot(df_DP_Random['N'],df_DP_Random['SCR']*100, color=colorMean(14), alpha=a)
+        # axsdp[1,1].axes.set_xticks(N)
+        # axsdp[1,1].axes.set_ylabel('%')
         
         
-        
-        
+        # axs1[1,1].set_title('Self-Consumption Rate')
+        # axs1[1,1].grid()
+
         #CP pLot
         
         axscp[0].plot(df_CP['N'],df_CP['Wall_Time']/60,color='k', alpha=a)
+        axscp[0].grid()
         # axscp[0].axes.set_xticks(df_CP['N'])
         # axscp[0].axes.set_xlabel('Number of Agents')
         # axscp[0].axes.set_ylabel('Time(min)')
@@ -344,104 +343,157 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
         # axscp[1].axes.set_xlabel('Number of Agents')
         # axscp[1].axes.set_ylabel('€')
         # axscp[1].set_title('Objective')
-
     
-    axsdp[0,0].axes.set_xticks(df_mean_CP['N'])
-    axsdp[0,1].axes.set_xticks(df_mean_CP['N'])
-    axsdp[1,0].axes.set_xticks(df_mean_CP['N'])
+    axsdp[0].grid()
+    axsdp[1].grid()
+    axsdp[2].grid()
     
-    axsdp[0,0].grid()
-    axsdp[0,1].grid()
-    axsdp[1,0].grid()
+    axscp[0].grid()
+    axscp[1].grid()
+    # axsdp[0,0].grid()
+    # axsdp[0,1].grid()
+    # axsdp[1,0].grid()
+    # axsdp[1,1].grid()
     # plt.tight_layout()        
-    plt.subplots_adjust(top=0.984, bottom=0.056, left=0.524, right=0.992, hspace=0.124, wspace=0.2)
+    # plt.subplots_adjust(left=0.445)
     
+    plt.subplots_adjust(bottom=0.4,)
     
 
-    
-    
-    
     plt.show()
             
-    # fig, axs1 = plt.subplots(3, 2)
-    axsdp[0,0].plot(df_mean_DP_Sorted['N'],df_mean_DP_Sorted['Wall_Time']/60, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
-    axsdp[0,0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['Wall_Time']/60,color=colorMean(14),linewidth=linebig,label='Random-'+ MeanType)
-    
-    # axsdp[0,0].plot(df_mean_DP_Sorted['N'],df_mean_DP_Sorted['Wall_Time']/60,color=colorRuns(1),linewidth=linebig)
-    # axsdp[0,0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['Wall_Time']/60,color=colorRuns(2),linewidth=linebig)
-    # axsdp[0,0].legend(['Sorted-' + MeanType,'Random-'+ MeanType], mode='expand',ncol=2, borderaxespad=0,bbox_to_anchor=(0., 1.02, 1., .102), loc='upper left')
-        # axsdp[0,0].legend(mode='expand',ncol=2,bbox_to_anchor=(0., 1.02, 1., .102), loc='upper left')
-    axsdp[0,0].legend()
-    # axsdp[0].axes.set_xticks(df_mean_DP['N'])
-    axsdp[0,0].grid()
-    # axsdp[0,0].axes.set_xlabel('Number of Agents')
+
+    # MEAN PLOTS
+
+    # axsdp[0,0].plot(df_mean_DP_Sorted['N'],df_mean_DP_Sorted['Wall_Time']/60, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
+    # axsdp[0,0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['Wall_Time']/60,color=colorMean(14),linewidth=linebig,label='Random-'+ MeanType)
+    # axsdp[0,0].legend()
+    # axsdp[0,0].axes.set_xticks(N)
+    # axsdp[0,0].grid()
+    # # axsdp[0,0].axes.set_xlabel('Number of Agents')
     # axsdp[0,0].axes.set_ylabel('Time(min)')
     # axsdp[0,0].set_title('Wall Time (DP)')
+    
+    # Norm_mean_Sorted=((df_mean_DP_Sorted['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+    # Norm_mean_Random=((df_mean_DP_Random['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+
+    # axsdp[0,1].plot(df_mean_DP['N'], Norm_mean_Sorted, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
+    # axsdp[0,1].plot(df_mean_DP['N'], Norm_mean_Random, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
+    # axsdp[0,1].legend()
+    # # axsdp[1].axes.set_xticks(df_DP['N'])
+    # axsdp[0,1].grid()
+    # # axsdp[1].axes.set_xlabel('Number of Agents')
+    # axsdp[0,1].axes.set_ylabel('%')
+    # axsdp[0,1].set_title('DP objective incease relative to CP optimal')
+    
+    
+    # axsdp[1,0].plot(df_mean_CP['N'],df_mean_CP['SSR']*100, color='k', label='CP -Optimal')
+    # axsdp[1,0].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SSR']*100, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
+    # axsdp[1,0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SSR']*100, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
+    # axsdp[1,0].legend()
+    # axsdp[1,0].axes.set_xticks(N)
+    # # axsdp[1,0].grid()
+    # axsdp[1,0].axes.set_xlabel(xlabelAgents)
+    # axsdp[1,0].axes.set_ylabel('%')
+    # axsdp[1,0].set_title('Self-Sufficiency Rate')
+    # axsdp[1,0].xaxis.grid()
+    
+    axsdp[0].plot(df_mean_DP_Sorted['N'],df_mean_DP_Sorted['Wall_Time']/60, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
+    axsdp[0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['Wall_Time']/60,color=colorMean(14),linewidth=linebig,label='Random-'+ MeanType)
+    axsdp[0].legend()
+    axsdp[0].axes.set_xticks(N)
+    axsdp[0].grid()
+    axsdp[0].axes.set_xlabel(xlabelAgents,fontsize=fw)
+    axsdp[0].axes.set_ylabel('Time(min)',fontsize=fw)
+    axsdp[0].set_title('Wall Time (DP)')
+    
+    Norm_mean_Sorted=((df_mean_DP_Sorted['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+    Norm_mean_Random=((df_mean_DP_Random['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
+
+    axsdp[1].plot(df_mean_DP['N'], Norm_mean_Sorted, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
+    axsdp[1].plot(df_mean_DP['N'], Norm_mean_Random, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
+    axsdp[1].legend()
+    # axsdp[1].axes.set_xticks(df_DP['N'])
+    axsdp[1].grid()
+    axsdp[1].axes.set_xlabel(xlabelAgents,fontsize=fw)
+    axsdp[1].axes.set_ylabel('%',fontsize=fw)
+    axsdp[1].set_title('DP objective incease relative to CP optimal')
+    
+    axsdp[2].plot(df_mean_CP['N'],df_mean_CP['SSR']*100, color='k', label='CP -Optimal')
+    axsdp[2].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SSR']*100, color=colorMean(1),linewidth=linebig,label='SSR (Sorted)')
+    axsdp[2].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SSR']*100, color=colorMean(14),linewidth=linebig,label='SSR (Random)')
+    
+    axsdp[2].axes.set_xticks(N)
+    # axsdp[1,0].grid()
+    axsdp[2].axes.set_xlabel(xlabelAgents,fontsize=fw)
+    axsdp[2].axes.set_ylabel('Self-Sufficiency Rate(%)',fontsize=fw)
+    axsdp[2].set_title('Self-Sufficiency / Self-Consumption Rate')
+    axsdp[2].xaxis.grid()
+    
+    ax2=axsdp[2].twinx()
+    ax2.plot(N,df_mean_CP['SCR']*100, color='k')
+    ax2.plot(N, df_mean_DP_Sorted['SCR']*100, color=colorMean(6),linewidth=linebig,label='SCR (Sorted)')
+    ax2.plot(N,df_mean_DP_Random['SCR']*100,color=colorMean(3),linewidth=linebig,label='SCR (Random)')
+    
+    l = axsdp[2].get_ylim()
+    l2 = ax2.get_ylim()
+    f = lambda x : l2[0]+(x-l[0])/(l[1]-l[0])*(l2[1]-l2[0])
+    ticks = f(axsdp[2].get_yticks())
+    # ticks = f(round(axsdp[2].get_yticks(),1))
+    ax2.yaxis.set_major_locator(matplotlib.ticker.FixedLocator(ticks))
+    
+    ax2.axes.set_ylabel('Self-Consumption Rate(%)',fontsize=fw)
+    # ax2.set_ylim([78,max(df_mean_CP['SCR']*100)])
+    # ax2.grid()
+    axsdp[2].legend(loc='lower right')
+    ax2.legend(loc='lower center')
+    # ax2.plot(N,df_mean_CP['SCR']*100, color='k', label='CP-Optimal2')
+    # ax2.set_ylim(83)
+    
+    # plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/3plots.png', dpi=300)
+    # axsdp[1,1].plot(df_mean_CP['N'],df_mean_CP['SCR']*100, color='k', label='CP-Optimal')
+    # axsdp[1,1].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SCR']*100, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
+    # axsdp[1,1].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SCR']*100, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
+    # axsdp[1,1].legend()
+    # axsdp[1,1].axes.set_xticks(df_DP['N'])
+    # # axsdp[1,1].grid()
+    # axsdp[1,1].xaxis.grid()
+    # axsdp[1,1].axes.set_xlabel('Number of Agents')
+    # axsdp[1,1].axes.set_ylabel('%')
+    # axsdp[1,1].set_title('Self-Consumption Rate')
+    
+    # ax2=axsdp[1,0].twinx()
+    # ax2.plot(N,df_mean_CP['SCR']*100, color='k')
+    # # ax2.set_ylim(axsdp[1,1].get_ylim())
+    # ax2.grid()
+    plt.show()
+    
+    
     
     axscp[0].plot(df_mean_CP['N'],df_mean_CP['Wall_Time']/60,color='k', linewidth=linebig, label='CP ' + MeanType)
     axscp[0].legend()
     axscp[0].axes.set_xticks(N)
     axscp[0].grid()
-    axscp[0].axes.set_xlabel(xlabelAgents)
-    axscp[0].axes.set_ylabel(ylabelTime)
-    axscp[0].set_title(TitleTime + ' CP')
+    axscp[0].axes.set_xlabel(xlabelAgents, fontsize=fw)
+    axscp[0].axes.set_ylabel(ylabelTime, fontsize=fw)
+    axscp[0].set_title('Wall Time' + ' (CP)')
     
     axscp[1].plot(df_mean_CP['N'],df_mean_CP['Objective'],color='k',linewidth=linebig, label='CP ' + MeanType)
     axscp[1].legend()
     axscp[1].axes.set_xticks(N)
     axscp[1].grid()
-    axscp[1].axes.set_xlabel(xlabelAgents)
-    axscp[1].axes.set_ylabel('€')
+    axscp[1].axes.set_xlabel(xlabelAgents,fontsize=fw)
+    axscp[1].axes.set_ylabel('€',fontsize=fw)
     axscp[1].set_title('Objective')
     # axscp[0,1].plot(df_mean_CP['N'],df_mean_CP['Objective'])
     # axscp[0,1].legend(['CP'])
     
-    
-    # Norm=((df_mean_DP['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
-    Norm_mean_Sorted=((df_mean_DP_Sorted['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
-    Norm_mean_Random=((df_mean_DP_Random['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
-
-    # Norm2=((df_mean_DP['Objective']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
-    
-    axsdp[0,1].plot(df_mean_DP['N'], Norm_mean_Sorted, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
-    axsdp[0,1].plot(df_mean_DP['N'], Norm_mean_Random, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
-    
-    axsdp[0,1].legend()
-    # axsdp[0,1].plot(df_mean_DP['N'], Norm2)
-    # axsdp[0,1].legend(['Dp'])
-    # axsdp[1].axes.set_xticks(df_DP['N'])
-    axsdp[0,1].grid()
-    # axsdp[1].axes.set_xlabel('Number of Agents')
-    axsdp[0,1].axes.set_ylabel('%')
-    # axsdp[1].set_title('DP objective (trans) relative to CP optimal')
-    
-    axsdp[1,0].plot(df_mean_CP['N'],df_mean_CP['SSR']*100, color='k', label='CP -Optimal')
-    axsdp[1,0].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SSR']*100, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
-    axsdp[1,0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SSR']*100, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
-    axsdp[1,0].legend()
-    axsdp[1,0].axes.set_xticks(N)
-    # axsdp[2].grid()
-    axsdp[1,0].axes.set_xlabel(xlabelAgents)
-    axsdp[1,0].axes.set_ylabel('%')
-    # axsdp[2].set_title('Self-Suficiency Ratio')
-    
-    # axsdp2.plot(df_mean_CP['N'],df_mean_CP['SCR']*100, color='k', label='CP-Optimal')
-    # # axsdp[2,1].plot(df_mean_DP['N'],df_mean_DP['SCR'], color='k')
-    # axsdp[2,1].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SCR']*100, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
-    # axsdp[2,1].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SCR']*100, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
-    # axsdp[2,1].legend()
-
-    # axsdp[2,1].axes.set_xticks(df_DP['N'])
-    # axsdp[2,1].grid()
-    # axsdp[2,1].axes.set_xlabel('Number of Agents')
-    # axsdp[2,1].axes.set_ylabel('%')
-    # axsdp[2,1].set_title('Self-Consumption Rate')
-    
-    plt.tight_layout()        
+    plt.subplots_adjust(bottom=0.4)
     plt.show()
     
     
     #Fitting Plots
+    
     from sklearn.metrics import r2_score
     
     poly_CP_min=np.poly1d(np.polyfit(N.values, df_min_CP['Wall_Time'].values, 1))
@@ -465,6 +517,10 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     R2_Min_Sort = r'$R^2=%.2f$' % (r2_score(df_min_DP_Sorted['Wall_Time'], poly_DP_Sorted_min(N)), )
     R2_Min_Random = r'$R^2=%.2f$' % (r2_score(df_min_DP_Random['Wall_Time'], poly_DP_Random_min(N)), )
     
+    
+    # Poly=poly_CP_min
+    Poly=poly_DP_Sorted_mean
+    
     #Plots
     
     plt.style.use('seaborn-darkgrid')
@@ -480,11 +536,9 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     
     axs2[0,0].legend()
     axs2[0,0].axes.set_xticks(N)
+    axs2[0,0].axes.set_ylabel('Time (Minutes)', fontsize=fw)
+    axs2[0,0].set_title('Optimistics Wall Time (CP)')
     axs2[0,0].grid()
-    # axs2[0,0].axes.set_xlabel(xlabelAgents)
-    axs2[0,0].axes.set_ylabel('min')
-    axs2[0,0].set_title(TitleTime)
-    
         
 
     axs2[0,1].plot(N,df_mean_CP['Wall_Time']/60,label='CP-mean')
@@ -492,10 +546,10 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     # r2_score(df_mean_CP['Wall_Time'], poly_CP_mean(N))
     axs2[0,1].legend()
     axs2[0,1].axes.set_xticks(N)
-    axs2[0,1].grid()
+    
     # axs2[0,1].axes.set_xlabel(xlab)
     # axs2[0,1].axes.set_ylabel('min')
-    axs2[0,1].set_title('Walltime mins')
+    axs2[0,1].set_title('Wall Time Mean (CP)')
 
 
     
@@ -507,10 +561,9 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
 
     axs2[1,1].legend()
     axs2[1,1].axes.set_xticks(N)
-    axs2[1,1].grid()
-    axs2[1,1].axes.set_xlabel(xlabelAgents)
-    # axs2[1,1].axes.set_ylabel(ylabelTime)
-    # axs2[1,1].set_title(TitleTime)
+    axs2[1,1].axes.set_xlabel(xlabelAgents, fontsize=fw)
+    axs2[1,1].axes.set_ylabel(ylabelTime, fontsize=fw)
+    axs2[1,1].set_title('Wall Time Mean (DP)')
      
 
     axs2[1,0].plot(N,df_min_DP_Sorted['Wall_Time']/60,label='Sorted-min')
@@ -521,14 +574,18 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     axs2[1,0].legend()
     axs2[1,0].axes.set_xticks(N)
     
-    axs2[1,0].axes.set_xlabel(xlabelAgents)
-    axs2[1,0].axes.set_ylabel(ylabelTime)
-    # axs2[1,0].set_title('Walltime mins')
-    axs2[1,0].grid()
+    axs2[1,0].axes.set_xlabel(xlabelAgents, fontsize=fw)
+    axs2[1,0].axes.set_ylabel(ylabelTime, fontsize=fw)
+    axs2[1,0].set_title('Optimistics Wall Time (DP)')
+    
     # axs2[1,0].plot(N,df_max_DP_Sorted['Wall_Time']/60,label='DP-Sorted-max')
     # axs2[1,0].plot(N, poly_DP_Sorted_max(N)/60, label='DP-Sorted-poly-max')
     
-    plt.tight_layout()        
+    # plt.tight_layout()        
+    # axs2[0,0].grid(
+    # axs2[0,1].grid()
+    # axs2[1,0].grid()
+    # axs2[1,1].grid()
     plt.show()
     
             # assert df_CP['N'].equals(df_DP['N']), 'Number of agents diffreent in DP and CP'
@@ -537,7 +594,7 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
             # file=ResultsFolder + '/Compare'
             # plt.savefig(file,dpi=300)
 
-    return df_mean_CP, df_mean_DP_Random, df_mean_DP_Sorted, df_min_CP, df_min_DP_Random, df_min_DP_Sorted, 
+    return df_mean_CP, df_mean_DP_Random, df_mean_DP_Sorted, df_min_CP, df_min_DP_Random, df_min_DP_Sorted, Poly
     
 
 
@@ -641,15 +698,16 @@ def SimplePlot(x,y1,y2,H,fw,color, color2,s):
         #make figure
         fig, ax1 = plt.subplots()
         ax1.set_xlabel('hour of the day', fontsize=fw)
-        # ax1.set_ylabel('kW', color=color,fontsize=fw)
-        ax1.set_ylabel('kW',fontsize=fw)
+        ax1.set_ylabel('% of installed capacity', color=color,fontsize=fw)
+        # ax1.set_ylabel('kW',fontsize=fw)
         ax1.plot(y1, color=color,linewidth=3)
         ax1.tick_params(axis='y',labelsize=fw)
         div=12
         L=np.linspace(0,H,div,endpoint=False)
         ax1.set_xticks(L)
         ax1.set_xticklabels(np.linspace(0,24,div,dtype=int,endpoint=False),fontsize=fw)
-        ax1.grid()
+        ax1.set_title('Normalized PV production profile', fontsize=fw)
+        # ax1.grid()
         print('Simple Plot')
         
     elif s=='TwoAxis':
@@ -697,7 +755,9 @@ def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2):
     
     xlabel='hour of the day'
     ylabel='kW'
-    y2label='€'
+    y2label='€/kWh'
+    
+    color3='indigo'
         
     m=-1
     for k in Matfiles:
@@ -715,34 +775,37 @@ def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2):
         Pag=Results['P_ag']
         Ppv=Results['Ppv']
         
-        axscp[m].plot(Pag[0], color='k',linewidth=lw, label='Aggregated demand')
+        axscp[m].plot(Pag[0], color='k',linewidth=lw, label='Total demand')
         axscp[m].plot(Ppv, color=color2,linewidth=lw, label='PV profile')
         for i in range(P.shape[0]):
             axscp[m].plot(Pcum.iloc[Pcum.shape[0]-1-i,:], color='k')     
             axscp[m].fill(Pcum.iloc[Pcum.shape[0]-1-i,:],color=color_list[i])
-            axscp[m].set_xlabel(xlabel, fontsize=fw)
-            axscp[m].set_ylabel(ylabel, color=color,fontsize=fw)
+            axscp[m].set_xlabel(xlabel, fontsize=fw,weight='bold')
+            axscp[m].set_ylabel(ylabel, color=color,fontsize=fw,weight='bold')
             axscp[m].tick_params(axis='y',labelsize=fw)
             
             div=12
             L=np.linspace(0,144,div,endpoint=False)
             axscp[m].set_xticks(L)
-            axscp[m].set_xticklabels(np.linspace(0,24,div,dtype=int,endpoint=False),fontsize=fw)
-            axscp[m].set_title('%i Agents' %len(P) + Results['Model'][0])
-            axscp[m].legend(loc='center right')
+            axscp[m].set_xticklabels(np.linspace(0,24,div,dtype=int,endpoint=False),fontsize=fw, color='k')
+            axscp[m].set_title('CP %i Agents' %len(P), fontsize=fw)
+            axscp[m].legend(loc='center right',fontsize=fw-6)
         axscp2=axscp[m].twinx()  # instantiate a second axes that shares the same x-axis'
-        TarLabel='PV indexed tariff'
+        TarLabel='PV based Tariff'
         if 'CP' in k:
-            axscp2.plot(TarInit, color='k',linewidth=lw, label=TarLabel)    
+            axscp2.plot(TarInit, color=color3,linewidth=lw-1, label=TarLabel)    
         elif 'DP' in k:
-            axscp2.plot(Results['Tar'][len(P)-1], color='k', linewidth=lw,label=TarLabel)  
+            axscp2.plot(Results['Tar'][len(P)-1], color=color3, linewidth=lw-1,label=TarLabel)  
             
-        axscp2.set_ylabel(y2label, color=color,fontsize=fw)  # we already handled the x-label with ax1
+        axscp2.set_ylabel(y2label, color='k',fontsize=fw)  # we already handled the x-label with ax1
         axscp2.tick_params(axis='y', labelsize=fw)
+        axscp2.legend(loc='upper right',fontsize=fw-6)
         
         # figcp.tight_layout()  # otherwise the right y-label is slightly clipped
-        # file=ResultsFolder + 'ss'
-        # plt.savefig(file,dpi=300)
+
+        figcp.set_size_inches(32, 18) # set figure's size manually to your full screen (32x18)
+        
         plt.show()
+        plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/apps_NOcord.png',bbox_inches='tight',dpi=300)
     
     
