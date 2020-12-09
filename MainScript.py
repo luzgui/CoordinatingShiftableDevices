@@ -1,4 +1,3 @@
-
 from __future__ import division
 from pyomo.environ import *
 from pyomo.opt import SolverFactory
@@ -44,42 +43,34 @@ n_max=125
 p_max=6
 d_max=10
 N_max=20 # number of files to generate/sets of appliances
-## Using several sets of appliances
-#Uncoment only when want to generate new devices list
+
+# Using several sets of appliances
+# Uncoment only when want to generate new devices list
 # Appliances(N_max, n_max, p_max, d_max, AppsFolder)
 
-# Generate the sequence of appliances numbers [15,125]
+# Uncomment if Generate the sequence of appliances numbers [15,125]
 # Ndev=np.linspace(15,n_max,12,dtype=int)
+
 Ndev=[15]
 
-#Using just one set of appliances
+#Uncomment if just Using just one set of appliances
 # FileName='devices_list.csv'
 # DevicesFull=pd.read_csv(DataFolder + '/' + FileName)
 # DevicesFull = DevicesFull.rename(columns={'Unnamed: 0': 'ind'})
 
-# Import the full set of devices
+# Uncomment if want to Import all available set of devices in AppsFiles folder
 # Appsfiles=[f for f in listdir(AppsFolder)]
 # #Sort the files
 # Appsfiles.sort(key=lambda var:[int(x) if x.isdigit() else x for x in re.findall(r'[^0-9]|[0-9]+', var)])
 
 #The 10 fastest sets of appliances
-Appsfiles=['AppsList_2.csv',
-'AppsList_3.csv',
-'AppsList_4.csv',
-'AppsList_8.csv',
-'AppsList_10.csv',
-'AppsList_11.csv',
-'AppsList_12.csv',
-'AppsList_17.csv',
-'AppsList_18.csv',
+Appsfiles=['AppsList_2.csv', 'AppsList_3.csv', 'AppsList_4.csv', 'AppsList_8.csv', 'AppsList_10.csv', 'AppsList_11.csv', 'AppsList_12.csv', 'AppsList_17.csv', 'AppsList_18.csv',
 'AppsList_19.csv']
 
-# full anmes of files Appsfiles=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16''AppsList_17','AppsList_18','AppsList_19']
-# Ndev=[25]
-# Appsfiles=['AppsList_2.csv']
-# Appsfiles=['AppsList_10.csv']
 DevicesList_Mean=pd.DataFrame(columns=['AppsList','N','m_p','m_d'])
 
+# %%  Main cicle
+# Iterate over appliances
 for afiles in Appsfiles:
     print(afiles)
     # Important: run will determine the names of files
@@ -94,8 +85,8 @@ for afiles in Appsfiles:
     # DevScat(power,duration,ResultsFolder,len(DevicesFull),RunFile)
 
 
-# %%
-for n in Ndev:
+# Iterate over number of devices
+    for n in Ndev:
         print(n)
         
         #Slice first n devices
@@ -171,7 +162,7 @@ for n in Ndev:
         TarS=0.185;
         Tar = np.empty(H)
         Tar.fill(TarS)
-        #Tar.fill(4)
+
         
         # PV indexed tariff
         #we subtract the LCOE from the tariff
