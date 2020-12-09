@@ -51,7 +51,8 @@ N_max=20 # number of files to generate/sets of appliances
 # Appliances(N_max, n_max, p_max, d_max, AppsFolder)
 
 # Generate the sequence of appliances numbers [15,125]
-Ndev=np.linspace(15,n_max,12,dtype=int)
+# Ndev=np.linspace(15,n_max,12,dtype=int)
+Ndev=[15]
 
 #Using just one set of appliances
 # FileName='devices_list.csv'
@@ -92,11 +93,11 @@ for afiles in Appsfiles:
     # Plotting a scatter with the distribution of devices
     power=DevicesFull['Power'];duration=DevicesFull['Duration']
     # RunFile='run'+ run[0]
-    DevScat(power,duration,ResultsFolder,len(DevicesFull),RunFile)
+    # DevScat(power,duration,ResultsFolder,len(DevicesFull),RunFile)
 from PlotFunc import *
 
 # %%
-    for n in Ndev:
+for n in Ndev:
         print(n)
         
         #Slice first n devices
@@ -195,26 +196,26 @@ from PlotFunc import *
         ##############################################################################
         
         # Allowed violation at each timestep
-        # alpha=0.2
-        # alpha=0
-        # Viol=[alpha*Ppv[k][0] for k in range(len(Ppv))]
+        alpha=0.2
+        alpha=0
+        Viol=[alpha*Ppv[k][0] for k in range(len(Ppv))]
         
-        # # Solving problem
-        # prosumer = Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv)
+        # Solving problem
+        prosumer = Agent_C(H,nI,d0,p0,c,miu,Viol,Ppv)
     
-        # # There will be log and solution in YAML, CSV files in Results folder
-        # SolFile_yaml=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + RunFile + '.yaml')
-        # SolFile_csv=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + RunFile + '.csv')
+        # There will be log and solution in YAML, CSV files in Results folder
+        SolFile_yaml=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + RunFile + '.yaml')
+        SolFile_csv=os.path.join(CPFolder, 'CP_Sol_Ns_' + str(len(p)) + RunFile + '.csv')
         
-        # LogFile=os.path.join(CPFolder, 'CP_Log_Ns_' + str(len(p)) + RunFile + '.yaml')
+        LogFile=os.path.join(CPFolder, 'CP_Log_Ns_' + str(len(p)) + RunFile + '.yaml')
         
-        # Results=opt.solve(prosumer,tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile_yaml)
+        Results=opt.solve(prosumer,tee=True, keepfiles=True, logfile=LogFile, solnfile=SolFile_yaml)
         
-        # #Write results to a .mat file for further processing
-        # name='CP'+ RunFile
-        # get_Results_C(prosumer,Results,Ppv,PVcap, n,miu,p,d, ResultsFolder, name)
-        # #PlotResults
-        # PlotFunc_Central(prosumer, Ppv, n, ResultsFolder,RunFile)
+        #Write results to a .mat file for further processing
+        name='CP'+ RunFile
+        get_Results_C(prosumer,Results,Ppv,PVcap, n,miu,p,d, ResultsFolder, name)
+        #PlotResults
+        PlotFunc_Central(prosumer, Ppv, n, ResultsFolder,RunFile)
         
         # %% Decentralized
         # 
