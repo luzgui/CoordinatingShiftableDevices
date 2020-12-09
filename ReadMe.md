@@ -2,9 +2,9 @@
 
 #### Just clone locally the repository
 
-* Dependecies
+* Main Dependecies
 
   * Python (SciPy, Pandas, Matplotlib)
-  * PYOMO (http://www.pyomo.org/)
+  * [PYOMO](http://www.pyomo.org/) optimization modeling language
 
-* The results used to produce the article results are in \DATA\Results (.mat files)
+* The results used to produce the article results are in `\DATA\Results` (.mat files)
