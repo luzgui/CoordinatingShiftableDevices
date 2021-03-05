@@ -76,29 +76,32 @@ fw=14
 from PlotFunc import *
 color = 'k'
 color2='tab:orange'
-fw=40
-lw=4
+fw=40 #font weight
+lw=4 #line weight
+
+#DP Problem
+# MatfilesDP=[ResultsFolder + '/DP_Sorted_AppsList_10_25.mat',ResultsFolder +'/DP_Sorted_AppsList_10_125.mat']
+MatfilesDP=[ResultsFolder + '/DP_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Random_AppsList_10_125.mat']
 
 #We get the initial tariff that is the same for all, since it only depends on the resource
 Tar=sio.loadmat(MatfilesDP[0])
 Tar=Tar['Tar']
 TarInit=Tar[0,:]
+#Output the plots
+# ProfilePlot(MatfilesDP,TarInit, fw,lw, color,color2,'DP(Sorted)')
+ProfilePlot(MatfilesDP,TarInit, fw,lw, color,color2,'DP(Random)')
 
-
-
-#DP Problem
-MatfilesDP=[ResultsFolder + '/DP_Sorted_AppsList_10_25.mat',ResultsFolder +'/DP_Sorted_AppsList_10_125.mat']
-# MatfilesDP=[ResultsFolder + '/DP_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Random_AppsList_10_125.mat']
-ProfilePlot(MatfilesDP,TarInit, fw,lw, color,color2)
 
 #Centralizied problem
 MatfilesCP=[ResultsFolder + '/CP_AppsList_10_25.mat',ResultsFolder +'/CP_AppsList_10_125.mat']
-ProfilePlot(MatfilesCP,TarInit, fw,lw, color,color2)
+ProfilePlot(MatfilesCP,TarInit, fw,lw, color,color2,'CP')
 
 
 MatfilesNOc=[ResultsFolder + '/Nocord_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Sorted_AppsList_10_125.mat']
 # MatfilesDP=[ResultsFolder + '/DP_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Random_AppsList_10_125.mat']
-ProfilePlot(MatfilesNOc,TarInit, fw,lw, color,color2)
+ProfilePlot(MatfilesNOc,TarInit, fw,lw, color,color2, 'No Coordination')
+
+
 
 
 # df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')

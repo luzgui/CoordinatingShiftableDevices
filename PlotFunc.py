@@ -746,7 +746,7 @@ def SimplePlot(x,y1,y2,H,fw,color, color2,s):
 
 
 
-def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2):
+def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2,title):
 
     import seaborn as sns
     import scipy.io as sio
@@ -775,21 +775,18 @@ def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2):
         Pag=Results['P_ag']
         Ppv=Results['Ppv']
         
-        
-        
         for i in range(P.shape[0]):
             axscp[m].plot(Pcum.iloc[Pcum.shape[0]-1-i,:], color='k')     
             axscp[m].fill(Pcum.iloc[Pcum.shape[0]-1-i,:],color=color_list[i])
             axscp[m].set_xlabel(xlabel, fontsize=fw,weight='bold')
-        
             
             div=12
             L=np.linspace(0,144,div,endpoint=False)
             axscp[m].set_xticks(L)
             axscp[m].set_xticklabels(np.linspace(0,24,div,dtype=int,endpoint=False),fontsize=fw, color='k')
-            axscp[m].set_title('CP %i Agents' %len(P), fontsize=fw)
-            # if m==0:
-            axscp[m].set_ylabel(ylabel, color=color,fontsize=fw,weight='bold')
+            axscp[m].set_title(title+' %i Agents' %len(P), fontsize=fw)
+            if m==0:
+                axscp[m].set_ylabel( ylabel, color=color,fontsize=fw, weight='bold')
             axscp[m].tick_params(axis='y',labelsize=fw)
             # axscp[m].legend(loc='center right',fontsize=fw-6)
         # axscp[m].legend(loc='upper right', fontsize=fw-6)
@@ -799,22 +796,23 @@ def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2):
             axscp2.plot(TarInit, color=color3,linewidth=lw-1, label=TarLabel)    
         elif 'DP' in k:
             axscp2.plot(Results['Tar'][len(P)-1], color=color3, linewidth=lw-1,label=TarLabel)
-        # if m==1:
-        axscp2.set_ylabel(y2label, color='k',fontsize=fw)  # we already handled the x-label with ax1
+        if m==1:
+            axscp2.set_ylabel(y2label, color='k',fontsize=fw, weight='bold')  # we already handled the x-label with ax1
         axscp2.tick_params(axis='y', labelsize=fw)
         
-        # Define the positioning of the labels
-        if m==0:
-            axscp[m].plot(Pag[0], color='k',linewidth=lw, label='Total demand')
-            axscp[m].plot(Ppv, color=color2,linewidth=lw, label='PV profile')
-            axscp[m].legend(loc=(0.4,1.06), fontsize=fw-6, ncol=2)
-            axscp2.legend(loc=(1.2,1.06),fontsize=fw-6)
+        axscp[m].plot(Pag[0], color='k',linewidth=lw, label='Total demand')
+        axscp[m].plot(Ppv, color=color2,linewidth=lw, label='PV profile')
+        axscp[m].grid(True)
+        # Define the positioning of the legends
+        if m==0: #applies only at the left subplot    
+            axscp[m].legend(loc=(0,1.06), fontsize=fw-6, ncol=2)
+            axscp2.legend(loc=(0.9,1.06),fontsize=fw-6)
         
         # figcp.tight_layout()  # otherwise the right y-label is slightly clipped
 
         figcp.set_size_inches(32, 18) # set figure's size manually to your full screen (32x18)
-
+        plt.subplots_adjust(wspace=0.3)
         plt.show()
-        plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/apps_NOcordxx.png',bbox_inches='tight',dpi=300)
-    
+        # plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/apps_NOcordxx.png',bbox_inches='tight',dpi=300)
+        plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/apps_variable.png',bbox_inches='tight',dpi=300)
     
