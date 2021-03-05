@@ -763,10 +763,10 @@ def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2):
     for k in Matfiles:
         m += 1
         print(m)
-
+        
         Results=sio.loadmat(k)
         P=Results['P']
-
+        
         color_list = plt.cm.Set2(np.linspace(0, 1, len(P)))
         # color_list = plt.cm.Dark2(np.linspace(0, 1, len(P)))
         
@@ -775,37 +775,46 @@ def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2):
         Pag=Results['P_ag']
         Ppv=Results['Ppv']
         
-        axscp[m].plot(Pag[0], color='k',linewidth=lw, label='Total demand')
-        axscp[m].plot(Ppv, color=color2,linewidth=lw, label='PV profile')
+        
+        
         for i in range(P.shape[0]):
             axscp[m].plot(Pcum.iloc[Pcum.shape[0]-1-i,:], color='k')     
             axscp[m].fill(Pcum.iloc[Pcum.shape[0]-1-i,:],color=color_list[i])
             axscp[m].set_xlabel(xlabel, fontsize=fw,weight='bold')
-            axscp[m].set_ylabel(ylabel, color=color,fontsize=fw,weight='bold')
-            axscp[m].tick_params(axis='y',labelsize=fw)
+        
             
             div=12
             L=np.linspace(0,144,div,endpoint=False)
             axscp[m].set_xticks(L)
             axscp[m].set_xticklabels(np.linspace(0,24,div,dtype=int,endpoint=False),fontsize=fw, color='k')
             axscp[m].set_title('CP %i Agents' %len(P), fontsize=fw)
-            axscp[m].legend(loc='center right',fontsize=fw-6)
+            # if m==0:
+            axscp[m].set_ylabel(ylabel, color=color,fontsize=fw,weight='bold')
+            axscp[m].tick_params(axis='y',labelsize=fw)
+            # axscp[m].legend(loc='center right',fontsize=fw-6)
+        # axscp[m].legend(loc='upper right', fontsize=fw-6)
         axscp2=axscp[m].twinx()  # instantiate a second axes that shares the same x-axis'
         TarLabel='PV based Tariff'
         if 'CP' in k:
             axscp2.plot(TarInit, color=color3,linewidth=lw-1, label=TarLabel)    
         elif 'DP' in k:
-            axscp2.plot(Results['Tar'][len(P)-1], color=color3, linewidth=lw-1,label=TarLabel)  
-            
+            axscp2.plot(Results['Tar'][len(P)-1], color=color3, linewidth=lw-1,label=TarLabel)
+        # if m==1:
         axscp2.set_ylabel(y2label, color='k',fontsize=fw)  # we already handled the x-label with ax1
         axscp2.tick_params(axis='y', labelsize=fw)
-        axscp2.legend(loc='upper right',fontsize=fw-6)
+        
+        # Define the positioning of the labels
+        if m==0:
+            axscp[m].plot(Pag[0], color='k',linewidth=lw, label='Total demand')
+            axscp[m].plot(Ppv, color=color2,linewidth=lw, label='PV profile')
+            axscp[m].legend(loc=(0.4,1.06), fontsize=fw-6, ncol=2)
+            axscp2.legend(loc=(1.2,1.06),fontsize=fw-6)
         
         # figcp.tight_layout()  # otherwise the right y-label is slightly clipped
 
         figcp.set_size_inches(32, 18) # set figure's size manually to your full screen (32x18)
-        
+
         plt.show()
-        plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/apps_NOcord.png',bbox_inches='tight',dpi=300)
+        plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/apps_NOcordxx.png',bbox_inches='tight',dpi=300)
     
     
