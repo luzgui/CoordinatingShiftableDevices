@@ -28,6 +28,8 @@ CPFolder=DataFolder + '/CP_Results'
 ResultsFolder=DataFolder + '/Results'
 #CSV Apps folder
 AppsFolder=DataFolder + '/Apps_List'
+#Article figures for latex
+PaperPicsFolder='/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/'
 
 
 # Getting a dataframe wit comparison of all solution .mat files existing in ResultsFolder
@@ -52,57 +54,55 @@ df_R=Calc_Tables_mat(ResultsFolder)
 from PlotFunc import *
 
 # full anmes of files Appsfiles=['AppsList_0','AppsList_1','AppsList_2','AppsList_3','AppsList_4','AppsList_5','AppsList_6','AppsList_7','AppsList_8','AppsList_9','AppsList_10','AppsList_11','AppsList_12','AppsList_13','AppsList_14','AppsList_15','AppsList_16''AppsList_17','AppsList_18','AppsList_19']
-# Ndev=[25]
-# Appsfiles=['AppsList_2.csv']
-# Appsfiles=['AppsList_10.csv']
-
-
 
 #This is the final apps list
 AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11','AppsList_12','AppsList_17','AppsList_18']
 
-
-
-# # AppsfilesNames=['AppsList_3','AppsList_4','AppsList_8','AppsList_10','AppsList_11','AppsList_12']
-# # AppsfilesNames=['AppsList_3','AppsList_8','AppsList_10','AppsList_11','AppsList_12']
-
-
 #Creates figures 5,8,9 of the manuscript
 alpha=0.2
-fw=14
+fw=20
 [M_CP, M_Rand, M_Sort, Min_CP, Min_Rand, Min_Sorted, Poly]=PlotCompare(df_R,ResultsFolder, AppsfilesNames, AppsFolder + '/DevMean.csv','Mean', alpha, 2.5,fw)
 
-#%% AppsPlott
+#%% AppsPlott: creates figures 4, 6,7
 from PlotFunc import *
 color = 'k'
 color2='tab:orange'
 fw=40 #font weight
 lw=4 #line weight
 
-#DP Problem
-# MatfilesDP=[ResultsFolder + '/DP_Sorted_AppsList_10_25.mat',ResultsFolder +'/DP_Sorted_AppsList_10_125.mat']
-MatfilesDP=[ResultsFolder + '/DP_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Random_AppsList_10_125.mat']
+
+
 
 #We get the initial tariff that is the same for all, since it only depends on the resource
 Tar=sio.loadmat(MatfilesDP[0])
 Tar=Tar['Tar']
 TarInit=Tar[0,:]
-#Output the plots
-# ProfilePlot(MatfilesDP,TarInit, fw,lw, color,color2,'DP(Sorted)')
-ProfilePlot(MatfilesDP,TarInit, fw,lw, color,color2,'DP(Random)')
 
+#Output the plots
+#DP Problem - Sorted
+MatfilesDP=[ResultsFolder + '/DP_Sorted_AppsList_10_25.mat',ResultsFolder +'/DP_Sorted_AppsList_10_125.mat']
+ProfilePlot(MatfilesDP,TarInit, fw,lw, color,color2,'DP(Sorted)',PaperPicsFolder + 'apps_DPSort.png')
+
+#DP Problem - Random
+MatfilesDP=[ResultsFolder + '/DP_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Random_AppsList_10_125.mat']
+ProfilePlot(MatfilesDP,TarInit, fw,lw, color,color2,'DP(Random)',PaperPicsFolder + 'apps_DPRand.png')
 
 #Centralizied problem
 MatfilesCP=[ResultsFolder + '/CP_AppsList_10_25.mat',ResultsFolder +'/CP_AppsList_10_125.mat']
-ProfilePlot(MatfilesCP,TarInit, fw,lw, color,color2,'CP')
+ProfilePlot(MatfilesCP,TarInit, fw,lw, color,color2,'CP',PaperPicsFolder + 'apps_CP2_xxx.png')
 
 
 MatfilesNOc=[ResultsFolder + '/Nocord_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Sorted_AppsList_10_125.mat']
 # MatfilesDP=[ResultsFolder + '/DP_Random_AppsList_10_25.mat',ResultsFolder +'/DP_Random_AppsList_10_125.mat']
-ProfilePlot(MatfilesNOc,TarInit, fw,lw, color,color2, 'No Coordination')
+ProfilePlot(MatfilesNOc,TarInit, fw,lw, color,color2, 'No Coordination',PaperPicsFolder + 'NoCord_output.png')
 
 
 
+
+
+
+
+#%% AppsPlott
 
 # df_R=Calc_Tables_mat('/home/omega/Documents/FCUL/Projects/CoordinatingShiftableDevices/ResultsNew')
 

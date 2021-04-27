@@ -230,9 +230,12 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     #%% Figure
     import seaborn as sns
     plt.style.use('seaborn-darkgrid')
+    # CP plot 1x2
     figcp, axscp = plt.subplots(1, 2)
+
     plt.style.use('seaborn-darkgrid')
-    figdp, axsdp = plt.subplots(1, 3)
+    # DP plot 1x3
+    figdp, axsdp = plt.subplots(1,3)
     
     TitleTime='Computational Time'
     ylabelTime='Time(minutes)'
@@ -398,26 +401,27 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     # axsdp[1,0].set_title('Self-Sufficiency Rate')
     # axsdp[1,0].xaxis.grid()
     
-    axsdp[0].plot(df_mean_DP_Sorted['N'],df_mean_DP_Sorted['Wall_Time']/60, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
-    axsdp[0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['Wall_Time']/60,color=colorMean(14),linewidth=linebig,label='Random-'+ MeanType)
-    axsdp[0].legend()
+    axsdp[0].plot(df_mean_DP_Sorted['N'],df_mean_DP_Sorted['Wall_Time']/60, color=colorMean(1),linewidth=linebig,label=MeanType+'(Sorted)')
+    axsdp[0].plot(df_mean_DP_Random['N'],df_mean_DP_Random['Wall_Time']/60,color=colorMean(14),linewidth=linebig,label=MeanType+'(Random)')
+    # axsdp[0].legend(loc=(0,1.06), ncol=2, fontsize=fw-4)
+    axsdp[0].legend(loc='lower right', fontsize=fw-4)
     axsdp[0].axes.set_xticks(N)
     axsdp[0].grid()
     axsdp[0].axes.set_xlabel(xlabelAgents,fontsize=fw)
     axsdp[0].axes.set_ylabel('Time(min)',fontsize=fw)
-    axsdp[0].set_title('Wall Time (DP)')
+    axsdp[0].set_title('Wall Time (DP)',fontsize=fw)
     
     Norm_mean_Sorted=((df_mean_DP_Sorted['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
     Norm_mean_Random=((df_mean_DP_Random['Objective_T']-df_mean_CP['Objective'])/df_mean_CP['Objective'])*100
 
     axsdp[1].plot(df_mean_DP['N'], Norm_mean_Sorted, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
     axsdp[1].plot(df_mean_DP['N'], Norm_mean_Random, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
-    axsdp[1].legend()
+    # axsdp[1].legend()
     # axsdp[1].axes.set_xticks(df_DP['N'])
     axsdp[1].grid()
     axsdp[1].axes.set_xlabel(xlabelAgents,fontsize=fw)
     axsdp[1].axes.set_ylabel('%',fontsize=fw)
-    axsdp[1].set_title('DP objective incease relative to CP optimal')
+    axsdp[1].set_title('Objective increase relative to CP',fontsize=fw)
     
     axsdp[2].plot(df_mean_CP['N'],df_mean_CP['SSR']*100, color='k', label='CP -Optimal')
     axsdp[2].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SSR']*100, color=colorMean(1),linewidth=linebig,label='SSR (Sorted)')
@@ -427,7 +431,7 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     # axsdp[1,0].grid()
     axsdp[2].axes.set_xlabel(xlabelAgents,fontsize=fw)
     axsdp[2].axes.set_ylabel('Self-Sufficiency Rate(%)',fontsize=fw)
-    axsdp[2].set_title('Self-Sufficiency / Self-Consumption Rate')
+    axsdp[2].set_title('Self-Sufficiency / Self-Consumption Rate',fontsize=fw)
     axsdp[2].xaxis.grid()
     
     ax2=axsdp[2].twinx()
@@ -445,8 +449,8 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     ax2.axes.set_ylabel('Self-Consumption Rate(%)',fontsize=fw)
     # ax2.set_ylim([78,max(df_mean_CP['SCR']*100)])
     # ax2.grid()
-    axsdp[2].legend(loc='lower right')
-    ax2.legend(loc='lower center')
+    axsdp[2].legend(loc='lower right',fontsize=fw-7)
+    ax2.legend(loc=(0.48,0.17),fontsize=fw-7)
     # ax2.plot(N,df_mean_CP['SCR']*100, color='k', label='CP-Optimal2')
     # ax2.set_ylim(83)
     
@@ -467,29 +471,34 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     # # ax2.set_ylim(axsdp[1,1].get_ylim())
     # ax2.grid()
     plt.show()
+    figdp.set_size_inches(17, 11) # set figure's size manually to your full screen (32x18
+    figdp.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/Plots3.png',bbox_inches='tight',dpi=300)
     
     
-    
-    axscp[0].plot(df_mean_CP['N'],df_mean_CP['Wall_Time']/60,color='k', linewidth=linebig, label='CP ' + MeanType)
-    axscp[0].legend()
+    axscp[0].plot(df_mean_CP['N'],df_mean_CP['Wall_Time']/60,color='k', linewidth=linebig, label=MeanType+ ' for all runs')
+    axscp[0].legend(fontsize=fw)
     axscp[0].axes.set_xticks(N)
+    # axscp[0].set_xticklabels(N, fontsize=fw, color='k')
     axscp[0].grid()
     axscp[0].axes.set_xlabel(xlabelAgents, fontsize=fw)
     axscp[0].axes.set_ylabel(ylabelTime, fontsize=fw)
-    axscp[0].set_title('Wall Time' + ' (CP)')
+    axscp[0].set_title('Wall Time' + ' (Centralized Problem)', fontsize=fw)
     
-    axscp[1].plot(df_mean_CP['N'],df_mean_CP['Objective'],color='k',linewidth=linebig, label='CP ' + MeanType)
-    axscp[1].legend()
+    
+    axscp[1].plot(df_mean_CP['N'],df_mean_CP['Objective'],color='k',linewidth=linebig, label=MeanType + ' for all runs')
+    # axscp[1].legend(fontsize=fw)
     axscp[1].axes.set_xticks(N)
     axscp[1].grid()
     axscp[1].axes.set_xlabel(xlabelAgents,fontsize=fw)
     axscp[1].axes.set_ylabel('€',fontsize=fw)
-    axscp[1].set_title('Objective')
+    axscp[1].set_title('Objective (Centralized Problem)',fontsize=fw)
     # axscp[0,1].plot(df_mean_CP['N'],df_mean_CP['Objective'])
     # axscp[0,1].legend(['CP'])
     
     plt.subplots_adjust(bottom=0.4)
     plt.show()
+    figcp.set_size_inches(17, 9) # set figure's size manually to your full screen (32x18
+    figcp.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/PlotCompare_CP.png',bbox_inches='tight',dpi=300)
     
     
     #Fitting Plots
@@ -523,60 +532,61 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     
     #Plots
     
-    plt.style.use('seaborn-darkgrid')
+    # plt.style.use('seaborn-darkgrid')
     fig2, axs2 = plt.subplots(2, 2)
     
-    axs2[0,0].plot(N,df_min_CP['Wall_Time']/60,label='CP-min')
-    axs2[0,0].plot(N, poly_CP_min(N)/60, label='CP-poly-min '+ ( R2_Min_CP))
+    axs2[0,0].plot(N,df_min_CP['Wall_Time']/60,label='CP-min',linewidth=2)
+    axs2[0,0].plot(N, poly_CP_min(N)/60,'--', label='CP-poly-min '+ ( R2_Min_CP))
         
     # r2_score(df_min_CP['Wall_Time'], poly_CP_min(N))
     
     # axs2[0,0].plot(N,df_max_CP['Wall_Time']/60,label='CP-max')
     # axs2[0,0].plot(N, poly_CP_max(N)/60, label='CP-poly-max')
     
-    axs2[0,0].legend()
+    axs2[0,0].legend(fontsize=fw-6)
     axs2[0,0].axes.set_xticks(N)
     axs2[0,0].axes.set_ylabel('Time (Minutes)', fontsize=fw)
-    axs2[0,0].set_title('Optimistics Wall Time (CP)')
-    axs2[0,0].grid()
+    axs2[0,0].set_title('Optimistics Wall Time (CP)',fontsize=fw)
+    # axs2[0,0].grid()
         
 
-    axs2[0,1].plot(N,df_mean_CP['Wall_Time']/60,label='CP-mean')
-    axs2[0,1].plot(N, poly_CP_mean(N)/60, label='CP-poly-mean '+ ( R2_Mean_CP))
+    axs2[0,1].plot(N,df_mean_CP['Wall_Time']/60,label='CP-mean',linewidth=2)
+    axs2[0,1].plot(N, poly_CP_mean(N)/60,'--', label='CP-poly-mean '+ ( R2_Mean_CP))
     # r2_score(df_mean_CP['Wall_Time'], poly_CP_mean(N))
-    axs2[0,1].legend()
+    axs2[0,1].legend(fontsize=fw-6)
     axs2[0,1].axes.set_xticks(N)
+    axs2[0,1].axes.set_ylabel('Time (Minutes)', fontsize=fw)
     
     # axs2[0,1].axes.set_xlabel(xlab)
     # axs2[0,1].axes.set_ylabel('min')
-    axs2[0,1].set_title('Wall Time Mean (CP)')
+    axs2[0,1].set_title('Wall Time Mean (CP)',fontsize=fw)
 
 
     
-    axs2[1,1].plot(N,df_mean_DP_Sorted['Wall_Time']/60,label='DP-Sorted-mean')
-    axs2[1,1].plot(N,df_mean_DP_Random['Wall_Time']/60,label='DP-Random-mean')
-    axs2[1,1].plot(N, poly_DP_Sorted_mean(N)/60, label='DP-Sorted-poly-mean '+ (R2_Mean_Sort))
-    axs2[1,1].plot(N, poly_DP_Random_mean(N)/60, label='DP-Random-poly-mean '+ (R2_Mean_Random))
+    axs2[1,1].plot(N,df_mean_DP_Sorted['Wall_Time']/60,label='DP-Sorted-mean',linewidth=2)
+    axs2[1,1].plot(N,df_mean_DP_Random['Wall_Time']/60,label='DP-Random-mean',linewidth=2)
+    axs2[1,1].plot(N, poly_DP_Sorted_mean(N)/60,'--', label='DP-Sorted-poly-mean '+ (R2_Mean_Sort))
+    axs2[1,1].plot(N, poly_DP_Random_mean(N)/60,'--', label='DP-Random-poly-mean '+ (R2_Mean_Random))
     
 
-    axs2[1,1].legend()
+    axs2[1,1].legend(fontsize=fw-6)
     axs2[1,1].axes.set_xticks(N)
     axs2[1,1].axes.set_xlabel(xlabelAgents, fontsize=fw)
     axs2[1,1].axes.set_ylabel(ylabelTime, fontsize=fw)
-    axs2[1,1].set_title('Wall Time Mean (DP)')
+    axs2[1,1].set_title('Wall Time Mean (DP)',fontsize=fw)
      
 
-    axs2[1,0].plot(N,df_min_DP_Sorted['Wall_Time']/60,label='Sorted-min')
-    axs2[1,0].plot(N,poly_DP_Sorted_min(N)/60,label='Sorted-poly-min '+ ( R2_Min_Sort))
-    axs2[1,0].plot(N,df_min_DP_Random['Wall_Time']/60,label='Random-min')
-    axs2[1,0].plot(N,poly_DP_Random_min(N)/60,label='Random-poly-min '+ ( R2_Min_Random))
+    axs2[1,0].plot(N,df_min_DP_Sorted['Wall_Time']/60,label='Sorted-min',linewidth=2)
+    axs2[1,0].plot(N,df_min_DP_Random['Wall_Time']/60,label='Random-min',linewidth=2)
+    axs2[1,0].plot(N,poly_DP_Sorted_min(N)/60,'--',label='Sorted-poly-min '+ ( R2_Min_Sort))
+    axs2[1,0].plot(N,poly_DP_Random_min(N)/60,'--',label='Random-poly-min '+ ( R2_Min_Random))
     
-    axs2[1,0].legend()
+    axs2[1,0].legend(fontsize=fw-6)
     axs2[1,0].axes.set_xticks(N)
     
     axs2[1,0].axes.set_xlabel(xlabelAgents, fontsize=fw)
     axs2[1,0].axes.set_ylabel(ylabelTime, fontsize=fw)
-    axs2[1,0].set_title('Optimistics Wall Time (DP)')
+    axs2[1,0].set_title('Optimistics Wall Time (DP)',fontsize=fw)
     
     # axs2[1,0].plot(N,df_max_DP_Sorted['Wall_Time']/60,label='DP-Sorted-max')
     # axs2[1,0].plot(N, poly_DP_Sorted_max(N)/60, label='DP-Sorted-poly-max')
@@ -586,8 +596,12 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     # axs2[0,1].grid()
     # axs2[1,0].grid()
     # axs2[1,1].grid()
+
+    # fig2.tight_layout()
     plt.show()
-    
+    fig2.set_size_inches(17, 11) # set figure's size manually to your full screen (32x18
+    plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/PlotCompare_time.png',bbox_inches='tight',dpi=300)
+    # plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/test.png',dpi=300)
             # assert df_CP['N'].equals(df_DP['N']), 'Number of agents diffreent in DP and CP'
 
 
@@ -746,7 +760,7 @@ def SimplePlot(x,y1,y2,H,fw,color, color2,s):
 
 
 
-def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2,title):
+def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2,title, filename):
 
     import seaborn as sns
     import scipy.io as sio
@@ -784,7 +798,7 @@ def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2,title):
             L=np.linspace(0,144,div,endpoint=False)
             axscp[m].set_xticks(L)
             axscp[m].set_xticklabels(np.linspace(0,24,div,dtype=int,endpoint=False),fontsize=fw, color='k')
-            axscp[m].set_title(title+' %i Agents' %len(P), fontsize=fw)
+            axscp[m].set_title(title +' %i Agents' %len(P), fontsize=fw)
             if m==0:
                 axscp[m].set_ylabel( ylabel, color=color,fontsize=fw, weight='bold')
             axscp[m].tick_params(axis='y',labelsize=fw)
@@ -809,10 +823,9 @@ def ProfilePlot(Matfiles,TarInit, fw,lw, color,color2,title):
             axscp2.legend(loc=(0.9,1.06),fontsize=fw-6)
         
         # figcp.tight_layout()  # otherwise the right y-label is slightly clipped
-
+        # figcp.set_size_inches(16, 9) # set figure's size manually to your full screen (32x18)
         figcp.set_size_inches(32, 18) # set figure's size manually to your full screen (32x18)
         plt.subplots_adjust(wspace=0.3)
         plt.show()
-        # plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/apps_NOcordxx.png',bbox_inches='tight',dpi=300)
-        plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/apps_variable.png',bbox_inches='tight',dpi=300)
+        plt.savefig(filename,bbox_inches='tight',dpi=300)
     
