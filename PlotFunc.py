@@ -68,44 +68,7 @@ def PlotFunc_Central(Model,Ppv, n, ResultsFolder,RunFile):
     plt.show()
 
     
-    
-    
-    
-    
-    
-    
-    # color = 'tab:red'
-    # ax1.set_xlabel('hour of the day',fontsize=fw)
-    # ax1.set_ylabel('euro/kWh', color=color,fontsize=fw)
-    # ax1.plot(T,np.asarray(list(c)), color=color)
-    # ax1.tick_params(axis='y', labelcolor=color,labelsize=fw)
-    
-    
-    # ax1.set_title('CP N=%i' %n)
-    
-    # ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
-    
-    # color = 'tab:blue'
-    # color2= 'tab:green'
-    # ax2.set_ylabel('kW', color=color)  # we already handled the x-label with ax1
-    
-    # for k in range(len(P_Raw)):
-    #    ax2.plot(T,P_Raw[k,:]) 
-    
-    # ax2.plot(T,Pag , color='black',linewidth=3.0)
-    # ax2.tick_params(axis='y', labelcolor=color)
-    
-    # color = 'tab:red'
-    # ax2.set_xlabel('hour of the day')
-    # ax2.set_ylabel('kW', color=color2)
-    # ax2.plot(T,Ppv, color=color2)
-    # ax2.tick_params(axis='y', labelcolor=color)
-    
-    # fig.tight_layout()  # otherwise the right y-label is slightly clipped
-    # file=ResultsFolder + '/CP_N_%i' %n
-    # plt.savefig(file,dpi=300)
-    
-    # plt.show()
+
 
 
 def DevScat(p,d,ResultsFolder,n,RunFile):
@@ -454,7 +417,6 @@ def PlotCompare(df,ResultsFolder, Appsfiles,DevMeanFile,stat,a,linebig,fw):
     # ax2.plot(N,df_mean_CP['SCR']*100, color='k', label='CP-Optimal2')
     # ax2.set_ylim(83)
     
-    # plt.savefig('/home/omega/Documents/FCUL/PhD/Papers/CollectiveShiftable/pics/3plots.png', dpi=300)
     # axsdp[1,1].plot(df_mean_CP['N'],df_mean_CP['SCR']*100, color='k', label='CP-Optimal')
     # axsdp[1,1].plot(df_mean_DP_Sorted['N'], df_mean_DP_Sorted['SCR']*100, color=colorMean(1),linewidth=linebig,label='Sorted-' + MeanType)
     # axsdp[1,1].plot(df_mean_DP_Random['N'],df_mean_DP_Random['SCR']*100, color=colorMean(14),linewidth=linebig,label='Random-' + MeanType)
@@ -653,6 +615,9 @@ def PlotCompareFixN(df,Folder):
     file=ResultsFolder + '/Compare'
     plt.savefig(file,dpi=300)
     plt.show()
+    
+    
+    
 def voxelsfunc(MatFile, d):
 #%% Voxels
 
@@ -685,14 +650,6 @@ def voxelsfunc(MatFile, d):
         cube = (x >= xi) & (x <= xf) & (y >= k+1) & (y < k+2) & (z <= max(m))
         ax.voxels(cube, facecolors=color, edgecolor='k')
     
-    # plt.show()
-    
-    # for i in range(len(Pag[0])):
-    #     p=Pag[0][i]
-    #     # print(p)
-    #     cubeag = (x >= i) & (x <= i+1) & (y >= n+2) & (z < p)
-    #     ax.voxels(cubeag, facecolors='blue', edgecolor='k',label='parametric curve')
-        
     for i in range(len(Ppv)):
         p=Ppv[i]
         print(p)

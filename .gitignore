@@ -1,4 +1,8 @@
-#several files
+# Files to ignore
+
+
+
+#several file types
 
 *.zip
 *.ini

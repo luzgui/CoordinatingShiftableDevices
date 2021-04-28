@@ -13,7 +13,6 @@ import yaml
 import calliope as cal
 import pandas as pd
 import os
-# from MainScript import n
 import scipy.io as sio
 import re
 
@@ -100,18 +99,6 @@ def Calc_Tables_mat(ResultsFolder):
              df_temp['Sort']='Random'
          else :
              df_temp['Sort']='NA'    
-
-         #Classify according to the used applist
-         # for k in Appsfiles:
-         #     df_temp['AppsList']=[f for f in k if f in Results['Model'][0]]
-         
-         # for k in Appsfiles:
-         #      if k in str(Results['Model']):
-         #         print(k)
-         #         print(Results['Model'])
-         #         df_temp['AppsList']=k
-         #      else: 
-         #          df_temp['AppsList']='Not on Apps'
                   
          df=df.append(df_temp, ignore_index=True)
 

@@ -70,7 +70,7 @@ Appsfiles=['AppsList_2.csv', 'AppsList_3.csv', 'AppsList_4.csv', 'AppsList_8.csv
 DevicesList_Mean=pd.DataFrame(columns=['AppsList','N','m_p','m_d'])
 
 # %%  Main cicle
-# Iterate over appliances
+# Iterate over appliances present in AppsFolder
 for afiles in Appsfiles:
     print(afiles)
     # Important: run will determine the names of files
