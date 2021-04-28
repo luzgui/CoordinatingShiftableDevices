@@ -1,19 +1,29 @@
-### Source code for the article [*Coordinating shiftable loads for collective photovoltaic self-consumption: a multi-agent approach* published](https://www.journals.elsevier.com/energy) in [Energy](https://www.journals.elsevier.com/energy)
+### [Coordinating shiftable loads for collective photovoltaic self-consumption: a multi-agent approach](https://doi.org/10.1016/j.energy.2021.120573)
 
 
-oi
+G. Pontes Luz, M.C. Brito ([IDL](http://idl.campus.ciencias.ulisboa.pt/), FCUL), J.M.C. Sousa, S.M. Vieira ([IDMEC](https://www.idmec.tecnico.ulisboa.pt/), IST)
+
+[*Energy*](https://www.journals.elsevier.com/energy), April 2021.
+
+----
+
+![](Data/PaperPics/SystemDiagram.png)
+
+
+## Source code for the article
 
 
 
-### Guidelines for using this repository
 
-* Main Dependecies
+#### Guidelines for using this repository
+
+##### Main Dependecies
 
   * Python ([SciPy](https://www.scipy.org/), [Pandas](https://pandas.pydata.org/), [Matplotlib](https://matplotlib.org/))
   * [Pyomo](http://www.pyomo.org/) optimization modeling language
   * It is suggested to use [Anaconda](https://www.anaconda.com) environments
 
-#### Folders
+##### Folders
 
   * The results used to produce the article results are in `\DATA\Results` as .mat files containing optimization solutions
 
@@ -23,7 +33,7 @@ oi
 
   * `\DATA\PV_sim.csv` is the PV production profile considered
 
-#### Scripts
+##### Scripts
 
   * `AgentFunc.py` contains the [pyomo](http://www.pyomo.org/) models for centralized and MultiAgent setups (individual agents subproblems).
 
@@ -35,6 +45,6 @@ oi
 
   * `SupportScript.py` generates plots
 
-For a detailed explanation of the modelling process and formalism pelase refer to the paper available @ LINK
+For a detailed explanation of optimization models please refer to the original [paper](https://doi.org/10.1016/j.energy.2021.120573)
 
 For questions please contact **Guilherme Luz** (`gpluz@fc.ul.pt`)
